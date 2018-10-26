@@ -1,0 +1,25 @@
+{
+  "name": "grademark-first-example",
+  "version": "1.0.0",
+  "description": "A first example of trading strategy tested using the grademark backtesting API.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashleydavis/grademark-first-example.git"
+  },
+  "author": "ashley@codecapers.com.au",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashleydavis/grademark-first-example/issues"
+  },
+  "homepage": "https://github.com/ashleydavis/grademark-first-example#readme",
+  "dependencies": {
+    "data-forge": "^1.2.6",
+    "data-forge-indicators": "^0.1.7",
+    "data-forge-plot": "^0.1.4",
+    "grademark": "0.0.7"
+  }
+}
