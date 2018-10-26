@@ -21,9 +21,12 @@ async function main() {
     console.log("Computing moving average indicator.");
 
     // Add whatever indicators and signals you want to your data.
-    const movingAverage = inputSeries.deflate(bar => bar.close).sma(30); // 30 day moving average.
+    const movingAverage = inputSeries
+        .deflate(bar => bar.close)          // Extract closing price series.
+        .sma(30);                           // 30 day moving average.
+    
     inputSeries = inputSeries
-        .withSeries("sma", movingAverage)   // Integrate moving average into data based on date.
+        .withSeries("sma", movingAverage)   // Integrate moving average into data, indexed on date.
         .skip(30)                           // Skip blank sma entries.
 
     // This is a very simple and very naive mean reversion strategy:
