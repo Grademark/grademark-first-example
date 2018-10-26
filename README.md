@@ -2,6 +2,8 @@
 
 This is an example trading strategy that demonstrates the [grademark backtesting API](https://github.com/ashleydavis/grademark)
 
+You need Node.js installed to run this.
+
 ## Try it out
 
 Clone or download the repo.
