@@ -70,24 +70,32 @@ async function main() {
 
     // Visualize the equity curve and drawdown chart for your backtest:
     const equityCurve = computeEquityCurve(startingCapital, trades);
+    const equityCurveOutput = "output/my-equity-curve.png";
     await equityCurve
         .plot()
-        .renderImage("output/my-equity-curve.png");
+        .renderImage(equityCurveOutput);
+    console.log(">> " + equityCurveOutput);
 
+    const equityCurvePctOutput = "output/my-equity-curve-pct.png";
     await equityCurve
         .select(v => ((v - startingCapital) / startingCapital) * 100)
         .plot()
-        .renderImage("output/my-equity-curve-pct.png");
+        .renderImage(equityCurvePctOutput);
+    console.log(">> " + equityCurvePctOutput);
         
     const drawdown = computeDrawdown(startingCapital, trades);
+    const drawdownOutput = "output/my-drawdown.png";
     await drawdown
         .plot()
-        .renderImage("output/my-drawdown.png");
+        .renderImage(drawdownOutput);
+    console.log(">> " + drawdownOutput);
         
+    const drawdownPctOutput = "output/my-drawdown-pct.png";
     await drawdown
         .select(v => (v / startingCapital) * 100)
         .plot()
-        .renderImage("output/my-drawdown-pct.png");
+        .renderImage(drawdownPctOutput);
+    console.log(">> " + drawdownPctOutput);
 };
 
 main()
