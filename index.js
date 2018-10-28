@@ -4,6 +4,7 @@ const dataForge = require('data-forge');
 require('data-forge-indicators'); // For the moving average indicator.
 require('data-forge-plot'); // For rendering charts.
 const { backtest, analyze, computeEquityCurve, computeDrawdown } = require('grademark');
+var Table = require('easy-table');
 
 async function main() {
 
@@ -54,7 +55,16 @@ async function main() {
 
     const startingCapital = 10000;
     const analysis = analyze(startingCapital, trades);
-    console.log(analysis);
+
+    const analysisTable = new Table();
+
+    for (const key of Object.keys(analysis)) {
+        analysisTable.cell("Metric", key);
+        analysisTable.cell("Value", analysis[key]);
+        analysisTable.newRow();
+    }
+
+    console.log(analysisTable.toString());
 
     console.log("Plotting...");
 
