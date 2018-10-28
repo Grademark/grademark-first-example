@@ -72,28 +72,28 @@ async function main() {
     const equityCurve = computeEquityCurve(startingCapital, trades);
     const equityCurveOutput = "output/my-equity-curve.png";
     await equityCurve
-        .plot()
+        .plot({ y: { label: "Equity $" }})
         .renderImage(equityCurveOutput);
     console.log(">> " + equityCurveOutput);
 
     const equityCurvePctOutput = "output/my-equity-curve-pct.png";
     await equityCurve
         .select(v => ((v - startingCapital) / startingCapital) * 100)
-        .plot()
+        .plot({ y: { label: "Equity %" }})
         .renderImage(equityCurvePctOutput);
     console.log(">> " + equityCurvePctOutput);
         
     const drawdown = computeDrawdown(startingCapital, trades);
     const drawdownOutput = "output/my-drawdown.png";
     await drawdown
-        .plot()
+        .plot({ y: { label: "Drawdown $" }})
         .renderImage(drawdownOutput);
     console.log(">> " + drawdownOutput);
         
     const drawdownPctOutput = "output/my-drawdown-pct.png";
     await drawdown
         .select(v => (v / startingCapital) * 100)
-        .plot()
+        .plot({ y: { label: "Drawdown %" }})
         .renderImage(drawdownPctOutput);
     console.log(">> " + drawdownPctOutput);
 };
