@@ -5,6 +5,7 @@ require('data-forge-indicators'); // For the moving average indicator.
 require('data-forge-plot'); // For rendering charts.
 const { backtest, analyze, computeEquityCurve, computeDrawdown } = require('grademark');
 var Table = require('easy-table');
+const fs = require('fs');
 
 async function main() {
 
@@ -68,38 +69,42 @@ async function main() {
         analysisTable.newRow();
     }
 
-    console.log(analysisTable.toString());
+    const analysisOutput = analysisTable.toString();
+    console.log(analysisOutput);
+    const analysisOutputFilePath = "output/analysis.txt";
+    fs.writeFileSync(analysisOutputFilePath, analysisOutput);
+    console.log(">> " + analysisOutputFilePath);
 
     console.log("Plotting...");
 
     // Visualize the equity curve and drawdown chart for your backtest:
     const equityCurve = computeEquityCurve(startingCapital, trades);
-    const equityCurveOutput = "output/my-equity-curve.png";
+    const equityCurveOutputFilePath = "output/my-equity-curve.png";
     await equityCurve
         .plot({ y: { label: "Equity $" }})
-        .renderImage(equityCurveOutput);
-    console.log(">> " + equityCurveOutput);
+        .renderImage(equityCurveOutputFilePath);
+    console.log(">> " + equityCurveOutputFilePath);
 
-    const equityCurvePctOutput = "output/my-equity-curve-pct.png";
+    const equityCurvePctOutputFilePath = "output/my-equity-curve-pct.png";
     await equityCurve
         .select(v => ((v - startingCapital) / startingCapital) * 100)
         .plot({ y: { label: "Equity %" }})
-        .renderImage(equityCurvePctOutput);
-    console.log(">> " + equityCurvePctOutput);
+        .renderImage(equityCurvePctOutputFilePath);
+    console.log(">> " + equityCurvePctOutputFilePath);
         
     const drawdown = computeDrawdown(startingCapital, trades);
-    const drawdownOutput = "output/my-drawdown.png";
+    const drawdownOutputFilePath = "output/my-drawdown.png";
     await drawdown
         .plot({ y: { label: "Drawdown $" }})
-        .renderImage(drawdownOutput);
-    console.log(">> " + drawdownOutput);
+        .renderImage(drawdownOutputFilePath);
+    console.log(">> " + drawdownOutputFilePath);
         
-    const drawdownPctOutput = "output/my-drawdown-pct.png";
+    const drawdownPctOutputFilePath = "output/my-drawdown-pct.png";
     await drawdown
         .select(v => (v / startingCapital) * 100)
         .plot({ y: { label: "Drawdown %" }})
-        .renderImage(drawdownPctOutput);
-    console.log(">> " + drawdownPctOutput);
+        .renderImage(drawdownPctOutputFilePath);
+    console.log(">> " + drawdownPctOutputFilePath);
 };
 
 main()
