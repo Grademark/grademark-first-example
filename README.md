@@ -2,6 +2,8 @@
 
 This is an example trading strategy that demonstrates the [grademark API](https://github.com/ashleydavis/grademark) for backtesting financial trading strategies.
 
+To see this code and backtesting output presented in the notebook style [please see this Gist](https://gist.github.com/ashleydavis/244b8f7ef91a36b7f8e1b2f0dd90c6f5).
+
 You need Node.js installed to run this.
 
 ## Try it out
