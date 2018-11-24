@@ -1,6 +1,6 @@
 
 const dataForge = require('data-forge');
-//TODO: coming soon - require('data-forge-fs'); // For loading files.
+require('data-forge-fs'); // For loading files.
 require('data-forge-indicators'); // For the moving average indicator.
 require('data-forge-plot'); // For rendering charts.
 const { backtest, analyze, computeEquityCurve, computeDrawdown } = require('grademark');
@@ -81,28 +81,28 @@ async function main() {
     const equityCurve = computeEquityCurve(startingCapital, trades);
     const equityCurveOutputFilePath = "output/my-equity-curve.png";
     await equityCurve
-        .plot({ y: { label: "Equity $" }})
+        .plot({ chartType: "area", y: { label: "Equity $" }})
         .renderImage(equityCurveOutputFilePath);
     console.log(">> " + equityCurveOutputFilePath);
 
     const equityCurvePctOutputFilePath = "output/my-equity-curve-pct.png";
     await equityCurve
         .select(v => ((v - startingCapital) / startingCapital) * 100)
-        .plot({ y: { label: "Equity %" }})
+        .plot({ chartType: "area", y: { label: "Equity %" }})
         .renderImage(equityCurvePctOutputFilePath);
     console.log(">> " + equityCurvePctOutputFilePath);
         
     const drawdown = computeDrawdown(startingCapital, trades);
     const drawdownOutputFilePath = "output/my-drawdown.png";
     await drawdown
-        .plot({ y: { label: "Drawdown $" }})
+        .plot({ chartType: "area", y: { label: "Drawdown $" }})
         .renderImage(drawdownOutputFilePath);
     console.log(">> " + drawdownOutputFilePath);
         
     const drawdownPctOutputFilePath = "output/my-drawdown-pct.png";
     await drawdown
         .select(v => (v / startingCapital) * 100)
-        .plot({ y: { label: "Drawdown %" }})
+        .plot({ chartType: "area", y: { label: "Drawdown %" }})
         .renderImage(drawdownPctOutputFilePath);
     console.log(">> " + drawdownPctOutputFilePath);
 };
@@ -112,4 +112,4 @@ main()
     .catch(err => {
         console.error("An error occurred.");
         console.error(err && err.stack || err);
-    })
+    });
