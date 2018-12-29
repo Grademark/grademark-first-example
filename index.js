@@ -53,8 +53,10 @@ async function main() {
     console.log("Backtesting...");
 
     // Backtest your strategy, then compute and print metrics:
-    const trades = backtest(strategy, inputSeries)
+    const trades = backtest(strategy, inputSeries);
     console.log("Made " + trades.count() + " trades!");
+
+    trades.asCSV().writeFileSync("./output/trades.csv");
 
     console.log("Analyzing...");
 
