@@ -6,6 +6,7 @@ require('data-forge-plot'); // For rendering charts.
 const { backtest, analyze, computeEquityCurve, computeDrawdown } = require('grademark');
 var Table = require('easy-table');
 const fs = require('fs');
+const moment = require('moment');
 
 async function main() {
 
@@ -56,7 +57,13 @@ async function main() {
     const trades = backtest(strategy, inputSeries);
     console.log("Made " + trades.count() + " trades!");
 
-    trades.asCSV().writeFileSync("./output/trades.csv");
+    trades
+        .transformSeries({
+            entryTime: d => moment(d).format("YYYY/MM/DD"),
+            exitTime: d => moment(d).format("YYYY/MM/DD"),
+        })
+        .asCSV()
+        .writeFileSync("./output/trades.csv");
 
     console.log("Analyzing...");
 
