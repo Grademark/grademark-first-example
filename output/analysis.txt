@@ -1,12 +1,17 @@
-Metric           Value             
----------------  ------------------
-startingCapital  10000             
-finalCapital     12058.427127442317
-profit           2058.427127442317 
-profitPct        20.584271274423173
-growth           1.2058427127442317
-barCount         272               
-maxDrawdown      -656.9843053790391
-maxDrawdownPct   -5.93346446008143 
-maxRisk                            
-maxRiskPct                         
+Metric             Value              
+-----------------  -------------------
+startingCapital    10000              
+finalCapital       12058.427127442317 
+profit             2058.427127442317  
+profitPct          20.584271274423173 
+growth             1.2058427127442317 
+totalTrades        48                 
+barCount           266                
+maxDrawdown        -656.9843053790391 
+maxDrawdownPct     -5.93346446008143  
+maxRiskPct         5.000000000000007  
+expectency         0.08357074385892661
+rmultipleStdDev    0.46717348951547816
+systemQuality      0.178885886580595  
+profitFactor       1.6297659075049158 
+percentProfitable  81.25              
