@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/ashleydavis/grademark-first-example#readme",
   "dependencies": {
-    "data-forge": "^1.3.0",
+    "data-forge": "^1.3.3",
     "data-forge-fs": "0.0.3",
-    "data-forge-indicators": "^0.1.7",
-    "data-forge-plot": "^0.1.9",
+    "data-forge-indicators": "^0.1.8",
+    "data-forge-plot": "^0.1.11",
     "easy-table": "^1.1.1",
-    "grademark": "^0.0.16"
+    "grademark": "0.0.25"
   }
 }

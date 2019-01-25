@@ -15,3 +15,4 @@ rmultipleStdDev    0.46717348951547816
 systemQuality      0.178885886580595  
 profitFactor       1.6297659075049158 
 percentProfitable  81.25              
+returnOnAccount    3.469182534572842  
