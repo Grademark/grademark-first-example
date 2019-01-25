@@ -22,6 +22,6 @@
     "data-forge-indicators": "^0.1.8",
     "data-forge-plot": "^0.1.11",
     "easy-table": "^1.1.1",
-    "grademark": "0.0.25"
+    "grademark": "0.1.0"
   }
 }
