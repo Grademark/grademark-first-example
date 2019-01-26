@@ -7,7 +7,7 @@ const notebook = {
             {
                 "id": "31e983b0-daf5-11e8-831f-d150615bd7aa",
                 "cellType": "markdown",
-                "code": "# Grademark mean reversion example\r\n\r\nThis notebook demonstrates [backtesting](https://en.wikipedia.org/wiki/Backtesting) a very simple [mean reversion trading strategy](https://en.wikipedia.org/wiki/Mean_reversion_(finance)). \r\n\r\nIt uses the [Grademark](https://github.com/ashleydavis/grademark) JavaScript API for backtesting.\r\n\r\nFor a version of this code runnable on Node.js - please see the [Grademark first example repo](https://github.com/ashleydavis/grademark-first-example).\r\n\r\nTo keep up with my work on quantitative trading in JavaScript please see my [blog](http://www.the-data-wrangler.com/) or [YouTube channel](https://www.youtube.com/channel/UCOxw0jy384_wFRwspgq7qMQ).",
+                "code": "# Grademark mean reversion example\r\n\r\nThis notebook demonstrates [backtesting](https://en.wikipedia.org/wiki/Backtesting) a very simple [mean reversion trading strategy](https://en.wikipedia.org/wiki/Mean_reversion_(finance)). \r\n\r\nIt uses the [Grademark](https://github.com/grademark/grademark) JavaScript API for backtesting.\r\n\r\nFor a version of this code runnable on Node.js - please see the [Grademark first example repo](https://github.com/ashleydavis/grademark-first-example).\r\n\r\nTo keep up with my work on quantitative trading in JavaScript please see my [blog](http://www.the-data-wrangler.com/) or [YouTube channel](https://www.youtube.com/channel/UCOxw0jy384_wFRwspgq7qMQ).",
                 "lastEvaluationDate": "2018-11-16T15:53:20.087+10:00",
                 "output": [],
                 "errors": []
