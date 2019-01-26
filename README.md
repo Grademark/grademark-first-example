@@ -1,6 +1,6 @@
 # grademark-first-example
 
-This is an example trading strategy that demonstrates the [grademark API](https://github.com/ashleydavis/grademark) for backtesting financial trading strategies.
+This is an example trading strategy that demonstrates the [grademark API](https://github.com/grademark/grademark) for backtesting financial trading strategies.
 
 [Please click here to see this code as a notebook.](https://grademark.github.io/grademark-first-example/)
 
