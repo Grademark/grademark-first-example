@@ -4,6 +4,8 @@ This is an example trading strategy that demonstrates the [grademark API](https:
 
 [Please click here to see this code as a notebook.](https://grademark.github.io/grademark-first-example/)
 
+To keep up with my work on quantitative trading in JavaScript please see my [blog](http://www.the-data-wrangler.com/) or [YouTube channel](https://www.youtube.com/channel/UCOxw0jy384_wFRwspgq7qMQ).
+
 ## Try it out
 
 You need Node.js installed to run this.
