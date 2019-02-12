@@ -25,7 +25,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const dataForge = require('data-forge');\r\nrequire('data-forge-fs');\r\nrequire('data-forge-plot');\r\nrequire('data-forge-indicators');\r\n\r\nlet inputSeries = (await dataForge.readFile(\"STW.csv\").parseCSV())\r\n    .parseDates(\"date\", \"DD/MM/YYYY\")\r\n    .parseFloats([\"open\", \"high\", \"low\", \"close\", \"volume\"])\r\n    .setIndex(\"date\") // Index so we can later merge on date.\r\n    .renameSeries({ date: \"time\" })\r\n    .bake();\r\n\r\ndisplay(inputSeries.head(5));",
-                "lastEvaluationDate": "2019-01-26T16:26:49.048+10:00",
+                "lastEvaluationDate": "2019-02-12T19:54:26.452+10:00",
                 "output": [
                     {
                         "values": [
@@ -120,7 +120,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display(inputSeries.tail(100).plot({}, { y: \"close\" }));",
-                "lastEvaluationDate": "2019-01-26T16:26:49.202+10:00",
+                "lastEvaluationDate": "2019-02-12T19:54:26.609+10:00",
                 "output": [
                     {
                         "values": [
@@ -1206,7 +1206,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const movingAverage = inputSeries\r\n    .deflate(bar => bar.close)  // Extract closing price series.\r\n    .sma(30)                    // 30 day moving average.\r\n    .bake();\r\n\r\ninputSeries = inputSeries\r\n    .skip(30)                           // Skip blank sma entries.\r\n    .withSeries(\"sma\", movingAverage)   // Integrate moving average into data, indexed on date.\r\n    .bake();\r\n\r\ndisplay(inputSeries.head(5));",
-                "lastEvaluationDate": "2019-01-26T16:26:49.225+10:00",
+                "lastEvaluationDate": "2019-02-12T19:54:26.614+10:00",
                 "output": [
                     {
                         "values": [
@@ -1308,7 +1308,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display(inputSeries.tail(100).plot({}, { y: [\"close\", \"sma\" ] }));",
-                "lastEvaluationDate": "2019-01-26T16:26:49.249+10:00",
+                "lastEvaluationDate": "2019-02-12T19:54:26.619+10:00",
                 "output": [
                     {
                         "values": [
@@ -2499,7 +2499,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const { backtest, analyze, computeEquityCurve, computeDrawdown } = require('grademark');\r\n\r\nconst strategy = {\r\n    entryRule: (enterPosition, args) => {\r\n        if (args.bar.close < args.bar.sma) { // Buy when price is below average.\r\n            enterPosition();\r\n        }\r\n    },\r\n\r\n    exitRule: (exitPosition, args) => {\r\n        if (args.bar.close > args.bar.sma) {\r\n            exitPosition(); // Sell when price is above average.\r\n        }\r\n    },\r\n\r\n    stopLoss: args => { // Intrabar stop loss.\r\n        return args.entryPrice * (2 / 100); // Stop out on 2% loss from entry price.\r\n    },\r\n};",
-                "lastEvaluationDate": "2019-01-26T16:26:49.265+10:00",
+                "lastEvaluationDate": "2019-02-12T19:54:26.623+10:00",
                 "output": [],
                 "errors": []
             },
@@ -2516,7 +2516,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const trades = backtest(strategy, inputSeries);\r\ndisplay(\"# trades: \" + trades.count());\r\ndisplay(trades.head(5));",
-                "lastEvaluationDate": "2019-01-26T16:26:49.275+10:00",
+                "lastEvaluationDate": "2019-02-12T19:54:26.627+10:00",
                 "output": [
                     {
                         "values": [
@@ -2657,7 +2657,7 @@ const notebook = {
             {
                 "id": "95aa5c20-daf6-11e8-831f-d150615bd7aa",
                 "cellType": "markdown",
-                "code": "## Plot your trades\r\n\r\nLet's plot the profit on our trades to visualize what they look like... you can see that all the loosing trades are clamped to 2%, that shows that our stop loss is working.",
+                "code": "## Plot your trades\r\n\r\nLet's plot the profit on our trades to visualize what they look like... you can see that all the losing trades are clamped to 2%, that shows that our stop loss is working.\r\n\r\nYou might notice that one loss is greater than 2%, that's actually because there was gap down that triggered the stop loss and caused it to be greater than expected.",
                 "lastEvaluationDate": "2018-11-16T15:53:20.141+10:00",
                 "output": [],
                 "errors": []
@@ -2667,7 +2667,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display(trades.plot({ chartType: \"bar\" }, { y: \"profitPct\" }));",
-                "lastEvaluationDate": "2019-01-26T16:26:49.290+10:00",
+                "lastEvaluationDate": "2019-02-12T19:54:26.633+10:00",
                 "output": [
                     {
                         "values": [
@@ -7571,7 +7571,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const startingCapital = 10000;\r\nconst analysis = analyze(startingCapital, trades); // Analyse the performance of this set of trades.\r\ndisplay.table(analysis);",
-                "lastEvaluationDate": "2019-01-26T16:26:49.322+10:00",
+                "lastEvaluationDate": "2019-02-12T19:54:26.640+10:00",
                 "output": [
                     {
                         "values": [
@@ -7667,8 +7667,8 @@ const notebook = {
                 "id": "14095e00-d376-11e8-b62a-7b63438e3c42",
                 "cellType": "code",
                 "cellScope": "global",
-                "code": "const equityCurve = computeEquityCurve(10000, trades);\r\ndisplay(equityCurve.plot({ chartType: \"area\", y: { min: 9500 } }));",
-                "lastEvaluationDate": "2019-01-26T16:26:49.386+10:00",
+                "code": "const equityCurve = computeEquityCurve(10000, trades);\r\ndisplay(equityCurve.plot({ chartType: \"area\", y: { min: 9500, label: \"Equity $\" }, x: { label: \"Trade #\" } }));",
+                "lastEvaluationDate": "2019-02-12T19:54:26.659+10:00",
                 "output": [
                     {
                         "values": [
@@ -9200,16 +9200,16 @@ const notebook = {
                                         "chartType": "area",
                                         "y": {
                                             "min": 9500,
-                                            "axisType": "default",
-                                            "label": {}
+                                            "label": "Equity $",
+                                            "axisType": "default"
+                                        },
+                                        "x": {
+                                            "label": "Trade #",
+                                            "axisType": "default"
                                         },
                                         "width": 800,
                                         "height": 600,
                                         "template": "c3",
-                                        "x": {
-                                            "axisType": "default",
-                                            "label": {}
-                                        },
                                         "y2": {
                                             "axisType": "default",
                                             "label": {}
@@ -9249,8 +9249,8 @@ const notebook = {
                 "id": "1f012310-d376-11e8-b62a-7b63438e3c42",
                 "cellType": "code",
                 "cellScope": "global",
-                "code": "const drawdown = computeDrawdown(10000, trades);\r\ndisplay(drawdown.plot({ chartType: \"area\" }));",
-                "lastEvaluationDate": "2019-01-26T16:26:49.395+10:00",
+                "code": "const drawdown = computeDrawdown(10000, trades);\r\ndisplay(drawdown.plot({ chartType: \"area\", y: { label: \"Equity $\" }, x: { label: \"Trade #\" } }));",
+                "lastEvaluationDate": "2019-02-12T19:54:26.664+10:00",
                 "output": [
                     {
                         "values": [
