@@ -3,6 +3,7 @@ const notebook = {
     "version": 1,
     "sheet": {
         "id": "1f799620-d370-11e8-b62a-7b63438e3c42",
+        "language": "javascript",
         "cells": [
             {
                 "id": "31e983b0-daf5-11e8-831f-d150615bd7aa",
@@ -25,7 +26,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const dataForge = require('data-forge');\r\nrequire('data-forge-fs');\r\nrequire('data-forge-plot');\r\nrequire('data-forge-indicators');\r\n\r\nlet inputSeries = (await dataForge.readFile(\"STW.csv\").parseCSV())\r\n    .parseDates(\"date\", \"DD/MM/YYYY\")\r\n    .parseFloats([\"open\", \"high\", \"low\", \"close\", \"volume\"])\r\n    .setIndex(\"date\") // Index so we can later merge on date.\r\n    .renameSeries({ date: \"time\" })\r\n    .bake();\r\n\r\ndisplay(inputSeries.head(5));",
-                "lastEvaluationDate": "2019-02-12T19:54:26.452+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.269+10:00",
                 "output": [
                     {
                         "values": [
@@ -50,53 +51,53 @@ const notebook = {
                                     "index": {
                                         "type": "date",
                                         "values": [
-                                            "2001-08-27T00:00:00.000+10:00",
-                                            "2001-08-28T00:00:00.000+10:00",
-                                            "2001-08-29T00:00:00.000+10:00",
-                                            "2001-08-30T00:00:00.000+10:00",
-                                            "2001-08-31T00:00:00.000+10:00"
+                                            "2015-01-02T00:00:00.000+10:00",
+                                            "2015-01-05T00:00:00.000+10:00",
+                                            "2015-01-06T00:00:00.000+10:00",
+                                            "2015-01-07T00:00:00.000+10:00",
+                                            "2015-01-08T00:00:00.000+10:00"
                                         ]
                                     },
                                     "values": [
                                         {
-                                            "open": 33.98,
-                                            "high": 33.99,
-                                            "low": 33.75,
-                                            "close": 33.75,
-                                            "volume": 674400,
-                                            "time": "2001-08-27T00:00:00.000+10:00"
+                                            "open": 50.03,
+                                            "high": 50.4,
+                                            "low": 50.03,
+                                            "close": 50.4,
+                                            "volume": 84844,
+                                            "time": "2015-01-02T00:00:00.000+10:00"
                                         },
                                         {
-                                            "open": 33.75,
-                                            "high": 33.85,
-                                            "low": 33.73,
-                                            "close": 33.84,
-                                            "volume": 47863,
-                                            "time": "2001-08-28T00:00:00.000+10:00"
+                                            "open": 50.69,
+                                            "high": 50.73,
+                                            "low": 50.32,
+                                            "close": 50.65,
+                                            "volume": 42645,
+                                            "time": "2015-01-05T00:00:00.000+10:00"
                                         },
                                         {
-                                            "open": 33.72,
-                                            "high": 33.72,
-                                            "low": 33.58,
-                                            "close": 33.58,
-                                            "volume": 117161,
-                                            "time": "2001-08-29T00:00:00.000+10:00"
+                                            "open": 50.18,
+                                            "high": 50.18,
+                                            "low": 49.46,
+                                            "close": 49.77,
+                                            "volume": 232437,
+                                            "time": "2015-01-06T00:00:00.000+10:00"
                                         },
                                         {
-                                            "open": 33.59,
-                                            "high": 33.59,
-                                            "low": 33.3,
-                                            "close": 33.33,
-                                            "volume": 75887,
-                                            "time": "2001-08-30T00:00:00.000+10:00"
+                                            "open": 49.88,
+                                            "high": 49.88,
+                                            "low": 49.3,
+                                            "close": 49.63,
+                                            "volume": 58253,
+                                            "time": "2015-01-07T00:00:00.000+10:00"
                                         },
                                         {
-                                            "open": 33.02,
-                                            "high": 33.02,
-                                            "low": 32.83,
-                                            "close": 32.83,
-                                            "volume": 135033,
-                                            "time": "2001-08-31T00:00:00.000+10:00"
+                                            "open": 49.9,
+                                            "high": 50.05,
+                                            "low": 49.74,
+                                            "close": 49.77,
+                                            "volume": 83496,
+                                            "time": "2015-01-08T00:00:00.000+10:00"
                                         }
                                     ]
                                 },
@@ -120,7 +121,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display(inputSeries.tail(100).plot({}, { y: \"close\" }));",
-                "lastEvaluationDate": "2019-02-12T19:54:26.609+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.344+10:00",
                 "output": [
                     {
                         "values": [
@@ -1206,7 +1207,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const movingAverage = inputSeries\r\n    .deflate(bar => bar.close)  // Extract closing price series.\r\n    .sma(30)                    // 30 day moving average.\r\n    .bake();\r\n\r\ninputSeries = inputSeries\r\n    .skip(30)                           // Skip blank sma entries.\r\n    .withSeries(\"sma\", movingAverage)   // Integrate moving average into data, indexed on date.\r\n    .bake();\r\n\r\ndisplay(inputSeries.head(5));",
-                "lastEvaluationDate": "2019-02-12T19:54:26.614+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.347+10:00",
                 "output": [
                     {
                         "values": [
@@ -1233,58 +1234,58 @@ const notebook = {
                                     "index": {
                                         "type": "date",
                                         "values": [
-                                            "2001-10-09T00:00:00.000+10:00",
-                                            "2001-10-10T00:00:00.000+10:00",
-                                            "2001-10-11T00:00:00.000+10:00",
-                                            "2001-10-12T00:00:00.000+10:00",
-                                            "2001-10-15T00:00:00.000+10:00"
+                                            "2015-02-16T00:00:00.000+10:00",
+                                            "2015-02-17T00:00:00.000+10:00",
+                                            "2015-02-18T00:00:00.000+10:00",
+                                            "2015-02-19T00:00:00.000+10:00",
+                                            "2015-02-20T00:00:00.000+10:00"
                                         ]
                                     },
                                     "values": [
                                         {
-                                            "open": 31.66,
-                                            "high": 31.81,
-                                            "low": 31.66,
-                                            "close": 31.73,
-                                            "volume": 79506,
-                                            "time": "2001-10-09T00:00:00.000+10:00",
-                                            "sma": 31.56866666666667
+                                            "open": 54.61,
+                                            "high": 54.71,
+                                            "low": 54.15,
+                                            "close": 54.58,
+                                            "volume": 109518,
+                                            "time": "2015-02-16T00:00:00.000+10:00",
+                                            "sma": 51.482333333333344
                                         },
                                         {
-                                            "open": 31.71,
-                                            "high": 31.76,
-                                            "low": 31.62,
-                                            "close": 31.65,
-                                            "volume": 87312,
-                                            "time": "2001-10-10T00:00:00.000+10:00",
-                                            "sma": 31.495666666666672
+                                            "open": 54.37,
+                                            "high": 54.64,
+                                            "low": 54.27,
+                                            "close": 54.41,
+                                            "volume": 191610,
+                                            "time": "2015-02-17T00:00:00.000+10:00",
+                                            "sma": 51.60766666666668
                                         },
                                         {
-                                            "open": 32.04,
-                                            "high": 32.23,
-                                            "low": 32,
-                                            "close": 32.23,
-                                            "volume": 70199,
-                                            "time": "2001-10-11T00:00:00.000+10:00",
-                                            "sma": 31.450666666666674
+                                            "open": 54.79,
+                                            "high": 54.98,
+                                            "low": 54.43,
+                                            "close": 54.91,
+                                            "volume": 153915,
+                                            "time": "2015-02-18T00:00:00.000+10:00",
+                                            "sma": 51.77900000000002
                                         },
                                         {
-                                            "open": 32.66,
-                                            "high": 32.66,
-                                            "low": 32.49,
-                                            "close": 32.57,
-                                            "volume": 26658,
-                                            "time": "2001-10-12T00:00:00.000+10:00",
-                                            "sma": 31.42533333333334
+                                            "open": 55,
+                                            "high": 55.31,
+                                            "low": 54.75,
+                                            "close": 54.93,
+                                            "volume": 141390,
+                                            "time": "2015-02-19T00:00:00.000+10:00",
+                                            "sma": 51.95566666666668
                                         },
                                         {
-                                            "open": 32.31,
-                                            "high": 32.31,
-                                            "low": 32.15,
-                                            "close": 32.25,
-                                            "volume": 71891,
-                                            "time": "2001-10-15T00:00:00.000+10:00",
-                                            "sma": 31.406000000000006
+                                            "open": 55.01,
+                                            "high": 55.01,
+                                            "low": 54.58,
+                                            "close": 54.63,
+                                            "volume": 44591,
+                                            "time": "2015-02-20T00:00:00.000+10:00",
+                                            "sma": 52.11766666666668
                                         }
                                     ]
                                 },
@@ -1308,7 +1309,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display(inputSeries.tail(100).plot({}, { y: [\"close\", \"sma\" ] }));",
-                "lastEvaluationDate": "2019-02-12T19:54:26.619+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.351+10:00",
                 "output": [
                     {
                         "values": [
@@ -2499,7 +2500,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const { backtest, analyze, computeEquityCurve, computeDrawdown } = require('grademark');\r\n\r\nconst strategy = {\r\n    entryRule: (enterPosition, args) => {\r\n        if (args.bar.close < args.bar.sma) { // Buy when price is below average.\r\n            enterPosition();\r\n        }\r\n    },\r\n\r\n    exitRule: (exitPosition, args) => {\r\n        if (args.bar.close > args.bar.sma) {\r\n            exitPosition(); // Sell when price is above average.\r\n        }\r\n    },\r\n\r\n    stopLoss: args => { // Intrabar stop loss.\r\n        return args.entryPrice * (2 / 100); // Stop out on 2% loss from entry price.\r\n    },\r\n};",
-                "lastEvaluationDate": "2019-02-12T19:54:26.623+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.354+10:00",
                 "output": [],
                 "errors": []
             },
@@ -2516,12 +2517,12 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const trades = backtest(strategy, inputSeries);\r\ndisplay(\"# trades: \" + trades.count());\r\ndisplay(trades.head(5));",
-                "lastEvaluationDate": "2019-02-12T19:54:26.627+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.355+10:00",
                 "output": [
                     {
                         "values": [
                             {
-                                "data": "# trades: 300",
+                                "data": "# trades: 61",
                                 "displayType": "string"
                             }
                         ]
@@ -2576,74 +2577,74 @@ const notebook = {
                                     },
                                     "values": [
                                         {
-                                            "entryTime": "2001-12-14T00:00:00.000+10:00",
-                                            "entryPrice": 33.4,
-                                            "exitTime": "2001-12-20T00:00:00.000+10:00",
-                                            "exitPrice": 33.76,
-                                            "profit": 0.35999999999999943,
-                                            "profitPct": 1.0778443113772438,
-                                            "growth": 1.0107784431137725,
-                                            "riskPct": 1.999999999999998,
-                                            "rmultiple": 0.5389221556886225,
-                                            "holdingPeriod": 3,
-                                            "exitReason": "exit-rule",
-                                            "stopPrice": 32.732
-                                        },
-                                        {
-                                            "entryTime": "2002-02-08T00:00:00.000+10:00",
-                                            "entryPrice": 34.7,
-                                            "exitTime": "2002-02-12T00:00:00.000+10:00",
-                                            "exitPrice": 35.31,
-                                            "profit": 0.6099999999999994,
-                                            "profitPct": 1.7579250720461077,
-                                            "growth": 1.017579250720461,
-                                            "riskPct": 2.000000000000007,
-                                            "rmultiple": 0.8789625360230506,
+                                            "entryTime": "2015-03-12T00:00:00.000+10:00",
+                                            "entryPrice": 54.17,
+                                            "exitTime": "2015-03-16T00:00:00.000+10:00",
+                                            "exitPrice": 54.38,
+                                            "profit": 0.21000000000000085,
+                                            "profitPct": 0.38766845117223714,
+                                            "growth": 1.0038766845117224,
+                                            "riskPct": 1.9999999999999951,
+                                            "rmultiple": 0.193834225586119,
                                             "holdingPeriod": 1,
                                             "exitReason": "exit-rule",
-                                            "stopPrice": 34.006
+                                            "stopPrice": 53.086600000000004
                                         },
                                         {
-                                            "entryTime": "2002-02-21T00:00:00.000+10:00",
-                                            "entryPrice": 34.84,
-                                            "exitTime": "2002-02-27T00:00:00.000+10:00",
-                                            "exitPrice": 34.83,
-                                            "profit": -0.010000000000005116,
-                                            "profitPct": -0.02870264064295383,
-                                            "growth": 0.9997129735935705,
-                                            "riskPct": 2.000000000000009,
-                                            "rmultiple": -0.014351320321476851,
-                                            "holdingPeriod": 3,
-                                            "exitReason": "exit-rule",
-                                            "stopPrice": 34.1432
-                                        },
-                                        {
-                                            "entryTime": "2002-03-01T00:00:00.000+10:00",
-                                            "entryPrice": 34.663,
-                                            "exitTime": "2002-03-06T00:00:00.000+10:00",
-                                            "exitPrice": 35.11,
-                                            "profit": 0.44700000000000273,
-                                            "profitPct": 1.289559472636537,
-                                            "growth": 1.0128955947263654,
-                                            "riskPct": 2.0000000000000067,
-                                            "rmultiple": 0.6447797363182663,
+                                            "entryTime": "2015-03-31T00:00:00.000+10:00",
+                                            "entryPrice": 55.5,
+                                            "exitTime": "2015-04-07T00:00:00.000+10:00",
+                                            "exitPrice": 55.76,
+                                            "profit": 0.259999999999998,
+                                            "profitPct": 0.4684684684684649,
+                                            "growth": 1.0046846846846846,
+                                            "riskPct": 1.9999999999999991,
+                                            "rmultiple": 0.23423423423423256,
                                             "holdingPeriod": 2,
                                             "exitReason": "exit-rule",
-                                            "stopPrice": 33.969739999999994
+                                            "stopPrice": 54.39
                                         },
                                         {
-                                            "entryTime": "2002-03-18T00:00:00.000+10:00",
-                                            "entryPrice": 35.07,
-                                            "exitTime": "2002-03-20T00:00:00.000+10:00",
-                                            "exitPrice": 35.35,
-                                            "profit": 0.28000000000000114,
-                                            "profitPct": 0.7984031936127777,
-                                            "growth": 1.0079840319361277,
-                                            "riskPct": 1.9999999999999987,
-                                            "rmultiple": 0.39920159680638906,
-                                            "holdingPeriod": 1,
+                                            "entryTime": "2015-04-20T00:00:00.000+10:00",
+                                            "entryPrice": 54.99,
+                                            "exitTime": "2015-04-27T00:00:00.000+10:00",
+                                            "exitPrice": 55.86,
+                                            "profit": 0.8699999999999974,
+                                            "profitPct": 1.5821058374249817,
+                                            "growth": 1.0158210583742497,
+                                            "riskPct": 2.0000000000000036,
+                                            "rmultiple": 0.7910529187124895,
+                                            "holdingPeriod": 4,
                                             "exitReason": "exit-rule",
-                                            "stopPrice": 34.3686
+                                            "stopPrice": 53.8902
+                                        },
+                                        {
+                                            "entryTime": "2015-04-30T00:00:00.000+10:00",
+                                            "entryPrice": 54.37,
+                                            "exitTime": "2015-05-07T00:00:00.000+10:00",
+                                            "exitPrice": 53.282599999999995,
+                                            "profit": -1.0874000000000024,
+                                            "profitPct": -2.0000000000000044,
+                                            "growth": 0.98,
+                                            "riskPct": 2.0000000000000044,
+                                            "rmultiple": -1,
+                                            "holdingPeriod": 4,
+                                            "exitReason": "stop-loss",
+                                            "stopPrice": 53.282599999999995
+                                        },
+                                        {
+                                            "entryTime": "2015-05-11T00:00:00.000+10:00",
+                                            "entryPrice": 53.4,
+                                            "exitTime": "2015-05-27T00:00:00.000+10:00",
+                                            "exitPrice": 54.23,
+                                            "profit": 0.8299999999999983,
+                                            "profitPct": 1.5543071161048658,
+                                            "growth": 1.0155430711610487,
+                                            "riskPct": 1.9999999999999958,
+                                            "rmultiple": 0.7771535580524345,
+                                            "holdingPeriod": 11,
+                                            "exitReason": "exit-rule",
+                                            "stopPrice": 52.332
                                         }
                                     ]
                                 },
@@ -2667,7 +2668,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display(trades.plot({ chartType: \"bar\" }, { y: \"profitPct\" }));",
-                "lastEvaluationDate": "2019-02-12T19:54:26.633+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.360+10:00",
                 "output": [
                     {
                         "values": [
@@ -2773,3834 +2774,10 @@ const notebook = {
                                                 57,
                                                 58,
                                                 59,
-                                                60,
-                                                61,
-                                                62,
-                                                63,
-                                                64,
-                                                65,
-                                                66,
-                                                67,
-                                                68,
-                                                69,
-                                                70,
-                                                71,
-                                                72,
-                                                73,
-                                                74,
-                                                75,
-                                                76,
-                                                77,
-                                                78,
-                                                79,
-                                                80,
-                                                81,
-                                                82,
-                                                83,
-                                                84,
-                                                85,
-                                                86,
-                                                87,
-                                                88,
-                                                89,
-                                                90,
-                                                91,
-                                                92,
-                                                93,
-                                                94,
-                                                95,
-                                                96,
-                                                97,
-                                                98,
-                                                99,
-                                                100,
-                                                101,
-                                                102,
-                                                103,
-                                                104,
-                                                105,
-                                                106,
-                                                107,
-                                                108,
-                                                109,
-                                                110,
-                                                111,
-                                                112,
-                                                113,
-                                                114,
-                                                115,
-                                                116,
-                                                117,
-                                                118,
-                                                119,
-                                                120,
-                                                121,
-                                                122,
-                                                123,
-                                                124,
-                                                125,
-                                                126,
-                                                127,
-                                                128,
-                                                129,
-                                                130,
-                                                131,
-                                                132,
-                                                133,
-                                                134,
-                                                135,
-                                                136,
-                                                137,
-                                                138,
-                                                139,
-                                                140,
-                                                141,
-                                                142,
-                                                143,
-                                                144,
-                                                145,
-                                                146,
-                                                147,
-                                                148,
-                                                149,
-                                                150,
-                                                151,
-                                                152,
-                                                153,
-                                                154,
-                                                155,
-                                                156,
-                                                157,
-                                                158,
-                                                159,
-                                                160,
-                                                161,
-                                                162,
-                                                163,
-                                                164,
-                                                165,
-                                                166,
-                                                167,
-                                                168,
-                                                169,
-                                                170,
-                                                171,
-                                                172,
-                                                173,
-                                                174,
-                                                175,
-                                                176,
-                                                177,
-                                                178,
-                                                179,
-                                                180,
-                                                181,
-                                                182,
-                                                183,
-                                                184,
-                                                185,
-                                                186,
-                                                187,
-                                                188,
-                                                189,
-                                                190,
-                                                191,
-                                                192,
-                                                193,
-                                                194,
-                                                195,
-                                                196,
-                                                197,
-                                                198,
-                                                199,
-                                                200,
-                                                201,
-                                                202,
-                                                203,
-                                                204,
-                                                205,
-                                                206,
-                                                207,
-                                                208,
-                                                209,
-                                                210,
-                                                211,
-                                                212,
-                                                213,
-                                                214,
-                                                215,
-                                                216,
-                                                217,
-                                                218,
-                                                219,
-                                                220,
-                                                221,
-                                                222,
-                                                223,
-                                                224,
-                                                225,
-                                                226,
-                                                227,
-                                                228,
-                                                229,
-                                                230,
-                                                231,
-                                                232,
-                                                233,
-                                                234,
-                                                235,
-                                                236,
-                                                237,
-                                                238,
-                                                239,
-                                                240,
-                                                241,
-                                                242,
-                                                243,
-                                                244,
-                                                245,
-                                                246,
-                                                247,
-                                                248,
-                                                249,
-                                                250,
-                                                251,
-                                                252,
-                                                253,
-                                                254,
-                                                255,
-                                                256,
-                                                257,
-                                                258,
-                                                259,
-                                                260,
-                                                261,
-                                                262,
-                                                263,
-                                                264,
-                                                265,
-                                                266,
-                                                267,
-                                                268,
-                                                269,
-                                                270,
-                                                271,
-                                                272,
-                                                273,
-                                                274,
-                                                275,
-                                                276,
-                                                277,
-                                                278,
-                                                279,
-                                                280,
-                                                281,
-                                                282,
-                                                283,
-                                                284,
-                                                285,
-                                                286,
-                                                287,
-                                                288,
-                                                289,
-                                                290,
-                                                291,
-                                                292,
-                                                293,
-                                                294,
-                                                295,
-                                                296,
-                                                297,
-                                                298,
-                                                299
+                                                60
                                             ]
                                         },
                                         "values": [
-                                            {
-                                                "entryTime": "2001-12-13T14:00:00.000Z",
-                                                "entryPrice": 33.4,
-                                                "exitTime": "2001-12-19T14:00:00.000Z",
-                                                "exitPrice": 33.76,
-                                                "profit": 0.35999999999999943,
-                                                "profitPct": 1.0778443113772438,
-                                                "growth": 1.0107784431137725,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": 0.5389221556886225,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 32.732,
-                                                "__index__": 0
-                                            },
-                                            {
-                                                "entryTime": "2002-02-07T14:00:00.000Z",
-                                                "entryPrice": 34.7,
-                                                "exitTime": "2002-02-11T14:00:00.000Z",
-                                                "exitPrice": 35.31,
-                                                "profit": 0.6099999999999994,
-                                                "profitPct": 1.7579250720461077,
-                                                "growth": 1.017579250720461,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": 0.8789625360230506,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 34.006,
-                                                "__index__": 1
-                                            },
-                                            {
-                                                "entryTime": "2002-02-20T14:00:00.000Z",
-                                                "entryPrice": 34.84,
-                                                "exitTime": "2002-02-26T14:00:00.000Z",
-                                                "exitPrice": 34.83,
-                                                "profit": -0.010000000000005116,
-                                                "profitPct": -0.02870264064295383,
-                                                "growth": 0.9997129735935705,
-                                                "riskPct": 2.000000000000009,
-                                                "rmultiple": -0.014351320321476851,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 34.1432,
-                                                "__index__": 2
-                                            },
-                                            {
-                                                "entryTime": "2002-02-28T14:00:00.000Z",
-                                                "entryPrice": 34.663,
-                                                "exitTime": "2002-03-05T14:00:00.000Z",
-                                                "exitPrice": 35.11,
-                                                "profit": 0.44700000000000273,
-                                                "profitPct": 1.289559472636537,
-                                                "growth": 1.0128955947263654,
-                                                "riskPct": 2.0000000000000067,
-                                                "rmultiple": 0.6447797363182663,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 33.969739999999994,
-                                                "__index__": 3
-                                            },
-                                            {
-                                                "entryTime": "2002-03-17T14:00:00.000Z",
-                                                "entryPrice": 35.07,
-                                                "exitTime": "2002-03-19T14:00:00.000Z",
-                                                "exitPrice": 35.35,
-                                                "profit": 0.28000000000000114,
-                                                "profitPct": 0.7984031936127777,
-                                                "growth": 1.0079840319361277,
-                                                "riskPct": 1.9999999999999987,
-                                                "rmultiple": 0.39920159680638906,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 34.3686,
-                                                "__index__": 4
-                                            },
-                                            {
-                                                "entryTime": "2002-03-21T14:00:00.000Z",
-                                                "entryPrice": 34.98,
-                                                "exitTime": "2002-04-08T14:00:00.000Z",
-                                                "exitPrice": 34.2804,
-                                                "profit": -0.6995999999999967,
-                                                "profitPct": -1.9999999999999907,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999907,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 9,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 34.2804,
-                                                "__index__": 5
-                                            },
-                                            {
-                                                "entryTime": "2002-04-10T14:00:00.000Z",
-                                                "entryPrice": 34.5,
-                                                "exitTime": "2002-04-21T14:00:00.000Z",
-                                                "exitPrice": 34.82,
-                                                "profit": 0.3200000000000003,
-                                                "profitPct": 0.9275362318840588,
-                                                "growth": 1.0092753623188406,
-                                                "riskPct": 1.9999999999999933,
-                                                "rmultiple": 0.46376811594203093,
-                                                "holdingPeriod": 6,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 33.81,
-                                                "__index__": 6
-                                            },
-                                            {
-                                                "entryTime": "2002-04-29T14:00:00.000Z",
-                                                "entryPrice": 34.18,
-                                                "exitTime": "2002-05-16T14:00:00.000Z",
-                                                "exitPrice": 34.83,
-                                                "profit": 0.6499999999999986,
-                                                "profitPct": 1.901696898771207,
-                                                "growth": 1.019016968987712,
-                                                "riskPct": 1.9999999999999956,
-                                                "rmultiple": 0.9508484493856058,
-                                                "holdingPeriod": 12,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 33.4964,
-                                                "__index__": 7
-                                            },
-                                            {
-                                                "entryTime": "2002-06-04T14:00:00.000Z",
-                                                "entryPrice": 34.2,
-                                                "exitTime": "2002-06-19T14:00:00.000Z",
-                                                "exitPrice": 33.516000000000005,
-                                                "profit": -0.6839999999999975,
-                                                "profitPct": -1.9999999999999925,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999925,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 9,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 33.516000000000005,
-                                                "__index__": 8
-                                            },
-                                            {
-                                                "entryTime": "2002-06-23T14:00:00.000Z",
-                                                "entryPrice": 32.33,
-                                                "exitTime": "2002-07-15T14:00:00.000Z",
-                                                "exitPrice": 31.6834,
-                                                "profit": -0.6465999999999994,
-                                                "profitPct": -1.9999999999999982,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999982,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 15,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 31.6834,
-                                                "__index__": 9
-                                            },
-                                            {
-                                                "entryTime": "2002-07-17T14:00:00.000Z",
-                                                "entryPrice": 31.42,
-                                                "exitTime": "2002-07-21T14:00:00.000Z",
-                                                "exitPrice": 30.791600000000003,
-                                                "profit": -0.6283999999999992,
-                                                "profitPct": -1.9999999999999973,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999973,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 30.791600000000003,
-                                                "__index__": 10
-                                            },
-                                            {
-                                                "entryTime": "2002-07-23T14:00:00.000Z",
-                                                "entryPrice": 30.6,
-                                                "exitTime": "2002-07-25T14:00:00.000Z",
-                                                "exitPrice": 29.988000000000003,
-                                                "profit": -0.6119999999999983,
-                                                "profitPct": -1.9999999999999944,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999944,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 29.988000000000003,
-                                                "__index__": 11
-                                            },
-                                            {
-                                                "entryTime": "2002-07-29T14:00:00.000Z",
-                                                "entryPrice": 30.89,
-                                                "exitTime": "2002-08-04T14:00:00.000Z",
-                                                "exitPrice": 30.2722,
-                                                "profit": -0.617799999999999,
-                                                "profitPct": -1.999999999999997,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 30.2722,
-                                                "__index__": 12
-                                            },
-                                            {
-                                                "entryTime": "2002-08-06T14:00:00.000Z",
-                                                "entryPrice": 30.19,
-                                                "exitTime": "2002-08-12T14:00:00.000Z",
-                                                "exitPrice": 30.92,
-                                                "profit": 0.7300000000000004,
-                                                "profitPct": 2.418019211659491,
-                                                "growth": 1.024180192116595,
-                                                "riskPct": 1.9999999999999987,
-                                                "rmultiple": 1.2090096058297464,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 29.5862,
-                                                "__index__": 13
-                                            },
-                                            {
-                                                "entryTime": "2002-08-14T14:00:00.000Z",
-                                                "entryPrice": 31.26,
-                                                "exitTime": "2002-08-18T14:00:00.000Z",
-                                                "exitPrice": 31.5,
-                                                "profit": 0.23999999999999844,
-                                                "profitPct": 0.7677543186180371,
-                                                "growth": 1.0076775431861804,
-                                                "riskPct": 1.9999999999999982,
-                                                "rmultiple": 0.3838771593090189,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 30.634800000000002,
-                                                "__index__": 14
-                                            },
-                                            {
-                                                "entryTime": "2002-09-04T14:00:00.000Z",
-                                                "entryPrice": 31.3,
-                                                "exitTime": "2002-09-10T14:00:00.000Z",
-                                                "exitPrice": 31.55,
-                                                "profit": 0.25,
-                                                "profitPct": 0.7987220447284344,
-                                                "growth": 1.0079872204472844,
-                                                "riskPct": 2.000000000000004,
-                                                "rmultiple": 0.3993610223642165,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 30.674,
-                                                "__index__": 15
-                                            },
-                                            {
-                                                "entryTime": "2002-09-18T14:00:00.000Z",
-                                                "entryPrice": 31.29,
-                                                "exitTime": "2002-09-23T14:00:00.000Z",
-                                                "exitPrice": 30.664199999999997,
-                                                "profit": -0.6258000000000017,
-                                                "profitPct": -2.0000000000000058,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000058,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 30.664199999999997,
-                                                "__index__": 16
-                                            },
-                                            {
-                                                "entryTime": "2002-09-25T14:00:00.000Z",
-                                                "entryPrice": 30.43,
-                                                "exitTime": "2002-10-06T14:00:00.000Z",
-                                                "exitPrice": 29.8214,
-                                                "profit": -0.6085999999999991,
-                                                "profitPct": -1.9999999999999973,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999973,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 6,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 29.8214,
-                                                "__index__": 17
-                                            },
-                                            {
-                                                "entryTime": "2002-10-08T14:00:00.000Z",
-                                                "entryPrice": 29.65,
-                                                "exitTime": "2002-10-22T14:00:00.000Z",
-                                                "exitPrice": 30.43,
-                                                "profit": 0.7800000000000011,
-                                                "profitPct": 2.630691399662736,
-                                                "growth": 1.0263069139966274,
-                                                "riskPct": 2,
-                                                "rmultiple": 1.315345699831368,
-                                                "holdingPeriod": 8,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 29.057,
-                                                "__index__": 18
-                                            },
-                                            {
-                                                "entryTime": "2002-11-11T14:00:00.000Z",
-                                                "entryPrice": 30.04,
-                                                "exitTime": "2002-11-17T14:00:00.000Z",
-                                                "exitPrice": 30.49,
-                                                "profit": 0.4499999999999993,
-                                                "profitPct": 1.4980026631158432,
-                                                "growth": 1.0149800266311584,
-                                                "riskPct": 1.9999999999999987,
-                                                "rmultiple": 0.7490013315579221,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 29.4392,
-                                                "__index__": 19
-                                            },
-                                            {
-                                                "entryTime": "2002-11-20T14:00:00.000Z",
-                                                "entryPrice": 30.69,
-                                                "exitTime": "2002-11-24T14:00:00.000Z",
-                                                "exitPrice": 30.8,
-                                                "profit": 0.10999999999999943,
-                                                "profitPct": 0.35842293906809847,
-                                                "growth": 1.003584229390681,
-                                                "riskPct": 2.000000000000004,
-                                                "rmultiple": 0.1792114695340489,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 30.0762,
-                                                "__index__": 20
-                                            },
-                                            {
-                                                "entryTime": "2002-12-10T14:00:00.000Z",
-                                                "entryPrice": 30.45,
-                                                "exitTime": "2002-12-23T14:00:00.000Z",
-                                                "exitPrice": 30.66,
-                                                "profit": 0.21000000000000085,
-                                                "profitPct": 0.6896551724137959,
-                                                "growth": 1.006896551724138,
-                                                "riskPct": 1.9999999999999942,
-                                                "rmultiple": 0.34482758620689896,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 29.841,
-                                                "__index__": 21
-                                            },
-                                            {
-                                                "entryTime": "2002-12-30T14:00:00.000Z",
-                                                "entryPrice": 30.32,
-                                                "exitTime": "2003-01-05T14:00:00.000Z",
-                                                "exitPrice": 31,
-                                                "profit": 0.6799999999999997,
-                                                "profitPct": 2.2427440633245372,
-                                                "growth": 1.0224274406332454,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": 1.1213720316622673,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 29.7136,
-                                                "__index__": 22
-                                            },
-                                            {
-                                                "entryTime": "2003-01-22T14:00:00.000Z",
-                                                "entryPrice": 30.46,
-                                                "exitTime": "2003-01-27T14:00:00.000Z",
-                                                "exitPrice": 29.8508,
-                                                "profit": -0.6092000000000013,
-                                                "profitPct": -2.000000000000004,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000004,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 29.8508,
-                                                "__index__": 23
-                                            },
-                                            {
-                                                "entryTime": "2003-01-29T14:00:00.000Z",
-                                                "entryPrice": 29.7,
-                                                "exitTime": "2003-02-05T14:00:00.000Z",
-                                                "exitPrice": 29.105999999999998,
-                                                "profit": -0.5940000000000012,
-                                                "profitPct": -2.000000000000004,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000004,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 29.105999999999998,
-                                                "__index__": 24
-                                            },
-                                            {
-                                                "entryTime": "2003-02-09T14:00:00.000Z",
-                                                "entryPrice": 29.17,
-                                                "exitTime": "2003-02-12T14:00:00.000Z",
-                                                "exitPrice": 28.5866,
-                                                "profit": -0.583400000000001,
-                                                "profitPct": -2.0000000000000036,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000036,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 28.5866,
-                                                "__index__": 25
-                                            },
-                                            {
-                                                "entryTime": "2003-02-16T14:00:00.000Z",
-                                                "entryPrice": 28.67,
-                                                "exitTime": "2003-03-06T14:00:00.000Z",
-                                                "exitPrice": 28.096600000000002,
-                                                "profit": -0.5733999999999995,
-                                                "profitPct": -1.999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 12,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 28.096600000000002,
-                                                "__index__": 26
-                                            },
-                                            {
-                                                "entryTime": "2003-03-10T14:00:00.000Z",
-                                                "entryPrice": 27.6,
-                                                "exitTime": "2003-03-18T14:00:00.000Z",
-                                                "exitPrice": 29.1,
-                                                "profit": 1.5,
-                                                "profitPct": 5.434782608695652,
-                                                "growth": 1.0543478260869565,
-                                                "riskPct": 1.9999999999999982,
-                                                "rmultiple": 2.717391304347828,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 27.048000000000002,
-                                                "__index__": 27
-                                            },
-                                            {
-                                                "entryTime": "2003-05-11T14:00:00.000Z",
-                                                "entryPrice": 30.33,
-                                                "exitTime": "2003-05-13T14:00:00.000Z",
-                                                "exitPrice": 30.47,
-                                                "profit": 0.14000000000000057,
-                                                "profitPct": 0.46158918562479584,
-                                                "growth": 1.004615891856248,
-                                                "riskPct": 2.000000000000001,
-                                                "rmultiple": 0.2307945928123978,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 29.723399999999998,
-                                                "__index__": 28
-                                            },
-                                            {
-                                                "entryTime": "2003-05-15T14:00:00.000Z",
-                                                "entryPrice": 30.2,
-                                                "exitTime": "2003-05-25T14:00:00.000Z",
-                                                "exitPrice": 30.55,
-                                                "profit": 0.3500000000000014,
-                                                "profitPct": 1.1589403973509982,
-                                                "growth": 1.01158940397351,
-                                                "riskPct": 1.9999999999999973,
-                                                "rmultiple": 0.5794701986754998,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 29.596,
-                                                "__index__": 29
-                                            },
-                                            {
-                                                "entryTime": "2003-06-25T14:00:00.000Z",
-                                                "entryPrice": 30.91,
-                                                "exitTime": "2003-07-15T14:00:00.000Z",
-                                                "exitPrice": 31.11,
-                                                "profit": 0.1999999999999993,
-                                                "profitPct": 0.647039792947264,
-                                                "growth": 1.0064703979294727,
-                                                "riskPct": 2.0000000000000053,
-                                                "rmultiple": 0.3235198964736311,
-                                                "holdingPeriod": 13,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 30.2918,
-                                                "__index__": 30
-                                            },
-                                            {
-                                                "entryTime": "2003-07-17T14:00:00.000Z",
-                                                "entryPrice": 31.03,
-                                                "exitTime": "2003-07-21T14:00:00.000Z",
-                                                "exitPrice": 30.95,
-                                                "profit": -0.08000000000000185,
-                                                "profitPct": -0.25781501772478843,
-                                                "growth": 0.9974218498227522,
-                                                "riskPct": 1.9999999999999987,
-                                                "rmultiple": -0.1289075088623943,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 30.4094,
-                                                "__index__": 31
-                                            },
-                                            {
-                                                "entryTime": "2003-07-23T14:00:00.000Z",
-                                                "entryPrice": 31.14,
-                                                "exitTime": "2003-07-27T14:00:00.000Z",
-                                                "exitPrice": 31.47,
-                                                "profit": 0.3299999999999983,
-                                                "profitPct": 1.0597302504816901,
-                                                "growth": 1.010597302504817,
-                                                "riskPct": 2.000000000000005,
-                                                "rmultiple": 0.5298651252408437,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 30.5172,
-                                                "__index__": 32
-                                            },
-                                            {
-                                                "entryTime": "2003-09-25T14:00:00.000Z",
-                                                "entryPrice": 32.31,
-                                                "exitTime": "2003-10-02T14:00:00.000Z",
-                                                "exitPrice": 32.6,
-                                                "profit": 0.28999999999999915,
-                                                "profitPct": 0.8975549365521484,
-                                                "growth": 1.0089755493655215,
-                                                "riskPct": 2.000000000000001,
-                                                "rmultiple": 0.44877746827607395,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 31.663800000000002,
-                                                "__index__": 33
-                                            },
-                                            {
-                                                "entryTime": "2003-11-05T14:00:00.000Z",
-                                                "entryPrice": 33.11,
-                                                "exitTime": "2003-11-17T14:00:00.000Z",
-                                                "exitPrice": 32.4478,
-                                                "profit": -0.6621999999999986,
-                                                "profitPct": -1.9999999999999958,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999958,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 32.4478,
-                                                "__index__": 34
-                                            },
-                                            {
-                                                "entryTime": "2003-11-19T14:00:00.000Z",
-                                                "entryPrice": 32.69,
-                                                "exitTime": "2003-12-03T14:00:00.000Z",
-                                                "exitPrice": 33.15,
-                                                "profit": 0.46000000000000085,
-                                                "profitPct": 1.407158152340168,
-                                                "growth": 1.0140715815234016,
-                                                "riskPct": 1.9999999999999902,
-                                                "rmultiple": 0.7035790761700873,
-                                                "holdingPeriod": 9,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 32.0362,
-                                                "__index__": 35
-                                            },
-                                            {
-                                                "entryTime": "2003-12-11T14:00:00.000Z",
-                                                "entryPrice": 32.91,
-                                                "exitTime": "2003-12-15T14:00:00.000Z",
-                                                "exitPrice": 33.16,
-                                                "profit": 0.25,
-                                                "profitPct": 0.7596475235490733,
-                                                "growth": 1.0075964752354907,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": 0.37982376177453614,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 32.251799999999996,
-                                                "__index__": 36
-                                            },
-                                            {
-                                                "entryTime": "2003-12-23T14:00:00.000Z",
-                                                "entryPrice": 32.96,
-                                                "exitTime": "2003-12-29T14:00:00.000Z",
-                                                "exitPrice": 33.27,
-                                                "profit": 0.3100000000000023,
-                                                "profitPct": 0.9405339805825311,
-                                                "growth": 1.0094053398058254,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": 0.4702669902912667,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 32.3008,
-                                                "__index__": 37
-                                            },
-                                            {
-                                                "entryTime": "2004-01-28T14:00:00.000Z",
-                                                "entryPrice": 32.95,
-                                                "exitTime": "2004-02-09T14:00:00.000Z",
-                                                "exitPrice": 33.11,
-                                                "profit": 0.1599999999999966,
-                                                "profitPct": 0.4855842185128879,
-                                                "growth": 1.0048558421851288,
-                                                "riskPct": 1.9999999999999967,
-                                                "rmultiple": 0.2427921092564444,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 32.291000000000004,
-                                                "__index__": 38
-                                            },
-                                            {
-                                                "entryTime": "2004-04-29T14:00:00.000Z",
-                                                "entryPrice": 34.55,
-                                                "exitTime": "2004-05-23T14:00:00.000Z",
-                                                "exitPrice": 34.71,
-                                                "profit": 0.1600000000000037,
-                                                "profitPct": 0.46309696092620467,
-                                                "growth": 1.0046309696092621,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": 0.23154848046310147,
-                                                "holdingPeriod": 15,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 33.858999999999995,
-                                                "__index__": 39
-                                            },
-                                            {
-                                                "entryTime": "2004-07-14T14:00:00.000Z",
-                                                "entryPrice": 35.52,
-                                                "exitTime": "2004-08-02T14:00:00.000Z",
-                                                "exitPrice": 35.91,
-                                                "profit": 0.38999999999999346,
-                                                "profitPct": 1.0979729729729544,
-                                                "growth": 1.0109797297297296,
-                                                "riskPct": 1.9999999999999998,
-                                                "rmultiple": 0.5489864864864773,
-                                                "holdingPeriod": 12,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 34.8096,
-                                                "__index__": 40
-                                            },
-                                            {
-                                                "entryTime": "2004-08-05T14:00:00.000Z",
-                                                "entryPrice": 35.58,
-                                                "exitTime": "2004-08-23T14:00:00.000Z",
-                                                "exitPrice": 35.67,
-                                                "profit": 0.09000000000000341,
-                                                "profitPct": 0.25295109612142613,
-                                                "growth": 1.0025295109612142,
-                                                "riskPct": 1.999999999999992,
-                                                "rmultiple": 0.12647554806071357,
-                                                "holdingPeriod": 11,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 34.8684,
-                                                "__index__": 41
-                                            },
-                                            {
-                                                "entryTime": "2004-12-30T14:00:00.000Z",
-                                                "entryPrice": 40.05,
-                                                "exitTime": "2005-01-04T14:00:00.000Z",
-                                                "exitPrice": 41,
-                                                "profit": 0.9500000000000028,
-                                                "profitPct": 2.3720349563046264,
-                                                "growth": 1.0237203495630463,
-                                                "riskPct": 2.000000000000005,
-                                                "rmultiple": 1.1860174781523103,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 39.248999999999995,
-                                                "__index__": 42
-                                            },
-                                            {
-                                                "entryTime": "2005-01-19T14:00:00.000Z",
-                                                "entryPrice": 40.51,
-                                                "exitTime": "2005-01-26T14:00:00.000Z",
-                                                "exitPrice": 41,
-                                                "profit": 0.490000000000002,
-                                                "profitPct": 1.2095778820044483,
-                                                "growth": 1.0120957788200444,
-                                                "riskPct": 2.0000000000000044,
-                                                "rmultiple": 0.6047889410022228,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 39.699799999999996,
-                                                "__index__": 43
-                                            },
-                                            {
-                                                "entryTime": "2005-02-24T14:00:00.000Z",
-                                                "entryPrice": 41.41,
-                                                "exitTime": "2005-02-28T14:00:00.000Z",
-                                                "exitPrice": 42.15,
-                                                "profit": 0.740000000000002,
-                                                "profitPct": 1.787007969089597,
-                                                "growth": 1.017870079690896,
-                                                "riskPct": 2.000000000000006,
-                                                "rmultiple": 0.8935039845447956,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 40.581799999999994,
-                                                "__index__": 44
-                                            },
-                                            {
-                                                "entryTime": "2005-03-23T14:00:00.000Z",
-                                                "entryPrice": 42.29,
-                                                "exitTime": "2005-03-29T14:00:00.000Z",
-                                                "exitPrice": 41.4442,
-                                                "profit": -0.845799999999997,
-                                                "profitPct": -1.9999999999999931,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999931,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 41.4442,
-                                                "__index__": 45
-                                            },
-                                            {
-                                                "entryTime": "2005-03-31T14:00:00.000Z",
-                                                "entryPrice": 41.76,
-                                                "exitTime": "2005-04-14T14:00:00.000Z",
-                                                "exitPrice": 40.9248,
-                                                "profit": -0.8352000000000004,
-                                                "profitPct": -2.000000000000001,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000001,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 9,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 40.9248,
-                                                "__index__": 46
-                                            },
-                                            {
-                                                "entryTime": "2005-04-18T14:00:00.000Z",
-                                                "entryPrice": 40.6,
-                                                "exitTime": "2005-05-19T14:00:00.000Z",
-                                                "exitPrice": 41.34,
-                                                "profit": 0.740000000000002,
-                                                "profitPct": 1.8226600985221724,
-                                                "growth": 1.0182266009852217,
-                                                "riskPct": 1.9999999999999942,
-                                                "rmultiple": 0.9113300492610888,
-                                                "holdingPeriod": 21,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 39.788000000000004,
-                                                "__index__": 47
-                                            },
-                                            {
-                                                "entryTime": "2005-06-26T14:00:00.000Z",
-                                                "entryPrice": 41.85,
-                                                "exitTime": "2005-07-21T14:00:00.000Z",
-                                                "exitPrice": 42.8,
-                                                "profit": 0.9499999999999957,
-                                                "profitPct": 2.270011947431292,
-                                                "growth": 1.0227001194743128,
-                                                "riskPct": 2.0000000000000075,
-                                                "rmultiple": 1.1350059737156415,
-                                                "holdingPeriod": 18,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 41.013,
-                                                "__index__": 48
-                                            },
-                                            {
-                                                "entryTime": "2005-10-06T14:00:00.000Z",
-                                                "entryPrice": 44.71,
-                                                "exitTime": "2005-10-19T14:00:00.000Z",
-                                                "exitPrice": 43.8158,
-                                                "profit": -0.8941999999999979,
-                                                "profitPct": -1.9999999999999951,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 8,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 43.8158,
-                                                "__index__": 49
-                                            },
-                                            {
-                                                "entryTime": "2005-10-23T14:00:00.000Z",
-                                                "entryPrice": 43.74,
-                                                "exitTime": "2005-11-03T14:00:00.000Z",
-                                                "exitPrice": 45.5,
-                                                "profit": 1.759999999999998,
-                                                "profitPct": 4.0237768632830315,
-                                                "growth": 1.0402377686328304,
-                                                "riskPct": 2.000000000000001,
-                                                "rmultiple": 2.011888431641515,
-                                                "holdingPeriod": 8,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 42.8652,
-                                                "__index__": 50
-                                            },
-                                            {
-                                                "entryTime": "2005-12-11T14:00:00.000Z",
-                                                "entryPrice": 46.35,
-                                                "exitTime": "2005-12-14T14:00:00.000Z",
-                                                "exitPrice": 46.8,
-                                                "profit": 0.44999999999999574,
-                                                "profitPct": 0.9708737864077577,
-                                                "growth": 1.0097087378640777,
-                                                "riskPct": 1.9999999999999991,
-                                                "rmultiple": 0.4854368932038791,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 45.423,
-                                                "__index__": 51
-                                            },
-                                            {
-                                                "entryTime": "2005-12-22T14:00:00.000Z",
-                                                "entryPrice": 47,
-                                                "exitTime": "2005-12-28T14:00:00.000Z",
-                                                "exitPrice": 47.07,
-                                                "profit": 0.07000000000000028,
-                                                "profitPct": 0.14893617021276656,
-                                                "growth": 1.0014893617021277,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": 0.07446808510638346,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 46.06,
-                                                "__index__": 52
-                                            },
-                                            {
-                                                "entryTime": "2006-02-13T14:00:00.000Z",
-                                                "entryPrice": 48.49,
-                                                "exitTime": "2006-02-15T14:00:00.000Z",
-                                                "exitPrice": 47.5202,
-                                                "profit": -0.9697999999999993,
-                                                "profitPct": -1.9999999999999987,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999987,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 47.5202,
-                                                "__index__": 53
-                                            },
-                                            {
-                                                "entryTime": "2006-02-19T14:00:00.000Z",
-                                                "entryPrice": 47.75,
-                                                "exitTime": "2006-02-21T14:00:00.000Z",
-                                                "exitPrice": 48.79,
-                                                "profit": 1.0399999999999991,
-                                                "profitPct": 2.178010471204187,
-                                                "growth": 1.0217801047120418,
-                                                "riskPct": 1.9999999999999967,
-                                                "rmultiple": 1.0890052356020954,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 46.795,
-                                                "__index__": 54
-                                            },
-                                            {
-                                                "entryTime": "2006-05-15T14:00:00.000Z",
-                                                "entryPrice": 52.8,
-                                                "exitTime": "2006-05-17T14:00:00.000Z",
-                                                "exitPrice": 51.744,
-                                                "profit": -1.0559999999999974,
-                                                "profitPct": -1.9999999999999951,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 51.744,
-                                                "__index__": 55
-                                            },
-                                            {
-                                                "entryTime": "2006-05-21T14:00:00.000Z",
-                                                "entryPrice": 51.19,
-                                                "exitTime": "2006-05-22T14:00:00.000Z",
-                                                "exitPrice": 50.166199999999996,
-                                                "profit": -1.0238000000000014,
-                                                "profitPct": -2.0000000000000027,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 50.166199999999996,
-                                                "__index__": 56
-                                            },
-                                            {
-                                                "entryTime": "2006-05-24T14:00:00.000Z",
-                                                "entryPrice": 50.37,
-                                                "exitTime": "2006-06-07T14:00:00.000Z",
-                                                "exitPrice": 49.3626,
-                                                "profit": -1.007399999999997,
-                                                "profitPct": -1.9999999999999942,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999942,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 9,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 49.3626,
-                                                "__index__": 57
-                                            },
-                                            {
-                                                "entryTime": "2006-06-12T14:00:00.000Z",
-                                                "entryPrice": 50,
-                                                "exitTime": "2006-06-13T14:00:00.000Z",
-                                                "exitPrice": 49,
-                                                "profit": -1,
-                                                "profitPct": -2,
-                                                "growth": 0.98,
-                                                "riskPct": 2,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 49,
-                                                "__index__": 58
-                                            },
-                                            {
-                                                "entryTime": "2006-06-15T14:00:00.000Z",
-                                                "entryPrice": 49.21,
-                                                "exitTime": "2006-07-04T14:00:00.000Z",
-                                                "exitPrice": 50.01,
-                                                "profit": 0.7999999999999972,
-                                                "profitPct": 1.625685836212146,
-                                                "growth": 1.0162568583621214,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": 0.812842918106072,
-                                                "holdingPeriod": 12,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 48.2258,
-                                                "__index__": 59
-                                            },
-                                            {
-                                                "entryTime": "2006-07-16T14:00:00.000Z",
-                                                "entryPrice": 48.52,
-                                                "exitTime": "2006-08-08T14:00:00.000Z",
-                                                "exitPrice": 49,
-                                                "profit": 0.4799999999999969,
-                                                "profitPct": 0.9892827699917496,
-                                                "growth": 1.0098928276999175,
-                                                "riskPct": 1.9999999999999956,
-                                                "rmultiple": 0.49464138499587584,
-                                                "holdingPeriod": 16,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 47.549600000000005,
-                                                "__index__": 60
-                                            },
-                                            {
-                                                "entryTime": "2006-08-10T14:00:00.000Z",
-                                                "entryPrice": 48.73,
-                                                "exitTime": "2006-08-17T14:00:00.000Z",
-                                                "exitPrice": 49.7,
-                                                "profit": 0.970000000000006,
-                                                "profitPct": 1.9905602298378944,
-                                                "growth": 1.019905602298379,
-                                                "riskPct": 2.000000000000005,
-                                                "rmultiple": 0.9952801149189449,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 47.755399999999995,
-                                                "__index__": 61
-                                            },
-                                            {
-                                                "entryTime": "2006-09-12T14:00:00.000Z",
-                                                "entryPrice": 49.6,
-                                                "exitTime": "2006-09-14T14:00:00.000Z",
-                                                "exitPrice": 50.06,
-                                                "profit": 0.46000000000000085,
-                                                "profitPct": 0.9274193548387113,
-                                                "growth": 1.009274193548387,
-                                                "riskPct": 1.9999999999999944,
-                                                "rmultiple": 0.4637096774193569,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 48.608000000000004,
-                                                "__index__": 62
-                                            },
-                                            {
-                                                "entryTime": "2006-09-20T14:00:00.000Z",
-                                                "entryPrice": 50,
-                                                "exitTime": "2006-09-27T14:00:00.000Z",
-                                                "exitPrice": 50.61,
-                                                "profit": 0.6099999999999994,
-                                                "profitPct": 1.2199999999999989,
-                                                "growth": 1.0122,
-                                                "riskPct": 2,
-                                                "rmultiple": 0.6099999999999994,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 49,
-                                                "__index__": 63
-                                            },
-                                            {
-                                                "entryTime": "2006-11-20T14:00:00.000Z",
-                                                "entryPrice": 53.1,
-                                                "exitTime": "2006-11-22T14:00:00.000Z",
-                                                "exitPrice": 54.18,
-                                                "profit": 1.0799999999999983,
-                                                "profitPct": 2.0338983050847426,
-                                                "growth": 1.0203389830508474,
-                                                "riskPct": 1.9999999999999956,
-                                                "rmultiple": 1.0169491525423735,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 52.038000000000004,
-                                                "__index__": 64
-                                            },
-                                            {
-                                                "entryTime": "2007-01-07T14:00:00.000Z",
-                                                "entryPrice": 54.75,
-                                                "exitTime": "2007-01-09T14:00:00.000Z",
-                                                "exitPrice": 54.68,
-                                                "profit": -0.07000000000000028,
-                                                "profitPct": -0.12785388127853933,
-                                                "growth": 0.9987214611872146,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": -0.06392694063926974,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 53.655,
-                                                "__index__": 65
-                                            },
-                                            {
-                                                "entryTime": "2007-01-11T14:00:00.000Z",
-                                                "entryPrice": 54.92,
-                                                "exitTime": "2007-01-15T14:00:00.000Z",
-                                                "exitPrice": 55.6,
-                                                "profit": 0.6799999999999997,
-                                                "profitPct": 1.2381646030589943,
-                                                "growth": 1.0123816460305899,
-                                                "riskPct": 1.9999999999999962,
-                                                "rmultiple": 0.6190823015294983,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 53.821600000000004,
-                                                "__index__": 66
-                                            },
-                                            {
-                                                "entryTime": "2007-02-28T14:00:00.000Z",
-                                                "entryPrice": 57.75,
-                                                "exitTime": "2007-03-04T14:00:00.000Z",
-                                                "exitPrice": 56.595,
-                                                "profit": -1.1550000000000011,
-                                                "profitPct": -2.000000000000002,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000002,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 56.595,
-                                                "__index__": 67
-                                            },
-                                            {
-                                                "entryTime": "2007-03-06T14:00:00.000Z",
-                                                "entryPrice": 57.74,
-                                                "exitTime": "2007-03-11T14:00:00.000Z",
-                                                "exitPrice": 57.74,
-                                                "profit": 0,
-                                                "profitPct": 0,
-                                                "growth": 1,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": 0,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 56.5852,
-                                                "__index__": 68
-                                            },
-                                            {
-                                                "entryTime": "2007-03-14T14:00:00.000Z",
-                                                "entryPrice": 57.9,
-                                                "exitTime": "2007-03-20T14:00:00.000Z",
-                                                "exitPrice": 58.57,
-                                                "profit": 0.6700000000000017,
-                                                "profitPct": 1.1571675302245281,
-                                                "growth": 1.0115716753022452,
-                                                "riskPct": 2.000000000000002,
-                                                "rmultiple": 0.5785837651122634,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 56.742,
-                                                "__index__": 69
-                                            },
-                                            {
-                                                "entryTime": "2007-05-27T14:00:00.000Z",
-                                                "entryPrice": 62.58,
-                                                "exitTime": "2007-05-29T14:00:00.000Z",
-                                                "exitPrice": 62.68,
-                                                "profit": 0.10000000000000142,
-                                                "profitPct": 0.1597954618088869,
-                                                "growth": 1.0015979546180889,
-                                                "riskPct": 2.0000000000000058,
-                                                "rmultiple": 0.07989773090444323,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 61.328399999999995,
-                                                "__index__": 70
-                                            },
-                                            {
-                                                "entryTime": "2007-06-11T14:00:00.000Z",
-                                                "entryPrice": 63.29,
-                                                "exitTime": "2007-06-12T14:00:00.000Z",
-                                                "exitPrice": 62.0242,
-                                                "profit": -1.2657999999999987,
-                                                "profitPct": -1.999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 62.0242,
-                                                "__index__": 71
-                                            },
-                                            {
-                                                "entryTime": "2007-06-14T14:00:00.000Z",
-                                                "entryPrice": 62.27,
-                                                "exitTime": "2007-06-18T14:00:00.000Z",
-                                                "exitPrice": 63.24,
-                                                "profit": 0.9699999999999989,
-                                                "profitPct": 1.5577324554360026,
-                                                "growth": 1.01557732455436,
-                                                "riskPct": 1.9999999999999942,
-                                                "rmultiple": 0.7788662277180035,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 61.02460000000001,
-                                                "__index__": 72
-                                            },
-                                            {
-                                                "entryTime": "2007-06-25T14:00:00.000Z",
-                                                "entryPrice": 60.95,
-                                                "exitTime": "2007-06-26T14:00:00.000Z",
-                                                "exitPrice": 59.731,
-                                                "profit": -1.2190000000000012,
-                                                "profitPct": -2.0000000000000018,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000018,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 59.731,
-                                                "__index__": 73
-                                            },
-                                            {
-                                                "entryTime": "2007-06-28T14:00:00.000Z",
-                                                "entryPrice": 60.1,
-                                                "exitTime": "2007-07-22T14:00:00.000Z",
-                                                "exitPrice": 61.5,
-                                                "profit": 1.3999999999999986,
-                                                "profitPct": 2.3294509151414284,
-                                                "growth": 1.0232945091514143,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": 1.164725457570716,
-                                                "holdingPeriod": 15,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 58.898,
-                                                "__index__": 74
-                                            },
-                                            {
-                                                "entryTime": "2007-07-25T14:00:00.000Z",
-                                                "entryPrice": 60.99,
-                                                "exitTime": "2007-07-26T14:00:00.000Z",
-                                                "exitPrice": 59.7702,
-                                                "profit": -1.2197999999999993,
-                                                "profitPct": -1.9999999999999991,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999991,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 59.7702,
-                                                "__index__": 75
-                                            },
-                                            {
-                                                "entryTime": "2007-07-30T14:00:00.000Z",
-                                                "entryPrice": 58.75,
-                                                "exitTime": "2007-07-31T14:00:00.000Z",
-                                                "exitPrice": 57.575,
-                                                "profit": -1.1749999999999972,
-                                                "profitPct": -1.9999999999999951,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 57.575,
-                                                "__index__": 76
-                                            },
-                                            {
-                                                "entryTime": "2007-08-02T14:00:00.000Z",
-                                                "entryPrice": 58.3,
-                                                "exitTime": "2007-08-05T14:00:00.000Z",
-                                                "exitPrice": 57.134,
-                                                "profit": -1.1659999999999968,
-                                                "profitPct": -1.9999999999999944,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999944,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 57.134,
-                                                "__index__": 77
-                                            },
-                                            {
-                                                "entryTime": "2007-08-07T14:00:00.000Z",
-                                                "entryPrice": 58.48,
-                                                "exitTime": "2007-08-09T14:00:00.000Z",
-                                                "exitPrice": 57.310399999999994,
-                                                "profit": -1.1696000000000026,
-                                                "profitPct": -2.0000000000000044,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000044,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 57.310399999999994,
-                                                "__index__": 78
-                                            },
-                                            {
-                                                "entryTime": "2007-08-13T14:00:00.000Z",
-                                                "entryPrice": 58.19,
-                                                "exitTime": "2007-08-14T14:00:00.000Z",
-                                                "exitPrice": 57.026199999999996,
-                                                "profit": -1.163800000000002,
-                                                "profitPct": -2.0000000000000036,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000036,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 57.026199999999996,
-                                                "__index__": 79
-                                            },
-                                            {
-                                                "entryTime": "2007-08-16T14:00:00.000Z",
-                                                "entryPrice": 54.91,
-                                                "exitTime": "2007-08-23T14:00:00.000Z",
-                                                "exitPrice": 59.45,
-                                                "profit": 4.540000000000006,
-                                                "profitPct": 8.268075031870344,
-                                                "growth": 1.0826807503187035,
-                                                "riskPct": 1.9999999999999973,
-                                                "rmultiple": 4.134037515935178,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 53.8118,
-                                                "__index__": 80
-                                            },
-                                            {
-                                                "entryTime": "2007-11-05T14:00:00.000Z",
-                                                "entryPrice": 63.98,
-                                                "exitTime": "2007-11-07T14:00:00.000Z",
-                                                "exitPrice": 64,
-                                                "profit": 0.020000000000003126,
-                                                "profitPct": 0.031259768677716675,
-                                                "growth": 1.0003125976867773,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": 0.01562988433885831,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 62.700399999999995,
-                                                "__index__": 81
-                                            },
-                                            {
-                                                "entryTime": "2007-11-11T14:00:00.000Z",
-                                                "entryPrice": 63.48,
-                                                "exitTime": "2007-11-19T14:00:00.000Z",
-                                                "exitPrice": 62.2104,
-                                                "profit": -1.269599999999997,
-                                                "profitPct": -1.9999999999999951,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 62.2104,
-                                                "__index__": 82
-                                            },
-                                            {
-                                                "entryTime": "2007-11-21T14:00:00.000Z",
-                                                "entryPrice": 61.31,
-                                                "exitTime": "2007-12-03T14:00:00.000Z",
-                                                "exitPrice": 63.63,
-                                                "profit": 2.3200000000000003,
-                                                "profitPct": 3.7840482792366665,
-                                                "growth": 1.0378404827923666,
-                                                "riskPct": 1.9999999999999976,
-                                                "rmultiple": 1.8920241396183355,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 60.083800000000004,
-                                                "__index__": 83
-                                            },
-                                            {
-                                                "entryTime": "2007-12-05T14:00:00.000Z",
-                                                "entryPrice": 64.37,
-                                                "exitTime": "2007-12-09T14:00:00.000Z",
-                                                "exitPrice": 64.55,
-                                                "profit": 0.1799999999999926,
-                                                "profitPct": 0.27963336958209195,
-                                                "growth": 1.002796333695821,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": 0.1398166847910462,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 63.082600000000006,
-                                                "__index__": 84
-                                            },
-                                            {
-                                                "entryTime": "2007-12-16T14:00:00.000Z",
-                                                "entryPrice": 62.74,
-                                                "exitTime": "2007-12-17T14:00:00.000Z",
-                                                "exitPrice": 61.4852,
-                                                "profit": -1.254800000000003,
-                                                "profitPct": -2.000000000000005,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000005,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 61.4852,
-                                                "__index__": 85
-                                            },
-                                            {
-                                                "entryTime": "2007-12-19T14:00:00.000Z",
-                                                "entryPrice": 60.8,
-                                                "exitTime": "2007-12-20T14:00:00.000Z",
-                                                "exitPrice": 59.583999999999996,
-                                                "profit": -1.216000000000001,
-                                                "profitPct": -2.0000000000000018,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000018,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 59.583999999999996,
-                                                "__index__": 86
-                                            },
-                                            {
-                                                "entryTime": "2007-12-26T14:00:00.000Z",
-                                                "entryPrice": 61.59,
-                                                "exitTime": "2008-01-02T14:00:00.000Z",
-                                                "exitPrice": 60.358200000000004,
-                                                "profit": -1.2317999999999998,
-                                                "profitPct": -1.9999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 60.358200000000004,
-                                                "__index__": 87
-                                            },
-                                            {
-                                                "entryTime": "2008-01-06T14:00:00.000Z",
-                                                "entryPrice": 59.85,
-                                                "exitTime": "2008-01-08T14:00:00.000Z",
-                                                "exitPrice": 58.653,
-                                                "profit": -1.1970000000000027,
-                                                "profitPct": -2.0000000000000044,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000044,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 58.653,
-                                                "__index__": 88
-                                            },
-                                            {
-                                                "entryTime": "2008-01-10T14:00:00.000Z",
-                                                "entryPrice": 58.75,
-                                                "exitTime": "2008-01-13T14:00:00.000Z",
-                                                "exitPrice": 57.575,
-                                                "profit": -1.1749999999999972,
-                                                "profitPct": -1.9999999999999951,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 57.575,
-                                                "__index__": 89
-                                            },
-                                            {
-                                                "entryTime": "2008-01-15T14:00:00.000Z",
-                                                "entryPrice": 55.95,
-                                                "exitTime": "2008-01-17T14:00:00.000Z",
-                                                "exitPrice": 54.831,
-                                                "profit": -1.1189999999999998,
-                                                "profitPct": -1.9999999999999993,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999993,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 54.831,
-                                                "__index__": 90
-                                            },
-                                            {
-                                                "entryTime": "2008-01-21T14:00:00.000Z",
-                                                "entryPrice": 51.9,
-                                                "exitTime": "2008-02-26T14:00:00.000Z",
-                                                "exitPrice": 55.43,
-                                                "profit": 3.530000000000001,
-                                                "profitPct": 6.801541425818884,
-                                                "growth": 1.0680154142581888,
-                                                "riskPct": 1.9999999999999938,
-                                                "rmultiple": 3.4007707129094533,
-                                                "holdingPeriod": 24,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 50.862,
-                                                "__index__": 91
-                                            },
-                                            {
-                                                "entryTime": "2008-03-02T14:00:00.000Z",
-                                                "entryPrice": 52.6,
-                                                "exitTime": "2008-03-06T14:00:00.000Z",
-                                                "exitPrice": 51.548,
-                                                "profit": -1.0519999999999996,
-                                                "profitPct": -1.9999999999999993,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999993,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 51.548,
-                                                "__index__": 92
-                                            },
-                                            {
-                                                "entryTime": "2008-03-10T14:00:00.000Z",
-                                                "entryPrice": 49.67,
-                                                "exitTime": "2008-03-31T14:00:00.000Z",
-                                                "exitPrice": 52.28,
-                                                "profit": 2.6099999999999994,
-                                                "profitPct": 5.254680893899737,
-                                                "growth": 1.0525468089389973,
-                                                "riskPct": 2.000000000000002,
-                                                "rmultiple": 2.6273404469498653,
-                                                "holdingPeriod": 12,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 48.6766,
-                                                "__index__": 93
-                                            },
-                                            {
-                                                "entryTime": "2008-04-14T14:00:00.000Z",
-                                                "entryPrice": 52.26,
-                                                "exitTime": "2008-04-16T14:00:00.000Z",
-                                                "exitPrice": 54.26,
-                                                "profit": 2,
-                                                "profitPct": 3.8270187523918873,
-                                                "growth": 1.0382701875239189,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": 1.9135093761959412,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 51.2148,
-                                                "__index__": 94
-                                            },
-                                            {
-                                                "entryTime": "2008-05-28T14:00:00.000Z",
-                                                "entryPrice": 55.72,
-                                                "exitTime": "2008-06-02T14:00:00.000Z",
-                                                "exitPrice": 54.605599999999995,
-                                                "profit": -1.1144000000000034,
-                                                "profitPct": -2.000000000000006,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000006,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 54.605599999999995,
-                                                "__index__": 95
-                                            },
-                                            {
-                                                "entryTime": "2008-06-04T14:00:00.000Z",
-                                                "entryPrice": 54.74,
-                                                "exitTime": "2008-06-09T14:00:00.000Z",
-                                                "exitPrice": 53.6452,
-                                                "profit": -1.0947999999999993,
-                                                "profitPct": -1.9999999999999987,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999987,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 53.6452,
-                                                "__index__": 96
-                                            },
-                                            {
-                                                "entryTime": "2008-06-11T14:00:00.000Z",
-                                                "entryPrice": 52.56,
-                                                "exitTime": "2008-06-22T14:00:00.000Z",
-                                                "exitPrice": 51.5088,
-                                                "profit": -1.0512000000000015,
-                                                "profitPct": -2.0000000000000027,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 6,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 51.5088,
-                                                "__index__": 97
-                                            },
-                                            {
-                                                "entryTime": "2008-06-24T14:00:00.000Z",
-                                                "entryPrice": 49.29,
-                                                "exitTime": "2008-06-26T14:00:00.000Z",
-                                                "exitPrice": 48.3042,
-                                                "profit": -0.9857999999999976,
-                                                "profitPct": -1.9999999999999951,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 48.3042,
-                                                "__index__": 98
-                                            },
-                                            {
-                                                "entryTime": "2008-06-30T14:00:00.000Z",
-                                                "entryPrice": 48.75,
-                                                "exitTime": "2008-07-01T14:00:00.000Z",
-                                                "exitPrice": 47.775,
-                                                "profit": -0.9750000000000014,
-                                                "profitPct": -2.0000000000000027,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 47.775,
-                                                "__index__": 99
-                                            },
-                                            {
-                                                "entryTime": "2008-07-03T14:00:00.000Z",
-                                                "entryPrice": 46.85,
-                                                "exitTime": "2008-07-14T14:00:00.000Z",
-                                                "exitPrice": 45.913000000000004,
-                                                "profit": -0.9369999999999976,
-                                                "profitPct": -1.999999999999995,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.999999999999995,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 6,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 45.913000000000004,
-                                                "__index__": 100
-                                            },
-                                            {
-                                                "entryTime": "2008-07-16T14:00:00.000Z",
-                                                "entryPrice": 46.12,
-                                                "exitTime": "2008-07-17T14:00:00.000Z",
-                                                "exitPrice": 45.197599999999994,
-                                                "profit": -0.9224000000000032,
-                                                "profitPct": -2.000000000000007,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 45.197599999999994,
-                                                "__index__": 101
-                                            },
-                                            {
-                                                "entryTime": "2008-07-21T14:00:00.000Z",
-                                                "entryPrice": 46.56,
-                                                "exitTime": "2008-07-28T14:00:00.000Z",
-                                                "exitPrice": 45.628800000000005,
-                                                "profit": -0.9311999999999969,
-                                                "profitPct": -1.9999999999999933,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999933,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 45.628800000000005,
-                                                "__index__": 102
-                                            },
-                                            {
-                                                "entryTime": "2008-07-30T14:00:00.000Z",
-                                                "entryPrice": 48.2,
-                                                "exitTime": "2008-07-31T14:00:00.000Z",
-                                                "exitPrice": 47.236000000000004,
-                                                "profit": -0.9639999999999986,
-                                                "profitPct": -1.999999999999997,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 47.236000000000004,
-                                                "__index__": 103
-                                            },
-                                            {
-                                                "entryTime": "2008-08-04T14:00:00.000Z",
-                                                "entryPrice": 44.94,
-                                                "exitTime": "2008-08-11T14:00:00.000Z",
-                                                "exitPrice": 47.21,
-                                                "profit": 2.270000000000003,
-                                                "profitPct": 5.0511793502447775,
-                                                "growth": 1.0505117935024477,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": 2.525589675122385,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 44.041199999999996,
-                                                "__index__": 104
-                                            },
-                                            {
-                                                "entryTime": "2008-08-13T14:00:00.000Z",
-                                                "entryPrice": 46.49,
-                                                "exitTime": "2008-08-17T14:00:00.000Z",
-                                                "exitPrice": 46.48,
-                                                "profit": -0.010000000000005116,
-                                                "profitPct": -0.021510002151011218,
-                                                "growth": 0.9997848999784898,
-                                                "riskPct": 2.0000000000000004,
-                                                "rmultiple": -0.010755001075505607,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 45.5602,
-                                                "__index__": 105
-                                            },
-                                            {
-                                                "entryTime": "2008-08-19T14:00:00.000Z",
-                                                "entryPrice": 45.73,
-                                                "exitTime": "2008-08-25T14:00:00.000Z",
-                                                "exitPrice": 46.13,
-                                                "profit": 0.4000000000000057,
-                                                "profitPct": 0.8746993221080378,
-                                                "growth": 1.0087469932210804,
-                                                "riskPct": 2.0000000000000004,
-                                                "rmultiple": 0.43734966105401885,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 44.8154,
-                                                "__index__": 106
-                                            },
-                                            {
-                                                "entryTime": "2008-09-07T14:00:00.000Z",
-                                                "entryPrice": 47.4,
-                                                "exitTime": "2008-09-09T14:00:00.000Z",
-                                                "exitPrice": 45.82,
-                                                "profit": -1.5799999999999983,
-                                                "profitPct": -3.33333333333333,
-                                                "growth": 0.9666666666666667,
-                                                "riskPct": 2.000000000000001,
-                                                "rmultiple": -1.666666666666664,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 46.452,
-                                                "__index__": 107
-                                            },
-                                            {
-                                                "entryTime": "2008-09-11T14:00:00.000Z",
-                                                "entryPrice": 46.25,
-                                                "exitTime": "2008-09-14T14:00:00.000Z",
-                                                "exitPrice": 45.325,
-                                                "profit": -0.9249999999999972,
-                                                "profitPct": -1.9999999999999938,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999938,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 45.325,
-                                                "__index__": 108
-                                            },
-                                            {
-                                                "entryTime": "2008-09-16T14:00:00.000Z",
-                                                "entryPrice": 45.65,
-                                                "exitTime": "2008-09-17T14:00:00.000Z",
-                                                "exitPrice": 44.737,
-                                                "profit": -0.9129999999999967,
-                                                "profitPct": -1.9999999999999927,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999927,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 44.737,
-                                                "__index__": 109
-                                            },
-                                            {
-                                                "entryTime": "2008-09-21T14:00:00.000Z",
-                                                "entryPrice": 47.99,
-                                                "exitTime": "2008-09-22T14:00:00.000Z",
-                                                "exitPrice": 47.0302,
-                                                "profit": -0.9598000000000013,
-                                                "profitPct": -2.0000000000000027,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 47.0302,
-                                                "__index__": 110
-                                            },
-                                            {
-                                                "entryTime": "2008-09-28T14:00:00.000Z",
-                                                "entryPrice": 47.2,
-                                                "exitTime": "2008-09-29T14:00:00.000Z",
-                                                "exitPrice": 46.256,
-                                                "profit": -0.9440000000000026,
-                                                "profitPct": -2.0000000000000058,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000058,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 46.256,
-                                                "__index__": 111
-                                            },
-                                            {
-                                                "entryTime": "2008-10-01T14:00:00.000Z",
-                                                "entryPrice": 45.62,
-                                                "exitTime": "2008-10-02T14:00:00.000Z",
-                                                "exitPrice": 44.7076,
-                                                "profit": -0.9123999999999981,
-                                                "profitPct": -1.9999999999999958,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999958,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 44.7076,
-                                                "__index__": 112
-                                            },
-                                            {
-                                                "entryTime": "2008-10-06T14:00:00.000Z",
-                                                "entryPrice": 42.48,
-                                                "exitTime": "2008-10-07T14:00:00.000Z",
-                                                "exitPrice": 41.630399999999995,
-                                                "profit": -0.8496000000000024,
-                                                "profitPct": -2.0000000000000058,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000058,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 41.630399999999995,
-                                                "__index__": 113
-                                            },
-                                            {
-                                                "entryTime": "2008-10-09T14:00:00.000Z",
-                                                "entryPrice": 38.98,
-                                                "exitTime": "2008-10-15T14:00:00.000Z",
-                                                "exitPrice": 38.200399999999995,
-                                                "profit": -0.7796000000000021,
-                                                "profitPct": -2.0000000000000058,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000058,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 38.200399999999995,
-                                                "__index__": 114
-                                            },
-                                            {
-                                                "entryTime": "2008-10-19T14:00:00.000Z",
-                                                "entryPrice": 38.55,
-                                                "exitTime": "2008-10-22T14:00:00.000Z",
-                                                "exitPrice": 37.778999999999996,
-                                                "profit": -0.7710000000000008,
-                                                "profitPct": -2.000000000000002,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000002,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 37.778999999999996,
-                                                "__index__": 115
-                                            },
-                                            {
-                                                "entryTime": "2008-10-26T14:00:00.000Z",
-                                                "entryPrice": 36.67,
-                                                "exitTime": "2008-10-27T14:00:00.000Z",
-                                                "exitPrice": 35.9366,
-                                                "profit": -0.7334000000000032,
-                                                "profitPct": -2.0000000000000084,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.0000000000000084,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 35.9366,
-                                                "__index__": 116
-                                            },
-                                            {
-                                                "entryTime": "2008-10-29T14:00:00.000Z",
-                                                "entryPrice": 37.34,
-                                                "exitTime": "2008-11-05T14:00:00.000Z",
-                                                "exitPrice": 39.84,
-                                                "profit": 2.5,
-                                                "profitPct": 6.695232994108194,
-                                                "growth": 1.066952329941082,
-                                                "riskPct": 2.000000000000001,
-                                                "rmultiple": 3.347616497054096,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 36.5932,
-                                                "__index__": 117
-                                            },
-                                            {
-                                                "entryTime": "2008-11-09T14:00:00.000Z",
-                                                "entryPrice": 39.37,
-                                                "exitTime": "2008-11-10T14:00:00.000Z",
-                                                "exitPrice": 38.5826,
-                                                "profit": -0.7873999999999981,
-                                                "profitPct": -1.9999999999999951,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 38.5826,
-                                                "__index__": 118
-                                            },
-                                            {
-                                                "entryTime": "2008-11-12T14:00:00.000Z",
-                                                "entryPrice": 35.98,
-                                                "exitTime": "2008-11-16T14:00:00.000Z",
-                                                "exitPrice": 35.2604,
-                                                "profit": -0.7195999999999998,
-                                                "profitPct": -1.9999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 35.2604,
-                                                "__index__": 119
-                                            },
-                                            {
-                                                "entryTime": "2008-11-18T14:00:00.000Z",
-                                                "entryPrice": 34.4,
-                                                "exitTime": "2008-11-19T14:00:00.000Z",
-                                                "exitPrice": 33.711999999999996,
-                                                "profit": -0.6880000000000024,
-                                                "profitPct": -2.000000000000007,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 33.711999999999996,
-                                                "__index__": 120
-                                            },
-                                            {
-                                                "entryTime": "2008-11-23T14:00:00.000Z",
-                                                "entryPrice": 32.69,
-                                                "exitTime": "2008-12-21T14:00:00.000Z",
-                                                "exitPrice": 35.44,
-                                                "profit": 2.75,
-                                                "profitPct": 8.4123585194249,
-                                                "growth": 1.084123585194249,
-                                                "riskPct": 1.9999999999999902,
-                                                "rmultiple": 4.206179259712471,
-                                                "holdingPeriod": 19,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 32.0362,
-                                                "__index__": 121
-                                            },
-                                            {
-                                                "entryTime": "2008-12-23T14:00:00.000Z",
-                                                "entryPrice": 32.95,
-                                                "exitTime": "2008-12-30T14:00:00.000Z",
-                                                "exitPrice": 34.37,
-                                                "profit": 1.4199999999999946,
-                                                "profitPct": 4.309559939301956,
-                                                "growth": 1.0430955993930195,
-                                                "riskPct": 1.9999999999999967,
-                                                "rmultiple": 2.1547799696509817,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 32.291000000000004,
-                                                "__index__": 122
-                                            },
-                                            {
-                                                "entryTime": "2009-01-12T14:00:00.000Z",
-                                                "entryPrice": 33.77,
-                                                "exitTime": "2009-01-14T14:00:00.000Z",
-                                                "exitPrice": 33.35,
-                                                "profit": -0.4200000000000017,
-                                                "profitPct": -1.243707432632519,
-                                                "growth": 0.9875629256736748,
-                                                "riskPct": 2.0000000000000098,
-                                                "rmultiple": -0.6218537163162565,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 33.0946,
-                                                "__index__": 123
-                                            },
-                                            {
-                                                "entryTime": "2009-01-18T14:00:00.000Z",
-                                                "entryPrice": 33.29,
-                                                "exitTime": "2009-01-19T14:00:00.000Z",
-                                                "exitPrice": 32.6242,
-                                                "profit": -0.6657999999999973,
-                                                "profitPct": -1.999999999999992,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.999999999999992,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 32.6242,
-                                                "__index__": 124
-                                            },
-                                            {
-                                                "entryTime": "2009-01-21T14:00:00.000Z",
-                                                "entryPrice": 32.28,
-                                                "exitTime": "2009-01-22T14:00:00.000Z",
-                                                "exitPrice": 31.6344,
-                                                "profit": -0.6456000000000017,
-                                                "profitPct": -2.0000000000000053,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000053,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 31.6344,
-                                                "__index__": 125
-                                            },
-                                            {
-                                                "entryTime": "2009-01-27T14:00:00.000Z",
-                                                "entryPrice": 32,
-                                                "exitTime": "2009-02-15T14:00:00.000Z",
-                                                "exitPrice": 32.82,
-                                                "profit": 0.8200000000000003,
-                                                "profitPct": 2.562500000000001,
-                                                "growth": 1.025625,
-                                                "riskPct": 2.0000000000000018,
-                                                "rmultiple": 1.2812499999999993,
-                                                "holdingPeriod": 12,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 31.36,
-                                                "__index__": 126
-                                            },
-                                            {
-                                                "entryTime": "2009-02-17T14:00:00.000Z",
-                                                "entryPrice": 31.61,
-                                                "exitTime": "2009-02-23T14:00:00.000Z",
-                                                "exitPrice": 30.9778,
-                                                "profit": -0.632200000000001,
-                                                "profitPct": -2.000000000000003,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 30.9778,
-                                                "__index__": 127
-                                            },
-                                            {
-                                                "entryTime": "2009-02-25T14:00:00.000Z",
-                                                "entryPrice": 31.46,
-                                                "exitTime": "2009-03-01T14:00:00.000Z",
-                                                "exitPrice": 30.8308,
-                                                "profit": -0.6292000000000009,
-                                                "profitPct": -2.0000000000000027,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 30.8308,
-                                                "__index__": 128
-                                            },
-                                            {
-                                                "entryTime": "2009-03-03T14:00:00.000Z",
-                                                "entryPrice": 29.63,
-                                                "exitTime": "2009-03-15T14:00:00.000Z",
-                                                "exitPrice": 31.75,
-                                                "profit": 2.120000000000001,
-                                                "profitPct": 7.154910563617959,
-                                                "growth": 1.0715491056361797,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": 3.5774552818089735,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 29.037399999999998,
-                                                "__index__": 129
-                                            },
-                                            {
-                                                "entryTime": "2009-05-14T14:00:00.000Z",
-                                                "entryPrice": 35.83,
-                                                "exitTime": "2009-05-19T14:00:00.000Z",
-                                                "exitPrice": 36.6,
-                                                "profit": 0.7700000000000031,
-                                                "profitPct": 2.149037119732077,
-                                                "growth": 1.0214903711973207,
-                                                "riskPct": 1.9999999999999993,
-                                                "rmultiple": 1.074518559866039,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 35.1134,
-                                                "__index__": 130
-                                            },
-                                            {
-                                                "entryTime": "2009-05-24T14:00:00.000Z",
-                                                "entryPrice": 35.72,
-                                                "exitTime": "2009-05-26T14:00:00.000Z",
-                                                "exitPrice": 36.38,
-                                                "profit": 0.6600000000000037,
-                                                "profitPct": 1.847704367301242,
-                                                "growth": 1.0184770436730124,
-                                                "riskPct": 1.9999999999999938,
-                                                "rmultiple": 0.923852183650624,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 35.0056,
-                                                "__index__": 131
-                                            },
-                                            {
-                                                "entryTime": "2009-05-28T14:00:00.000Z",
-                                                "entryPrice": 35.95,
-                                                "exitTime": "2009-06-01T14:00:00.000Z",
-                                                "exitPrice": 37.39,
-                                                "profit": 1.4399999999999977,
-                                                "profitPct": 4.005563282336571,
-                                                "growth": 1.0400556328233657,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": 2.0027816411682826,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 35.231,
-                                                "__index__": 132
-                                            },
-                                            {
-                                                "entryTime": "2009-06-23T14:00:00.000Z",
-                                                "entryPrice": 35.6,
-                                                "exitTime": "2009-07-07T14:00:00.000Z",
-                                                "exitPrice": 34.888,
-                                                "profit": -0.7120000000000033,
-                                                "profitPct": -2.000000000000009,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.000000000000009,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 9,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 34.888,
-                                                "__index__": 133
-                                            },
-                                            {
-                                                "entryTime": "2009-07-09T14:00:00.000Z",
-                                                "entryPrice": 35.25,
-                                                "exitTime": "2009-07-16T14:00:00.000Z",
-                                                "exitPrice": 37.8,
-                                                "profit": 2.549999999999997,
-                                                "profitPct": 7.234042553191482,
-                                                "growth": 1.0723404255319149,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": 3.6170212765957492,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 34.545,
-                                                "__index__": 134
-                                            },
-                                            {
-                                                "entryTime": "2009-10-28T14:00:00.000Z",
-                                                "entryPrice": 43.51,
-                                                "exitTime": "2009-11-04T14:00:00.000Z",
-                                                "exitPrice": 42.6398,
-                                                "profit": -0.870199999999997,
-                                                "profitPct": -1.9999999999999931,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999931,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 42.6398,
-                                                "__index__": 135
-                                            },
-                                            {
-                                                "entryTime": "2009-11-08T14:00:00.000Z",
-                                                "entryPrice": 43.75,
-                                                "exitTime": "2009-11-10T14:00:00.000Z",
-                                                "exitPrice": 45.08,
-                                                "profit": 1.3299999999999983,
-                                                "profitPct": 3.039999999999996,
-                                                "growth": 1.0304,
-                                                "riskPct": 2,
-                                                "rmultiple": 1.519999999999998,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 42.875,
-                                                "__index__": 136
-                                            },
-                                            {
-                                                "entryTime": "2009-11-22T14:00:00.000Z",
-                                                "entryPrice": 44.56,
-                                                "exitTime": "2009-11-25T14:00:00.000Z",
-                                                "exitPrice": 45.03,
-                                                "profit": 0.46999999999999886,
-                                                "profitPct": 1.0547576301615773,
-                                                "growth": 1.0105475763016158,
-                                                "riskPct": 1.999999999999995,
-                                                "rmultiple": 0.52737881508079,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.668800000000005,
-                                                "__index__": 137
-                                            },
-                                            {
-                                                "entryTime": "2009-11-29T14:00:00.000Z",
-                                                "entryPrice": 43.86,
-                                                "exitTime": "2009-12-01T14:00:00.000Z",
-                                                "exitPrice": 45.25,
-                                                "profit": 1.3900000000000006,
-                                                "profitPct": 3.1691746466028285,
-                                                "growth": 1.0316917464660282,
-                                                "riskPct": 2.0000000000000044,
-                                                "rmultiple": 1.5845873233014107,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 42.9828,
-                                                "__index__": 138
-                                            },
-                                            {
-                                                "entryTime": "2009-12-08T14:00:00.000Z",
-                                                "entryPrice": 43.75,
-                                                "exitTime": "2009-12-28T14:00:00.000Z",
-                                                "exitPrice": 45.49,
-                                                "profit": 1.740000000000002,
-                                                "profitPct": 3.9771428571428618,
-                                                "growth": 1.0397714285714286,
-                                                "riskPct": 2,
-                                                "rmultiple": 1.9885714285714309,
-                                                "holdingPeriod": 11,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 42.875,
-                                                "__index__": 139
-                                            },
-                                            {
-                                                "entryTime": "2010-01-24T14:00:00.000Z",
-                                                "entryPrice": 43.64,
-                                                "exitTime": "2010-01-28T14:00:00.000Z",
-                                                "exitPrice": 42.7672,
-                                                "profit": -0.872799999999998,
-                                                "profitPct": -1.9999999999999956,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999956,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 42.7672,
-                                                "__index__": 140
-                                            },
-                                            {
-                                                "entryTime": "2010-02-01T14:00:00.000Z",
-                                                "entryPrice": 42.99,
-                                                "exitTime": "2010-02-04T14:00:00.000Z",
-                                                "exitPrice": 42.1302,
-                                                "profit": -0.8597999999999999,
-                                                "profitPct": -1.9999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 42.1302,
-                                                "__index__": 141
-                                            },
-                                            {
-                                                "entryTime": "2010-02-08T14:00:00.000Z",
-                                                "entryPrice": 42,
-                                                "exitTime": "2010-02-22T14:00:00.000Z",
-                                                "exitPrice": 44.3,
-                                                "profit": 2.299999999999997,
-                                                "profitPct": 5.476190476190469,
-                                                "growth": 1.0547619047619048,
-                                                "riskPct": 2.000000000000008,
-                                                "rmultiple": 2.7380952380952235,
-                                                "holdingPeriod": 9,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 41.16,
-                                                "__index__": 142
-                                            },
-                                            {
-                                                "entryTime": "2010-02-24T14:00:00.000Z",
-                                                "entryPrice": 44.01,
-                                                "exitTime": "2010-03-01T14:00:00.000Z",
-                                                "exitPrice": 44.63,
-                                                "profit": 0.6200000000000045,
-                                                "profitPct": 1.4087707339241184,
-                                                "growth": 1.0140877073392411,
-                                                "riskPct": 2.000000000000005,
-                                                "rmultiple": 0.7043853669620576,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.129799999999996,
-                                                "__index__": 143
-                                            },
-                                            {
-                                                "entryTime": "2010-04-26T14:00:00.000Z",
-                                                "entryPrice": 46.4,
-                                                "exitTime": "2010-04-27T14:00:00.000Z",
-                                                "exitPrice": 45.472,
-                                                "profit": -0.9279999999999973,
-                                                "profitPct": -1.9999999999999942,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999942,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 45.472,
-                                                "__index__": 144
-                                            },
-                                            {
-                                                "entryTime": "2010-04-29T14:00:00.000Z",
-                                                "entryPrice": 45.66,
-                                                "exitTime": "2010-05-04T14:00:00.000Z",
-                                                "exitPrice": 44.74679999999999,
-                                                "profit": -0.9132000000000033,
-                                                "profitPct": -2.000000000000007,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 44.74679999999999,
-                                                "__index__": 145
-                                            },
-                                            {
-                                                "entryTime": "2010-05-06T14:00:00.000Z",
-                                                "entryPrice": 42,
-                                                "exitTime": "2010-05-19T14:00:00.000Z",
-                                                "exitPrice": 41.16,
-                                                "profit": -0.8400000000000034,
-                                                "profitPct": -2.000000000000008,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.000000000000008,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 8,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 41.16,
-                                                "__index__": 146
-                                            },
-                                            {
-                                                "entryTime": "2010-05-23T14:00:00.000Z",
-                                                "entryPrice": 41.13,
-                                                "exitTime": "2010-06-14T14:00:00.000Z",
-                                                "exitPrice": 42.96,
-                                                "profit": 1.8299999999999983,
-                                                "profitPct": 4.44930707512764,
-                                                "growth": 1.0444930707512763,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": 2.2246535375638166,
-                                                "holdingPeriod": 14,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 40.3074,
-                                                "__index__": 147
-                                            },
-                                            {
-                                                "entryTime": "2010-06-24T14:00:00.000Z",
-                                                "entryPrice": 41.52,
-                                                "exitTime": "2010-06-29T14:00:00.000Z",
-                                                "exitPrice": 40.689600000000006,
-                                                "profit": -0.8303999999999974,
-                                                "profitPct": -1.9999999999999933,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999933,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 40.689600000000006,
-                                                "__index__": 148
-                                            },
-                                            {
-                                                "entryTime": "2010-07-01T14:00:00.000Z",
-                                                "entryPrice": 40.08,
-                                                "exitTime": "2010-07-05T14:00:00.000Z",
-                                                "exitPrice": 39.2784,
-                                                "profit": -0.8016000000000005,
-                                                "profitPct": -2.0000000000000013,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000013,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 39.2784,
-                                                "__index__": 149
-                                            },
-                                            {
-                                                "entryTime": "2010-07-07T14:00:00.000Z",
-                                                "entryPrice": 40.76,
-                                                "exitTime": "2010-07-14T14:00:00.000Z",
-                                                "exitPrice": 41.82,
-                                                "profit": 1.0600000000000023,
-                                                "profitPct": 2.60058881256134,
-                                                "growth": 1.0260058881256133,
-                                                "riskPct": 1.9999999999999933,
-                                                "rmultiple": 1.3002944062806745,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 39.9448,
-                                                "__index__": 150
-                                            },
-                                            {
-                                                "entryTime": "2010-07-18T14:00:00.000Z",
-                                                "entryPrice": 40.81,
-                                                "exitTime": "2010-07-25T14:00:00.000Z",
-                                                "exitPrice": 42.09,
-                                                "profit": 1.2800000000000011,
-                                                "profitPct": 3.1364861553540826,
-                                                "growth": 1.031364861553541,
-                                                "riskPct": 2.000000000000005,
-                                                "rmultiple": 1.5682430776770375,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 39.9938,
-                                                "__index__": 151
-                                            },
-                                            {
-                                                "entryTime": "2010-08-12T14:00:00.000Z",
-                                                "entryPrice": 41.24,
-                                                "exitTime": "2010-08-17T14:00:00.000Z",
-                                                "exitPrice": 42.3,
-                                                "profit": 1.0599999999999952,
-                                                "profitPct": 2.5703200775945563,
-                                                "growth": 1.0257032007759455,
-                                                "riskPct": 2.000000000000008,
-                                                "rmultiple": 1.2851600387972733,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 40.4152,
-                                                "__index__": 152
-                                            },
-                                            {
-                                                "entryTime": "2010-08-22T14:00:00.000Z",
-                                                "entryPrice": 41.47,
-                                                "exitTime": "2010-08-30T14:00:00.000Z",
-                                                "exitPrice": 41.72,
-                                                "profit": 0.25,
-                                                "profitPct": 0.6028454304316373,
-                                                "growth": 1.0060284543043163,
-                                                "riskPct": 1.9999999999999993,
-                                                "rmultiple": 0.30142271521581876,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 40.6406,
-                                                "__index__": 153
-                                            },
-                                            {
-                                                "entryTime": "2010-10-20T14:00:00.000Z",
-                                                "entryPrice": 44.01,
-                                                "exitTime": "2010-10-24T14:00:00.000Z",
-                                                "exitPrice": 44.2,
-                                                "profit": 0.19000000000000483,
-                                                "profitPct": 0.4317200636219151,
-                                                "growth": 1.004317200636219,
-                                                "riskPct": 2.000000000000005,
-                                                "rmultiple": 0.21586003181095703,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.129799999999996,
-                                                "__index__": 154
-                                            },
-                                            {
-                                                "entryTime": "2010-10-27T14:00:00.000Z",
-                                                "entryPrice": 44.32,
-                                                "exitTime": "2010-10-31T14:00:00.000Z",
-                                                "exitPrice": 44.4,
-                                                "profit": 0.0799999999999983,
-                                                "profitPct": 0.18050541516245103,
-                                                "growth": 1.0018050541516246,
-                                                "riskPct": 2.000000000000004,
-                                                "rmultiple": 0.09025270758122532,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.4336,
-                                                "__index__": 155
-                                            },
-                                            {
-                                                "entryTime": "2010-11-17T14:00:00.000Z",
-                                                "entryPrice": 44.16,
-                                                "exitTime": "2010-12-02T14:00:00.000Z",
-                                                "exitPrice": 45.04,
-                                                "profit": 0.8800000000000026,
-                                                "profitPct": 1.992753623188412,
-                                                "growth": 1.019927536231884,
-                                                "riskPct": 2.0000000000000053,
-                                                "rmultiple": 0.9963768115942033,
-                                                "holdingPeriod": 10,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.276799999999994,
-                                                "__index__": 156
-                                            },
-                                            {
-                                                "entryTime": "2011-01-03T14:00:00.000Z",
-                                                "entryPrice": 44.97,
-                                                "exitTime": "2011-01-09T14:00:00.000Z",
-                                                "exitPrice": 44.0706,
-                                                "profit": -0.8994,
-                                                "profitPct": -2,
-                                                "growth": 0.98,
-                                                "riskPct": 2,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 44.0706,
-                                                "__index__": 157
-                                            },
-                                            {
-                                                "entryTime": "2011-01-11T14:00:00.000Z",
-                                                "entryPrice": 44.39,
-                                                "exitTime": "2011-01-13T14:00:00.000Z",
-                                                "exitPrice": 45.07,
-                                                "profit": 0.6799999999999997,
-                                                "profitPct": 1.5318765487722454,
-                                                "growth": 1.0153187654877225,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": 0.7659382743861239,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.5022,
-                                                "__index__": 158
-                                            },
-                                            {
-                                                "entryTime": "2011-01-17T14:00:00.000Z",
-                                                "entryPrice": 44.79,
-                                                "exitTime": "2011-01-19T14:00:00.000Z",
-                                                "exitPrice": 45.19,
-                                                "profit": 0.3999999999999986,
-                                                "profitPct": 0.8930564858227251,
-                                                "growth": 1.0089305648582272,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": 0.44652824291136195,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.8942,
-                                                "__index__": 159
-                                            },
-                                            {
-                                                "entryTime": "2011-01-23T14:00:00.000Z",
-                                                "entryPrice": 44.72,
-                                                "exitTime": "2011-01-26T14:00:00.000Z",
-                                                "exitPrice": 45.24,
-                                                "profit": 0.5200000000000031,
-                                                "profitPct": 1.1627906976744258,
-                                                "growth": 1.0116279069767442,
-                                                "riskPct": 1.9999999999999942,
-                                                "rmultiple": 0.5813953488372144,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.8256,
-                                                "__index__": 160
-                                            },
-                                            {
-                                                "entryTime": "2011-01-30T14:00:00.000Z",
-                                                "entryPrice": 44.33,
-                                                "exitTime": "2011-02-02T14:00:00.000Z",
-                                                "exitPrice": 45.1,
-                                                "profit": 0.7700000000000031,
-                                                "profitPct": 1.7369727047146473,
-                                                "growth": 1.0173697270471465,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": 0.8684863523573223,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.4434,
-                                                "__index__": 161
-                                            },
-                                            {
-                                                "entryTime": "2011-02-24T14:00:00.000Z",
-                                                "entryPrice": 45.34,
-                                                "exitTime": "2011-02-28T14:00:00.000Z",
-                                                "exitPrice": 46,
-                                                "profit": 0.6599999999999966,
-                                                "profitPct": 1.4556682840758637,
-                                                "growth": 1.0145566828407586,
-                                                "riskPct": 1.9999999999999931,
-                                                "rmultiple": 0.7278341420379343,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 44.43320000000001,
-                                                "__index__": 162
-                                            },
-                                            {
-                                                "entryTime": "2011-03-02T14:00:00.000Z",
-                                                "entryPrice": 45.45,
-                                                "exitTime": "2011-03-06T14:00:00.000Z",
-                                                "exitPrice": 45.89,
-                                                "profit": 0.4399999999999977,
-                                                "profitPct": 0.968096809680963,
-                                                "growth": 1.0096809680968097,
-                                                "riskPct": 1.9999999999999976,
-                                                "rmultiple": 0.4840484048404821,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 44.541000000000004,
-                                                "__index__": 163
-                                            },
-                                            {
-                                                "entryTime": "2011-03-08T14:00:00.000Z",
-                                                "entryPrice": 45.66,
-                                                "exitTime": "2011-03-09T14:00:00.000Z",
-                                                "exitPrice": 44.74679999999999,
-                                                "profit": -0.9132000000000033,
-                                                "profitPct": -2.000000000000007,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 44.74679999999999,
-                                                "__index__": 164
-                                            },
-                                            {
-                                                "entryTime": "2011-03-13T14:00:00.000Z",
-                                                "entryPrice": 43.67,
-                                                "exitTime": "2011-03-14T14:00:00.000Z",
-                                                "exitPrice": 42.796600000000005,
-                                                "profit": -0.8733999999999966,
-                                                "profitPct": -1.999999999999992,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.999999999999992,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 42.796600000000005,
-                                                "__index__": 165
-                                            },
-                                            {
-                                                "entryTime": "2011-03-16T14:00:00.000Z",
-                                                "entryPrice": 42.97,
-                                                "exitTime": "2011-03-29T14:00:00.000Z",
-                                                "exitPrice": 45.45,
-                                                "profit": 2.480000000000004,
-                                                "profitPct": 5.771468466371897,
-                                                "growth": 1.0577146846637189,
-                                                "riskPct": 2.000000000000002,
-                                                "rmultiple": 2.8857342331859455,
-                                                "holdingPeriod": 8,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 42.1106,
-                                                "__index__": 166
-                                            },
-                                            {
-                                                "entryTime": "2011-05-03T14:00:00.000Z",
-                                                "entryPrice": 45.32,
-                                                "exitTime": "2011-05-15T14:00:00.000Z",
-                                                "exitPrice": 44.4136,
-                                                "profit": -0.9063999999999979,
-                                                "profitPct": -1.9999999999999951,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999951,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 44.4136,
-                                                "__index__": 167
-                                            },
-                                            {
-                                                "entryTime": "2011-05-17T14:00:00.000Z",
-                                                "entryPrice": 44.56,
-                                                "exitTime": "2011-06-05T14:00:00.000Z",
-                                                "exitPrice": 43.668800000000005,
-                                                "profit": -0.8911999999999978,
-                                                "profitPct": -1.999999999999995,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.999999999999995,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 12,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 43.668800000000005,
-                                                "__index__": 168
-                                            },
-                                            {
-                                                "entryTime": "2011-06-07T14:00:00.000Z",
-                                                "entryPrice": 43.73,
-                                                "exitTime": "2011-06-15T14:00:00.000Z",
-                                                "exitPrice": 42.855399999999996,
-                                                "profit": -0.8746000000000009,
-                                                "profitPct": -2.000000000000002,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000002,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 42.855399999999996,
-                                                "__index__": 169
-                                            },
-                                            {
-                                                "entryTime": "2011-06-19T14:00:00.000Z",
-                                                "entryPrice": 43.11,
-                                                "exitTime": "2011-06-23T14:00:00.000Z",
-                                                "exitPrice": 42.2478,
-                                                "profit": -0.8622000000000014,
-                                                "profitPct": -2.000000000000003,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 42.2478,
-                                                "__index__": 170
-                                            },
-                                            {
-                                                "entryTime": "2011-06-27T14:00:00.000Z",
-                                                "entryPrice": 42.23,
-                                                "exitTime": "2011-07-10T14:00:00.000Z",
-                                                "exitPrice": 43.09,
-                                                "profit": 0.8600000000000065,
-                                                "profitPct": 2.0364669666114295,
-                                                "growth": 1.0203646696661144,
-                                                "riskPct": 1.9999999999999998,
-                                                "rmultiple": 1.0182334833057147,
-                                                "holdingPeriod": 8,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 41.3854,
-                                                "__index__": 171
-                                            },
-                                            {
-                                                "entryTime": "2011-07-12T14:00:00.000Z",
-                                                "entryPrice": 42.1,
-                                                "exitTime": "2011-07-24T14:00:00.000Z",
-                                                "exitPrice": 42.89,
-                                                "profit": 0.7899999999999991,
-                                                "profitPct": 1.8764845605700693,
-                                                "growth": 1.0187648456057008,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": 0.938242280285036,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 41.258,
-                                                "__index__": 172
-                                            },
-                                            {
-                                                "entryTime": "2011-07-27T14:00:00.000Z",
-                                                "entryPrice": 41.87,
-                                                "exitTime": "2011-08-02T14:00:00.000Z",
-                                                "exitPrice": 41.032599999999995,
-                                                "profit": -0.8374000000000024,
-                                                "profitPct": -2.0000000000000058,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000058,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 41.032599999999995,
-                                                "__index__": 173
-                                            },
-                                            {
-                                                "entryTime": "2011-08-04T14:00:00.000Z",
-                                                "entryPrice": 38.65,
-                                                "exitTime": "2011-08-07T14:00:00.000Z",
-                                                "exitPrice": 37.876999999999995,
-                                                "profit": -0.7730000000000032,
-                                                "profitPct": -2.0000000000000084,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.0000000000000084,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 37.876999999999995,
-                                                "__index__": 174
-                                            },
-                                            {
-                                                "entryTime": "2011-08-09T14:00:00.000Z",
-                                                "entryPrice": 39.1,
-                                                "exitTime": "2011-08-10T14:00:00.000Z",
-                                                "exitPrice": 38.318,
-                                                "profit": -0.7820000000000036,
-                                                "profitPct": -2.000000000000009,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.000000000000009,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 38.318,
-                                                "__index__": 175
-                                            },
-                                            {
-                                                "entryTime": "2011-08-14T14:00:00.000Z",
-                                                "entryPrice": 39.66,
-                                                "exitTime": "2011-08-18T14:00:00.000Z",
-                                                "exitPrice": 38.8668,
-                                                "profit": -0.7931999999999988,
-                                                "profitPct": -1.9999999999999973,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999973,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 38.8668,
-                                                "__index__": 176
-                                            },
-                                            {
-                                                "entryTime": "2011-08-22T14:00:00.000Z",
-                                                "entryPrice": 38.63,
-                                                "exitTime": "2011-08-30T14:00:00.000Z",
-                                                "exitPrice": 40.38,
-                                                "profit": 1.75,
-                                                "profitPct": 4.530157908361377,
-                                                "growth": 1.0453015790836138,
-                                                "riskPct": 1.9999999999999925,
-                                                "rmultiple": 2.265078954180697,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 37.857400000000005,
-                                                "__index__": 177
-                                            },
-                                            {
-                                                "entryTime": "2011-09-05T14:00:00.000Z",
-                                                "entryPrice": 38.8,
-                                                "exitTime": "2011-09-08T14:00:00.000Z",
-                                                "exitPrice": 39.67,
-                                                "profit": 0.8700000000000045,
-                                                "profitPct": 2.2422680412371254,
-                                                "growth": 1.0224226804123713,
-                                                "riskPct": 2.000000000000009,
-                                                "rmultiple": 1.1211340206185578,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 38.023999999999994,
-                                                "__index__": 178
-                                            },
-                                            {
-                                                "entryTime": "2011-09-12T14:00:00.000Z",
-                                                "entryPrice": 38.69,
-                                                "exitTime": "2011-09-18T14:00:00.000Z",
-                                                "exitPrice": 39.07,
-                                                "profit": 0.38000000000000256,
-                                                "profitPct": 0.9821659343499678,
-                                                "growth": 1.0098216593434997,
-                                                "riskPct": 2.0000000000000036,
-                                                "rmultiple": 0.49108296717498306,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 37.916199999999996,
-                                                "__index__": 179
-                                            },
-                                            {
-                                                "entryTime": "2011-09-20T14:00:00.000Z",
-                                                "entryPrice": 38.66,
-                                                "exitTime": "2011-09-21T14:00:00.000Z",
-                                                "exitPrice": 37.886799999999994,
-                                                "profit": -0.7732000000000028,
-                                                "profitPct": -2.000000000000007,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 37.886799999999994,
-                                                "__index__": 180
-                                            },
-                                            {
-                                                "entryTime": "2011-09-25T14:00:00.000Z",
-                                                "entryPrice": 37.58,
-                                                "exitTime": "2011-10-03T14:00:00.000Z",
-                                                "exitPrice": 36.828399999999995,
-                                                "profit": -0.7516000000000034,
-                                                "profitPct": -2.000000000000009,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.000000000000009,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 36.828399999999995,
-                                                "__index__": 181
-                                            },
-                                            {
-                                                "entryTime": "2011-10-05T14:00:00.000Z",
-                                                "entryPrice": 37.83,
-                                                "exitTime": "2011-10-09T14:00:00.000Z",
-                                                "exitPrice": 39.52,
-                                                "profit": 1.6900000000000048,
-                                                "profitPct": 4.467353951890048,
-                                                "growth": 1.0446735395189004,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": 2.233676975945027,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 37.0734,
-                                                "__index__": 182
-                                            },
-                                            {
-                                                "entryTime": "2011-11-20T14:00:00.000Z",
-                                                "entryPrice": 39.88,
-                                                "exitTime": "2011-11-22T14:00:00.000Z",
-                                                "exitPrice": 39.0824,
-                                                "profit": -0.7976000000000028,
-                                                "profitPct": -2.0000000000000067,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000067,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 39.0824,
-                                                "__index__": 183
-                                            },
-                                            {
-                                                "entryTime": "2011-11-24T14:00:00.000Z",
-                                                "entryPrice": 38.51,
-                                                "exitTime": "2011-12-01T14:00:00.000Z",
-                                                "exitPrice": 39.99,
-                                                "profit": 1.480000000000004,
-                                                "profitPct": 3.8431576213970504,
-                                                "growth": 1.0384315762139704,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": 1.9215788106985183,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 37.739799999999995,
-                                                "__index__": 184
-                                            },
-                                            {
-                                                "entryTime": "2011-12-11T14:00:00.000Z",
-                                                "entryPrice": 40.79,
-                                                "exitTime": "2011-12-13T14:00:00.000Z",
-                                                "exitPrice": 39.974199999999996,
-                                                "profit": -0.815800000000003,
-                                                "profitPct": -2.000000000000007,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 39.974199999999996,
-                                                "__index__": 185
-                                            },
-                                            {
-                                                "entryTime": "2011-12-15T14:00:00.000Z",
-                                                "entryPrice": 39.85,
-                                                "exitTime": "2011-12-18T14:00:00.000Z",
-                                                "exitPrice": 39.053000000000004,
-                                                "profit": -0.796999999999997,
-                                                "profitPct": -1.9999999999999925,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999925,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 39.053000000000004,
-                                                "__index__": 186
-                                            },
-                                            {
-                                                "entryTime": "2011-12-20T14:00:00.000Z",
-                                                "entryPrice": 39.5,
-                                                "exitTime": "2011-12-21T14:00:00.000Z",
-                                                "exitPrice": 38.71,
-                                                "profit": -0.7899999999999991,
-                                                "profitPct": -1.999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 38.71,
-                                                "__index__": 187
-                                            },
-                                            {
-                                                "entryTime": "2011-12-27T14:00:00.000Z",
-                                                "entryPrice": 38.66,
-                                                "exitTime": "2011-12-28T14:00:00.000Z",
-                                                "exitPrice": 37.886799999999994,
-                                                "profit": -0.7732000000000028,
-                                                "profitPct": -2.000000000000007,
-                                                "growth": 0.9799999999999999,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 37.886799999999994,
-                                                "__index__": 188
-                                            },
-                                            {
-                                                "entryTime": "2012-01-02T14:00:00.000Z",
-                                                "entryPrice": 38.16,
-                                                "exitTime": "2012-01-18T14:00:00.000Z",
-                                                "exitPrice": 39.6,
-                                                "profit": 1.4400000000000048,
-                                                "profitPct": 3.7735849056603903,
-                                                "growth": 1.037735849056604,
-                                                "riskPct": 1.9999999999999942,
-                                                "rmultiple": 1.8867924528302007,
-                                                "holdingPeriod": 11,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 37.3968,
-                                                "__index__": 189
-                                            },
-                                            {
-                                                "entryTime": "2012-02-16T14:00:00.000Z",
-                                                "entryPrice": 39.23,
-                                                "exitTime": "2012-02-20T14:00:00.000Z",
-                                                "exitPrice": 39.9,
-                                                "profit": 0.6700000000000017,
-                                                "profitPct": 1.7078766250318678,
-                                                "growth": 1.0170787662503187,
-                                                "riskPct": 1.9999999999999938,
-                                                "rmultiple": 0.8539383125159365,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 38.4454,
-                                                "__index__": 190
-                                            },
-                                            {
-                                                "entryTime": "2012-03-06T14:00:00.000Z",
-                                                "entryPrice": 39.23,
-                                                "exitTime": "2012-03-13T14:00:00.000Z",
-                                                "exitPrice": 40.55,
-                                                "profit": 1.3200000000000003,
-                                                "profitPct": 3.364771858271732,
-                                                "growth": 1.0336477185827173,
-                                                "riskPct": 1.9999999999999938,
-                                                "rmultiple": 1.6823859291358711,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 38.4454,
-                                                "__index__": 191
-                                            },
-                                            {
-                                                "entryTime": "2012-04-11T14:00:00.000Z",
-                                                "entryPrice": 40.22,
-                                                "exitTime": "2012-04-15T14:00:00.000Z",
-                                                "exitPrice": 40.56,
-                                                "profit": 0.3400000000000034,
-                                                "profitPct": 0.8453505718548072,
-                                                "growth": 1.008453505718548,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": 0.42267528592740294,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 39.4156,
-                                                "__index__": 192
-                                            },
-                                            {
-                                                "entryTime": "2012-05-07T14:00:00.000Z",
-                                                "entryPrice": 40.9,
-                                                "exitTime": "2012-05-15T14:00:00.000Z",
-                                                "exitPrice": 40.082,
-                                                "profit": -0.8179999999999978,
-                                                "profitPct": -1.999999999999995,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.999999999999995,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 40.082,
-                                                "__index__": 193
-                                            },
-                                            {
-                                                "entryTime": "2012-05-17T14:00:00.000Z",
-                                                "entryPrice": 38.92,
-                                                "exitTime": "2012-06-03T14:00:00.000Z",
-                                                "exitPrice": 38.141600000000004,
-                                                "profit": -0.7783999999999978,
-                                                "profitPct": -1.9999999999999942,
-                                                "growth": 0.9800000000000001,
-                                                "riskPct": 1.9999999999999942,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 10,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 38.141600000000004,
-                                                "__index__": 194
-                                            },
-                                            {
-                                                "entryTime": "2012-06-05T14:00:00.000Z",
-                                                "entryPrice": 38.63,
-                                                "exitTime": "2012-06-18T14:00:00.000Z",
-                                                "exitPrice": 39.02,
-                                                "profit": 0.39000000000000057,
-                                                "profitPct": 1.0095780481491083,
-                                                "growth": 1.0100957804814912,
-                                                "riskPct": 1.9999999999999925,
-                                                "rmultiple": 0.5047890240745561,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 37.857400000000005,
-                                                "__index__": 195
-                                            },
-                                            {
-                                                "entryTime": "2012-06-24T14:00:00.000Z",
-                                                "entryPrice": 38,
-                                                "exitTime": "2012-07-02T14:00:00.000Z",
-                                                "exitPrice": 38.7,
-                                                "profit": 0.7000000000000028,
-                                                "profitPct": 1.8421052631579022,
-                                                "growth": 1.0184210526315791,
-                                                "riskPct": 1.999999999999995,
-                                                "rmultiple": 0.9210526315789536,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 37.24,
-                                                "__index__": 196
-                                            },
-                                            {
-                                                "entryTime": "2012-07-10T14:00:00.000Z",
-                                                "entryPrice": 38.39,
-                                                "exitTime": "2012-07-17T14:00:00.000Z",
-                                                "exitPrice": 38.76,
-                                                "profit": 0.36999999999999744,
-                                                "profitPct": 0.9637926543370603,
-                                                "growth": 1.0096379265433706,
-                                                "riskPct": 2.0000000000000027,
-                                                "rmultiple": 0.4818963271685294,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 37.6222,
-                                                "__index__": 197
-                                            },
-                                            {
-                                                "entryTime": "2012-11-01T14:00:00.000Z",
-                                                "entryPrice": 42.62,
-                                                "exitTime": "2012-11-06T14:00:00.000Z",
-                                                "exitPrice": 42.75,
-                                                "profit": 0.13000000000000256,
-                                                "profitPct": 0.3050211168465569,
-                                                "growth": 1.0030502111684656,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": 0.15251055842327793,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 41.767599999999995,
-                                                "__index__": 198
-                                            },
-                                            {
-                                                "entryTime": "2012-11-11T14:00:00.000Z",
-                                                "entryPrice": 42.32,
-                                                "exitTime": "2012-11-15T14:00:00.000Z",
-                                                "exitPrice": 41.4736,
-                                                "profit": -0.8464000000000027,
-                                                "profitPct": -2.000000000000006,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000006,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 41.4736,
-                                                "__index__": 199
-                                            },
-                                            {
-                                                "entryTime": "2012-11-19T14:00:00.000Z",
-                                                "entryPrice": 41.94,
-                                                "exitTime": "2012-11-27T14:00:00.000Z",
-                                                "exitPrice": 42.67,
-                                                "profit": 0.730000000000004,
-                                                "profitPct": 1.7405817835002482,
-                                                "growth": 1.0174058178350025,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": 0.8702908917501249,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 41.1012,
-                                                "__index__": 200
-                                            },
-                                            {
-                                                "entryTime": "2013-03-19T14:00:00.000Z",
-                                                "entryPrice": 46.81,
-                                                "exitTime": "2013-04-14T14:00:00.000Z",
-                                                "exitPrice": 47.14,
-                                                "profit": 0.3299999999999983,
-                                                "profitPct": 0.7049775688955315,
-                                                "growth": 1.0070497756889554,
-                                                "riskPct": 1.9999999999999987,
-                                                "rmultiple": 0.35248878444776593,
-                                                "holdingPeriod": 15,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 45.8738,
-                                                "__index__": 201
-                                            },
-                                            {
-                                                "entryTime": "2013-04-16T14:00:00.000Z",
-                                                "entryPrice": 47.04,
-                                                "exitTime": "2013-04-23T14:00:00.000Z",
-                                                "exitPrice": 47.64,
-                                                "profit": 0.6000000000000014,
-                                                "profitPct": 1.2755102040816357,
-                                                "growth": 1.0127551020408163,
-                                                "riskPct": 2.000000000000006,
-                                                "rmultiple": 0.6377551020408159,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 46.099199999999996,
-                                                "__index__": 202
-                                            },
-                                            {
-                                                "entryTime": "2013-05-23T14:00:00.000Z",
-                                                "entryPrice": 48.28,
-                                                "exitTime": "2013-05-26T14:00:00.000Z",
-                                                "exitPrice": 47.3144,
-                                                "profit": -0.965600000000002,
-                                                "profitPct": -2.000000000000004,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000004,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 47.3144,
-                                                "__index__": 203
-                                            },
-                                            {
-                                                "entryTime": "2013-05-28T14:00:00.000Z",
-                                                "entryPrice": 47.29,
-                                                "exitTime": "2013-06-03T14:00:00.000Z",
-                                                "exitPrice": 46.3442,
-                                                "profit": -0.9457999999999984,
-                                                "profitPct": -1.9999999999999967,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999967,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 46.3442,
-                                                "__index__": 204
-                                            },
-                                            {
-                                                "entryTime": "2013-06-05T14:00:00.000Z",
-                                                "entryPrice": 45.53,
-                                                "exitTime": "2013-06-12T14:00:00.000Z",
-                                                "exitPrice": 44.6194,
-                                                "profit": -0.9106000000000023,
-                                                "profitPct": -2.000000000000005,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000005,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 44.6194,
-                                                "__index__": 205
-                                            },
-                                            {
-                                                "entryTime": "2013-06-16T14:00:00.000Z",
-                                                "entryPrice": 45.23,
-                                                "exitTime": "2013-06-23T14:00:00.000Z",
-                                                "exitPrice": 44.325399999999995,
-                                                "profit": -0.9046000000000021,
-                                                "profitPct": -2.0000000000000044,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000044,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 44.325399999999995,
-                                                "__index__": 206
-                                            },
-                                            {
-                                                "entryTime": "2013-06-25T14:00:00.000Z",
-                                                "entryPrice": 43.88,
-                                                "exitTime": "2013-07-09T14:00:00.000Z",
-                                                "exitPrice": 45.77,
-                                                "profit": 1.8900000000000006,
-                                                "profitPct": 4.307201458523247,
-                                                "growth": 1.0430720145852324,
-                                                "riskPct": 2.000000000000002,
-                                                "rmultiple": 2.153600729261621,
-                                                "holdingPeriod": 9,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 43.0024,
-                                                "__index__": 207
-                                            },
-                                            {
-                                                "entryTime": "2013-10-07T14:00:00.000Z",
-                                                "entryPrice": 48.81,
-                                                "exitTime": "2013-10-13T14:00:00.000Z",
-                                                "exitPrice": 49.51,
-                                                "profit": 0.6999999999999957,
-                                                "profitPct": 1.4341323499282845,
-                                                "growth": 1.0143413234992829,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": 0.7170661749641434,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 47.833800000000004,
-                                                "__index__": 208
-                                            },
-                                            {
-                                                "entryTime": "2013-11-20T14:00:00.000Z",
-                                                "entryPrice": 50.34,
-                                                "exitTime": "2013-11-25T14:00:00.000Z",
-                                                "exitPrice": 51.11,
-                                                "profit": 0.769999999999996,
-                                                "profitPct": 1.5295987286452044,
-                                                "growth": 1.015295987286452,
-                                                "riskPct": 1.9999999999999967,
-                                                "rmultiple": 0.7647993643226035,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 49.333200000000005,
-                                                "__index__": 209
-                                            },
-                                            {
-                                                "entryTime": "2013-11-27T14:00:00.000Z",
-                                                "entryPrice": 51.1,
-                                                "exitTime": "2013-12-02T14:00:00.000Z",
-                                                "exitPrice": 50.078,
-                                                "profit": -1.0219999999999985,
-                                                "profitPct": -1.999999999999997,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 50.078,
-                                                "__index__": 210
-                                            },
-                                            {
-                                                "entryTime": "2013-12-04T14:00:00.000Z",
-                                                "entryPrice": 50.17,
-                                                "exitTime": "2013-12-05T14:00:00.000Z",
-                                                "exitPrice": 49.1666,
-                                                "profit": -1.0033999999999992,
-                                                "profitPct": -1.9999999999999982,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999982,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 0,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 49.1666,
-                                                "__index__": 211
-                                            },
-                                            {
-                                                "entryTime": "2013-12-09T14:00:00.000Z",
-                                                "entryPrice": 49.26,
-                                                "exitTime": "2013-12-11T14:00:00.000Z",
-                                                "exitPrice": 48.2748,
-                                                "profit": -0.985199999999999,
-                                                "profitPct": -1.999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 48.2748,
-                                                "__index__": 212
-                                            },
-                                            {
-                                                "entryTime": "2013-12-15T14:00:00.000Z",
-                                                "entryPrice": 48.5,
-                                                "exitTime": "2013-12-22T14:00:00.000Z",
-                                                "exitPrice": 49.03,
-                                                "profit": 0.5300000000000011,
-                                                "profitPct": 1.0927835051546415,
-                                                "growth": 1.0109278350515465,
-                                                "riskPct": 1.9999999999999976,
-                                                "rmultiple": 0.5463917525773214,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 47.53,
-                                                "__index__": 213
-                                            },
-                                            {
-                                                "entryTime": "2013-12-26T14:00:00.000Z",
-                                                "entryPrice": 49.89,
-                                                "exitTime": "2014-01-02T14:00:00.000Z",
-                                                "exitPrice": 49.8,
-                                                "profit": -0.09000000000000341,
-                                                "profitPct": -0.18039687312087274,
-                                                "growth": 0.9981960312687913,
-                                                "riskPct": 1.9999999999999958,
-                                                "rmultiple": -0.09019843656043655,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 48.8922,
-                                                "__index__": 214
-                                            },
-                                            {
-                                                "entryTime": "2014-01-06T14:00:00.000Z",
-                                                "entryPrice": 49.67,
-                                                "exitTime": "2014-01-13T14:00:00.000Z",
-                                                "exitPrice": 48.6766,
-                                                "profit": -0.9934000000000012,
-                                                "profitPct": -2.000000000000002,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000002,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 48.6766,
-                                                "__index__": 215
-                                            },
-                                            {
-                                                "entryTime": "2014-01-15T14:00:00.000Z",
-                                                "entryPrice": 48.85,
-                                                "exitTime": "2014-01-19T14:00:00.000Z",
-                                                "exitPrice": 49.43,
-                                                "profit": 0.5799999999999983,
-                                                "profitPct": 1.1873080859774785,
-                                                "growth": 1.0118730808597747,
-                                                "riskPct": 1.9999999999999933,
-                                                "rmultiple": 0.5936540429887412,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 47.873000000000005,
-                                                "__index__": 216
-                                            },
-                                            {
-                                                "entryTime": "2014-01-23T14:00:00.000Z",
-                                                "entryPrice": 48.8,
-                                                "exitTime": "2014-02-03T14:00:00.000Z",
-                                                "exitPrice": 47.824,
-                                                "profit": -0.9759999999999991,
-                                                "profitPct": -1.9999999999999982,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999982,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 47.824,
-                                                "__index__": 217
-                                            },
-                                            {
-                                                "entryTime": "2014-02-05T14:00:00.000Z",
-                                                "entryPrice": 47.33,
-                                                "exitTime": "2014-02-11T14:00:00.000Z",
-                                                "exitPrice": 49.27,
-                                                "profit": 1.9400000000000048,
-                                                "profitPct": 4.098880202831196,
-                                                "growth": 1.040988802028312,
-                                                "riskPct": 1.9999999999999927,
-                                                "rmultiple": 2.0494401014156054,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 46.3834,
-                                                "__index__": 218
-                                            },
-                                            {
-                                                "entryTime": "2014-03-20T14:00:00.000Z",
-                                                "entryPrice": 50.08,
-                                                "exitTime": "2014-03-26T14:00:00.000Z",
-                                                "exitPrice": 50.16,
-                                                "profit": 0.0799999999999983,
-                                                "profitPct": 0.1597444089456835,
-                                                "growth": 1.0015974440894568,
-                                                "riskPct": 2.000000000000007,
-                                                "rmultiple": 0.07987220447284148,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 49.078399999999995,
-                                                "__index__": 219
-                                            },
-                                            {
-                                                "entryTime": "2014-03-30T14:00:00.000Z",
-                                                "entryPrice": 50.77,
-                                                "exitTime": "2014-04-01T14:00:00.000Z",
-                                                "exitPrice": 50.95,
-                                                "profit": 0.17999999999999972,
-                                                "profitPct": 0.3545400827260187,
-                                                "growth": 1.0035454008272602,
-                                                "riskPct": 1.9999999999999991,
-                                                "rmultiple": 0.17727004136300945,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 49.7546,
-                                                "__index__": 220
-                                            },
-                                            {
-                                                "entryTime": "2014-04-14T14:00:00.000Z",
-                                                "entryPrice": 50.65,
-                                                "exitTime": "2014-04-16T14:00:00.000Z",
-                                                "exitPrice": 51.08,
-                                                "profit": 0.4299999999999997,
-                                                "profitPct": 0.8489634748272452,
-                                                "growth": 1.0084896347482724,
-                                                "riskPct": 1.9999999999999962,
-                                                "rmultiple": 0.4244817374136234,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 49.637,
-                                                "__index__": 221
-                                            },
-                                            {
-                                                "entryTime": "2014-05-19T14:00:00.000Z",
-                                                "entryPrice": 51.4,
-                                                "exitTime": "2014-05-22T14:00:00.000Z",
-                                                "exitPrice": 52.01,
-                                                "profit": 0.6099999999999994,
-                                                "profitPct": 1.186770428015563,
-                                                "growth": 1.0118677042801556,
-                                                "riskPct": 1.9999999999999976,
-                                                "rmultiple": 0.5933852140077823,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 50.372,
-                                                "__index__": 222
-                                            },
-                                            {
-                                                "entryTime": "2014-06-04T14:00:00.000Z",
-                                                "entryPrice": 51.64,
-                                                "exitTime": "2014-06-09T14:00:00.000Z",
-                                                "exitPrice": 52.08,
-                                                "profit": 0.4399999999999977,
-                                                "profitPct": 0.8520526723470133,
-                                                "growth": 1.00852052672347,
-                                                "riskPct": 2.000000000000003,
-                                                "rmultiple": 0.426026336173506,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 50.6072,
-                                                "__index__": 223
-                                            },
-                                            {
-                                                "entryTime": "2014-06-11T14:00:00.000Z",
-                                                "entryPrice": 51.52,
-                                                "exitTime": "2014-06-19T14:00:00.000Z",
-                                                "exitPrice": 51.59,
-                                                "profit": 0.07000000000000028,
-                                                "profitPct": 0.13586956521739185,
-                                                "growth": 1.0013586956521738,
-                                                "riskPct": 2.0000000000000004,
-                                                "rmultiple": 0.06793478260869591,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 50.4896,
-                                                "__index__": 224
-                                            },
-                                            {
-                                                "entryTime": "2014-06-23T14:00:00.000Z",
-                                                "entryPrice": 51.55,
-                                                "exitTime": "2014-06-25T14:00:00.000Z",
-                                                "exitPrice": 50.519,
-                                                "profit": -1.0309999999999988,
-                                                "profitPct": -1.999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 50.519,
-                                                "__index__": 225
-                                            },
-                                            {
-                                                "entryTime": "2014-06-29T14:00:00.000Z",
-                                                "entryPrice": 50.65,
-                                                "exitTime": "2014-07-14T14:00:00.000Z",
-                                                "exitPrice": 51.52,
-                                                "profit": 0.8700000000000045,
-                                                "profitPct": 1.7176702862783901,
-                                                "growth": 1.0171767028627838,
-                                                "riskPct": 1.9999999999999962,
-                                                "rmultiple": 0.8588351431391966,
-                                                "holdingPeriod": 10,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 49.637,
-                                                "__index__": 226
-                                            },
-                                            {
-                                                "entryTime": "2014-08-05T14:00:00.000Z",
-                                                "entryPrice": 51.25,
-                                                "exitTime": "2014-08-12T14:00:00.000Z",
-                                                "exitPrice": 51.36,
-                                                "profit": 0.10999999999999943,
-                                                "profitPct": 0.2146341463414623,
-                                                "growth": 1.0021463414634146,
-                                                "riskPct": 1.9999999999999973,
-                                                "rmultiple": 0.1073170731707313,
-                                                "holdingPeriod": 4,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 50.225,
-                                                "__index__": 227
-                                            },
-                                            {
-                                                "entryTime": "2014-09-14T14:00:00.000Z",
-                                                "entryPrice": 51.81,
-                                                "exitTime": "2014-09-17T14:00:00.000Z",
-                                                "exitPrice": 50.7738,
-                                                "profit": -1.036200000000001,
-                                                "profitPct": -2.0000000000000018,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000018,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 50.7738,
-                                                "__index__": 228
-                                            },
-                                            {
-                                                "entryTime": "2014-09-21T14:00:00.000Z",
-                                                "entryPrice": 51.23,
-                                                "exitTime": "2014-09-25T14:00:00.000Z",
-                                                "exitPrice": 50.2054,
-                                                "profit": -1.0245999999999995,
-                                                "profitPct": -1.9999999999999991,
-                                                "growth": 0.98,
-                                                "riskPct": 1.9999999999999991,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 3,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 50.2054,
-                                                "__index__": 229
-                                            },
-                                            {
-                                                "entryTime": "2014-09-29T14:00:00.000Z",
-                                                "entryPrice": 49.65,
-                                                "exitTime": "2014-10-12T14:00:00.000Z",
-                                                "exitPrice": 48.657,
-                                                "profit": -0.9930000000000021,
-                                                "profitPct": -2.000000000000004,
-                                                "growth": 0.98,
-                                                "riskPct": 2.000000000000004,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 8,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 48.657,
-                                                "__index__": 230
-                                            },
-                                            {
-                                                "entryTime": "2014-10-14T14:00:00.000Z",
-                                                "entryPrice": 49.16,
-                                                "exitTime": "2014-10-22T14:00:00.000Z",
-                                                "exitPrice": 50.64,
-                                                "profit": 1.480000000000004,
-                                                "profitPct": 3.010577705451595,
-                                                "growth": 1.030105777054516,
-                                                "riskPct": 1.9999999999999931,
-                                                "rmultiple": 1.5052888527258026,
-                                                "holdingPeriod": 5,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 48.1768,
-                                                "__index__": 231
-                                            },
-                                            {
-                                                "entryTime": "2014-11-19T14:00:00.000Z",
-                                                "entryPrice": 50.85,
-                                                "exitTime": "2014-11-30T14:00:00.000Z",
-                                                "exitPrice": 49.833,
-                                                "profit": -1.017000000000003,
-                                                "profitPct": -2.0000000000000058,
-                                                "growth": 0.98,
-                                                "riskPct": 2.0000000000000058,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 6,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 49.833,
-                                                "__index__": 232
-                                            },
-                                            {
-                                                "entryTime": "2014-12-02T14:00:00.000Z",
-                                                "entryPrice": 50.02,
-                                                "exitTime": "2014-12-14T14:00:00.000Z",
-                                                "exitPrice": 49.019600000000004,
-                                                "profit": -1.000399999999999,
-                                                "profitPct": -1.999999999999998,
-                                                "growth": 0.98,
-                                                "riskPct": 1.999999999999998,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 7,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 49.019600000000004,
-                                                "__index__": 233
-                                            },
-                                            {
-                                                "entryTime": "2014-12-16T14:00:00.000Z",
-                                                "entryPrice": 48.96,
-                                                "exitTime": "2014-12-21T14:00:00.000Z",
-                                                "exitPrice": 50.97,
-                                                "profit": 2.009999999999998,
-                                                "profitPct": 4.105392156862741,
-                                                "growth": 1.0410539215686274,
-                                                "riskPct": 1.9999999999999973,
-                                                "rmultiple": 2.052696078431373,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 47.9808,
-                                                "__index__": 234
-                                            },
-                                            {
-                                                "entryTime": "2014-12-30T14:00:00.000Z",
-                                                "entryPrice": 50.01,
-                                                "exitTime": "2015-01-04T14:00:00.000Z",
-                                                "exitPrice": 50.69,
-                                                "profit": 0.6799999999999997,
-                                                "profitPct": 1.3597280543891217,
-                                                "growth": 1.0135972805438913,
-                                                "riskPct": 1.9999999999999991,
-                                                "rmultiple": 0.6798640271945611,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 49.0098,
-                                                "__index__": 235
-                                            },
-                                            {
-                                                "entryTime": "2015-01-06T14:00:00.000Z",
-                                                "entryPrice": 49.88,
-                                                "exitTime": "2015-01-11T14:00:00.000Z",
-                                                "exitPrice": 50.26,
-                                                "profit": 0.37999999999999545,
-                                                "profitPct": 0.7618283881315066,
-                                                "growth": 1.007618283881315,
-                                                "riskPct": 1.999999999999997,
-                                                "rmultiple": 0.38091419406575383,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 48.882400000000004,
-                                                "__index__": 236
-                                            },
-                                            {
-                                                "entryTime": "2015-01-13T14:00:00.000Z",
-                                                "entryPrice": 50,
-                                                "exitTime": "2015-01-15T14:00:00.000Z",
-                                                "exitPrice": 49,
-                                                "profit": -1,
-                                                "profitPct": -2,
-                                                "growth": 0.98,
-                                                "riskPct": 2,
-                                                "rmultiple": -1,
-                                                "holdingPeriod": 1,
-                                                "exitReason": "stop-loss",
-                                                "stopPrice": 49,
-                                                "__index__": 237
-                                            },
-                                            {
-                                                "entryTime": "2015-01-19T14:00:00.000Z",
-                                                "entryPrice": 49.24,
-                                                "exitTime": "2015-01-22T14:00:00.000Z",
-                                                "exitPrice": 50.78,
-                                                "profit": 1.5399999999999991,
-                                                "profitPct": 3.1275385865150267,
-                                                "growth": 1.0312753858651502,
-                                                "riskPct": 1.9999999999999998,
-                                                "rmultiple": 1.5637692932575136,
-                                                "holdingPeriod": 2,
-                                                "exitReason": "exit-rule",
-                                                "stopPrice": 48.2552,
-                                                "__index__": 238
-                                            },
                                             {
                                                 "entryTime": "2015-03-11T14:00:00.000Z",
                                                 "entryPrice": 54.17,
@@ -6614,7 +2791,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 53.086600000000004,
-                                                "__index__": 239
+                                                "__index__": 0
                                             },
                                             {
                                                 "entryTime": "2015-03-30T14:00:00.000Z",
@@ -6629,7 +2806,7 @@ const notebook = {
                                                 "holdingPeriod": 2,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 54.39,
-                                                "__index__": 240
+                                                "__index__": 1
                                             },
                                             {
                                                 "entryTime": "2015-04-19T14:00:00.000Z",
@@ -6644,7 +2821,7 @@ const notebook = {
                                                 "holdingPeriod": 4,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 53.8902,
-                                                "__index__": 241
+                                                "__index__": 2
                                             },
                                             {
                                                 "entryTime": "2015-04-29T14:00:00.000Z",
@@ -6659,7 +2836,7 @@ const notebook = {
                                                 "holdingPeriod": 4,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 53.282599999999995,
-                                                "__index__": 242
+                                                "__index__": 3
                                             },
                                             {
                                                 "entryTime": "2015-05-10T14:00:00.000Z",
@@ -6674,7 +2851,7 @@ const notebook = {
                                                 "holdingPeriod": 11,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.332,
-                                                "__index__": 243
+                                                "__index__": 4
                                             },
                                             {
                                                 "entryTime": "2015-05-28T14:00:00.000Z",
@@ -6689,7 +2866,7 @@ const notebook = {
                                                 "holdingPeriod": 2,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 53.1748,
-                                                "__index__": 244
+                                                "__index__": 5
                                             },
                                             {
                                                 "entryTime": "2015-06-04T14:00:00.000Z",
@@ -6704,7 +2881,7 @@ const notebook = {
                                                 "holdingPeriod": 11,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 50.803200000000004,
-                                                "__index__": 245
+                                                "__index__": 6
                                             },
                                             {
                                                 "entryTime": "2015-06-28T14:00:00.000Z",
@@ -6719,7 +2896,7 @@ const notebook = {
                                                 "holdingPeriod": 0,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 50.4896,
-                                                "__index__": 246
+                                                "__index__": 7
                                             },
                                             {
                                                 "entryTime": "2015-07-01T14:00:00.000Z",
@@ -6734,7 +2911,7 @@ const notebook = {
                                                 "holdingPeriod": 4,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 50.6464,
-                                                "__index__": 247
+                                                "__index__": 8
                                             },
                                             {
                                                 "entryTime": "2015-07-12T14:00:00.000Z",
@@ -6749,7 +2926,7 @@ const notebook = {
                                                 "holdingPeriod": 2,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 50.254400000000004,
-                                                "__index__": 248
+                                                "__index__": 9
                                             },
                                             {
                                                 "entryTime": "2015-07-23T14:00:00.000Z",
@@ -6764,7 +2941,7 @@ const notebook = {
                                                 "holdingPeriod": 3,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 50.8326,
-                                                "__index__": 249
+                                                "__index__": 10
                                             },
                                             {
                                                 "entryTime": "2015-08-09T14:00:00.000Z",
@@ -6779,7 +2956,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 49.970200000000006,
-                                                "__index__": 250
+                                                "__index__": 11
                                             },
                                             {
                                                 "entryTime": "2015-08-13T14:00:00.000Z",
@@ -6794,7 +2971,7 @@ const notebook = {
                                                 "holdingPeriod": 4,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 49.2156,
-                                                "__index__": 251
+                                                "__index__": 12
                                             },
                                             {
                                                 "entryTime": "2015-08-24T14:00:00.000Z",
@@ -6809,7 +2986,7 @@ const notebook = {
                                                 "holdingPeriod": 18,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 44.8154,
-                                                "__index__": 252
+                                                "__index__": 13
                                             },
                                             {
                                                 "entryTime": "2015-09-22T14:00:00.000Z",
@@ -6824,7 +3001,7 @@ const notebook = {
                                                 "holdingPeriod": 3,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 46.6872,
-                                                "__index__": 253
+                                                "__index__": 14
                                             },
                                             {
                                                 "entryTime": "2015-09-30T14:00:00.000Z",
@@ -6839,7 +3016,7 @@ const notebook = {
                                                 "holdingPeriod": 2,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 46.7362,
-                                                "__index__": 254
+                                                "__index__": 15
                                             },
                                             {
                                                 "entryTime": "2015-11-02T14:00:00.000Z",
@@ -6854,7 +3031,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 48.3924,
-                                                "__index__": 255
+                                                "__index__": 16
                                             },
                                             {
                                                 "entryTime": "2015-11-09T14:00:00.000Z",
@@ -6869,7 +3046,7 @@ const notebook = {
                                                 "holdingPeriod": 3,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 47.5202,
-                                                "__index__": 256
+                                                "__index__": 17
                                             },
                                             {
                                                 "entryTime": "2015-11-17T14:00:00.000Z",
@@ -6884,7 +3061,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 47.5888,
-                                                "__index__": 257
+                                                "__index__": 18
                                             },
                                             {
                                                 "entryTime": "2015-11-30T14:00:00.000Z",
@@ -6899,7 +3076,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 48.2944,
-                                                "__index__": 258
+                                                "__index__": 19
                                             },
                                             {
                                                 "entryTime": "2015-12-06T14:00:00.000Z",
@@ -6914,7 +3091,7 @@ const notebook = {
                                                 "holdingPeriod": 0,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 48.8922,
-                                                "__index__": 259
+                                                "__index__": 20
                                             },
                                             {
                                                 "entryTime": "2015-12-09T14:00:00.000Z",
@@ -6929,7 +3106,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 47.3536,
-                                                "__index__": 260
+                                                "__index__": 21
                                             },
                                             {
                                                 "entryTime": "2015-12-15T14:00:00.000Z",
@@ -6944,7 +3121,7 @@ const notebook = {
                                                 "holdingPeriod": 5,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 46.3736,
-                                                "__index__": 261
+                                                "__index__": 22
                                             },
                                             {
                                                 "entryTime": "2016-01-05T14:00:00.000Z",
@@ -6959,7 +3136,7 @@ const notebook = {
                                                 "holdingPeriod": 0,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 47.677,
-                                                "__index__": 262
+                                                "__index__": 23
                                             },
                                             {
                                                 "entryTime": "2016-01-10T14:00:00.000Z",
@@ -6974,7 +3151,7 @@ const notebook = {
                                                 "holdingPeriod": 4,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 44.9428,
-                                                "__index__": 263
+                                                "__index__": 24
                                             },
                                             {
                                                 "entryTime": "2016-01-19T14:00:00.000Z",
@@ -6989,7 +3166,7 @@ const notebook = {
                                                 "holdingPeriod": 13,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 44.786,
-                                                "__index__": 264
+                                                "__index__": 25
                                             },
                                             {
                                                 "entryTime": "2016-02-11T14:00:00.000Z",
@@ -7004,7 +3181,7 @@ const notebook = {
                                                 "holdingPeriod": 4,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 43.7374,
-                                                "__index__": 265
+                                                "__index__": 26
                                             },
                                             {
                                                 "entryTime": "2016-02-24T14:00:00.000Z",
@@ -7019,7 +3196,7 @@ const notebook = {
                                                 "holdingPeriod": 3,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 45.1584,
-                                                "__index__": 266
+                                                "__index__": 27
                                             },
                                             {
                                                 "entryTime": "2016-03-29T14:00:00.000Z",
@@ -7034,7 +3211,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 46.7754,
-                                                "__index__": 267
+                                                "__index__": 28
                                             },
                                             {
                                                 "entryTime": "2016-04-04T14:00:00.000Z",
@@ -7049,7 +3226,7 @@ const notebook = {
                                                 "holdingPeriod": 7,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 46.207,
-                                                "__index__": 268
+                                                "__index__": 29
                                             },
                                             {
                                                 "entryTime": "2016-06-02T14:00:00.000Z",
@@ -7064,7 +3241,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 49.5782,
-                                                "__index__": 269
+                                                "__index__": 30
                                             },
                                             {
                                                 "entryTime": "2016-06-13T14:00:00.000Z",
@@ -7079,7 +3256,7 @@ const notebook = {
                                                 "holdingPeriod": 7,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 48.7648,
-                                                "__index__": 270
+                                                "__index__": 31
                                             },
                                             {
                                                 "entryTime": "2016-06-27T14:00:00.000Z",
@@ -7094,7 +3271,7 @@ const notebook = {
                                                 "holdingPeriod": 9,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 47.2556,
-                                                "__index__": 271
+                                                "__index__": 32
                                             },
                                             {
                                                 "entryTime": "2016-08-29T14:00:00.000Z",
@@ -7109,7 +3286,7 @@ const notebook = {
                                                 "holdingPeriod": 2,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 50.96,
-                                                "__index__": 272
+                                                "__index__": 33
                                             },
                                             {
                                                 "entryTime": "2016-09-05T14:00:00.000Z",
@@ -7124,7 +3301,7 @@ const notebook = {
                                                 "holdingPeriod": 3,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 50.2152,
-                                                "__index__": 273
+                                                "__index__": 34
                                             },
                                             {
                                                 "entryTime": "2016-09-13T14:00:00.000Z",
@@ -7139,7 +3316,7 @@ const notebook = {
                                                 "holdingPeriod": 6,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 48.216,
-                                                "__index__": 274
+                                                "__index__": 35
                                             },
                                             {
                                                 "entryTime": "2016-10-02T14:00:00.000Z",
@@ -7154,7 +3331,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 49.989799999999995,
-                                                "__index__": 275
+                                                "__index__": 36
                                             },
                                             {
                                                 "entryTime": "2016-10-13T14:00:00.000Z",
@@ -7169,7 +3346,7 @@ const notebook = {
                                                 "holdingPeriod": 3,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 49.8428,
-                                                "__index__": 276
+                                                "__index__": 37
                                             },
                                             {
                                                 "entryTime": "2016-10-24T14:00:00.000Z",
@@ -7184,7 +3361,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 49.656600000000005,
-                                                "__index__": 277
+                                                "__index__": 38
                                             },
                                             {
                                                 "entryTime": "2016-10-30T14:00:00.000Z",
@@ -7199,7 +3376,7 @@ const notebook = {
                                                 "holdingPeriod": 6,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 48.363,
-                                                "__index__": 278
+                                                "__index__": 39
                                             },
                                             {
                                                 "entryTime": "2016-11-10T14:00:00.000Z",
@@ -7214,7 +3391,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 49.0882,
-                                                "__index__": 279
+                                                "__index__": 40
                                             },
                                             {
                                                 "entryTime": "2016-11-16T14:00:00.000Z",
@@ -7229,7 +3406,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 48.7844,
-                                                "__index__": 280
+                                                "__index__": 41
                                             },
                                             {
                                                 "entryTime": "2017-01-22T14:00:00.000Z",
@@ -7244,7 +3421,7 @@ const notebook = {
                                                 "holdingPeriod": 3,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.028200000000005,
-                                                "__index__": 281
+                                                "__index__": 42
                                             },
                                             {
                                                 "entryTime": "2017-01-31T14:00:00.000Z",
@@ -7259,7 +3436,7 @@ const notebook = {
                                                 "holdingPeriod": 7,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 51.548,
-                                                "__index__": 282
+                                                "__index__": 43
                                             },
                                             {
                                                 "entryTime": "2017-03-22T14:00:00.000Z",
@@ -7274,7 +3451,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.773,
-                                                "__index__": 283
+                                                "__index__": 44
                                             },
                                             {
                                                 "entryTime": "2017-04-19T14:00:00.000Z",
@@ -7289,7 +3466,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 53.5864,
-                                                "__index__": 284
+                                                "__index__": 45
                                             },
                                             {
                                                 "entryTime": "2017-05-07T14:00:00.000Z",
@@ -7304,7 +3481,7 @@ const notebook = {
                                                 "holdingPeriod": 2,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 54.3018,
-                                                "__index__": 285
+                                                "__index__": 46
                                             },
                                             {
                                                 "entryTime": "2017-05-14T14:00:00.000Z",
@@ -7319,7 +3496,7 @@ const notebook = {
                                                 "holdingPeriod": 16,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 53.508,
-                                                "__index__": 286
+                                                "__index__": 47
                                             },
                                             {
                                                 "entryTime": "2017-06-08T14:00:00.000Z",
@@ -7334,7 +3511,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.3222,
-                                                "__index__": 287
+                                                "__index__": 48
                                             },
                                             {
                                                 "entryTime": "2017-06-15T14:00:00.000Z",
@@ -7349,7 +3526,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 53.4296,
-                                                "__index__": 288
+                                                "__index__": 49
                                             },
                                             {
                                                 "entryTime": "2017-06-21T14:00:00.000Z",
@@ -7364,7 +3541,7 @@ const notebook = {
                                                 "holdingPeriod": 4,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.5672,
-                                                "__index__": 289
+                                                "__index__": 50
                                             },
                                             {
                                                 "entryTime": "2017-07-02T14:00:00.000Z",
@@ -7379,7 +3556,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.4692,
-                                                "__index__": 290
+                                                "__index__": 51
                                             },
                                             {
                                                 "entryTime": "2017-07-06T14:00:00.000Z",
@@ -7394,7 +3571,7 @@ const notebook = {
                                                 "holdingPeriod": 13,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.3908,
-                                                "__index__": 291
+                                                "__index__": 52
                                             },
                                             {
                                                 "entryTime": "2017-07-30T14:00:00.000Z",
@@ -7409,7 +3586,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.381,
-                                                "__index__": 292
+                                                "__index__": 53
                                             },
                                             {
                                                 "entryTime": "2017-08-03T14:00:00.000Z",
@@ -7424,7 +3601,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.43,
-                                                "__index__": 293
+                                                "__index__": 54
                                             },
                                             {
                                                 "entryTime": "2017-08-13T14:00:00.000Z",
@@ -7439,7 +3616,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.5966,
-                                                "__index__": 294
+                                                "__index__": 55
                                             },
                                             {
                                                 "entryTime": "2017-08-28T14:00:00.000Z",
@@ -7454,7 +3631,7 @@ const notebook = {
                                                 "holdingPeriod": 2,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.547599999999996,
-                                                "__index__": 295
+                                                "__index__": 56
                                             },
                                             {
                                                 "entryTime": "2017-09-04T14:00:00.000Z",
@@ -7469,7 +3646,7 @@ const notebook = {
                                                 "holdingPeriod": 4,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.9102,
-                                                "__index__": 296
+                                                "__index__": 57
                                             },
                                             {
                                                 "entryTime": "2017-09-21T14:00:00.000Z",
@@ -7484,7 +3661,7 @@ const notebook = {
                                                 "holdingPeriod": 7,
                                                 "exitReason": "stop-loss",
                                                 "stopPrice": 52.7926,
-                                                "__index__": 297
+                                                "__index__": 58
                                             },
                                             {
                                                 "entryTime": "2017-10-05T14:00:00.000Z",
@@ -7499,7 +3676,7 @@ const notebook = {
                                                 "holdingPeriod": 3,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 52.204600000000006,
-                                                "__index__": 298
+                                                "__index__": 59
                                             },
                                             {
                                                 "entryTime": "2017-12-06T14:00:00.000Z",
@@ -7514,7 +3691,7 @@ const notebook = {
                                                 "holdingPeriod": 1,
                                                 "exitReason": "exit-rule",
                                                 "stopPrice": 54.8408,
-                                                "__index__": 299
+                                                "__index__": 60
                                             }
                                         ]
                                     },
@@ -7571,7 +3748,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const startingCapital = 10000;\r\nconst analysis = analyze(startingCapital, trades); // Analyse the performance of this set of trades.\r\ndisplay.table(analysis);",
-                "lastEvaluationDate": "2019-02-12T19:54:26.640+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.363+10:00",
                 "output": [
                     {
                         "values": [
@@ -7588,63 +3765,63 @@ const notebook = {
                                         },
                                         {
                                             "Property": "finalCapital",
-                                            "Value": 18358.19035677701
+                                            "Value": 13158.218982428927
                                         },
                                         {
                                             "Property": "profit",
-                                            "Value": 8358.19035677701
+                                            "Value": 3158.218982428927
                                         },
                                         {
                                             "Property": "profitPct",
-                                            "Value": 83.5819035677701
+                                            "Value": 31.58218982428927
                                         },
                                         {
                                             "Property": "growth",
-                                            "Value": 1.8358190356777009
+                                            "Value": 1.3158218982428926
                                         },
                                         {
                                             "Property": "totalTrades",
-                                            "Value": 300
+                                            "Value": 61
                                         },
                                         {
                                             "Property": "barCount",
-                                            "Value": 1119
+                                            "Value": 227
                                         },
                                         {
                                             "Property": "maxDrawdown",
-                                            "Value": -3442.804793012392
+                                            "Value": -658.0722956983409
                                         },
                                         {
                                             "Property": "maxDrawdownPct",
-                                            "Value": -28.80723435550751
+                                            "Value": -5.8807999999999945
                                         },
                                         {
                                             "Property": "maxRiskPct",
-                                            "Value": 2.0000000000000098
+                                            "Value": 2.000000000000007
                                         },
                                         {
                                             "Property": "expectency",
-                                            "Value": 0.1149527430872129
+                                            "Value": 0.23589672097709913
                                         },
                                         {
                                             "Property": "rmultipleStdDev",
-                                            "Value": 1.1769847406893326
+                                            "Value": 1.0340526002621098
                                         },
                                         {
                                             "Property": "systemQuality",
-                                            "Value": 0.09766714819079791
+                                            "Value": 0.22812835722022695
                                         },
                                         {
                                             "Property": "profitFactor",
-                                            "Value": 1.2047109827075624
+                                            "Value": 1.7236082094137901
                                         },
                                         {
                                             "Property": "percentProfitable",
-                                            "Value": 54.333333333333336
+                                            "Value": 65.57377049180327
                                         },
                                         {
                                             "Property": "returnOnAccount",
-                                            "Value": 2.9014206131797757
+                                            "Value": 5.3703900531032005
                                         }
                                     ]
                                 },
@@ -7668,7 +3845,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const equityCurve = computeEquityCurve(10000, trades);\r\ndisplay(equityCurve.plot({ chartType: \"area\", y: { min: 9500, label: \"Equity $\" }, x: { label: \"Trade #\" } }));",
-                "lastEvaluationDate": "2019-02-12T19:54:26.659+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.365+10:00",
                 "output": [
                     {
                         "values": [
@@ -7747,246 +3924,7 @@ const notebook = {
                                                 58,
                                                 59,
                                                 60,
-                                                61,
-                                                62,
-                                                63,
-                                                64,
-                                                65,
-                                                66,
-                                                67,
-                                                68,
-                                                69,
-                                                70,
-                                                71,
-                                                72,
-                                                73,
-                                                74,
-                                                75,
-                                                76,
-                                                77,
-                                                78,
-                                                79,
-                                                80,
-                                                81,
-                                                82,
-                                                83,
-                                                84,
-                                                85,
-                                                86,
-                                                87,
-                                                88,
-                                                89,
-                                                90,
-                                                91,
-                                                92,
-                                                93,
-                                                94,
-                                                95,
-                                                96,
-                                                97,
-                                                98,
-                                                99,
-                                                100,
-                                                101,
-                                                102,
-                                                103,
-                                                104,
-                                                105,
-                                                106,
-                                                107,
-                                                108,
-                                                109,
-                                                110,
-                                                111,
-                                                112,
-                                                113,
-                                                114,
-                                                115,
-                                                116,
-                                                117,
-                                                118,
-                                                119,
-                                                120,
-                                                121,
-                                                122,
-                                                123,
-                                                124,
-                                                125,
-                                                126,
-                                                127,
-                                                128,
-                                                129,
-                                                130,
-                                                131,
-                                                132,
-                                                133,
-                                                134,
-                                                135,
-                                                136,
-                                                137,
-                                                138,
-                                                139,
-                                                140,
-                                                141,
-                                                142,
-                                                143,
-                                                144,
-                                                145,
-                                                146,
-                                                147,
-                                                148,
-                                                149,
-                                                150,
-                                                151,
-                                                152,
-                                                153,
-                                                154,
-                                                155,
-                                                156,
-                                                157,
-                                                158,
-                                                159,
-                                                160,
-                                                161,
-                                                162,
-                                                163,
-                                                164,
-                                                165,
-                                                166,
-                                                167,
-                                                168,
-                                                169,
-                                                170,
-                                                171,
-                                                172,
-                                                173,
-                                                174,
-                                                175,
-                                                176,
-                                                177,
-                                                178,
-                                                179,
-                                                180,
-                                                181,
-                                                182,
-                                                183,
-                                                184,
-                                                185,
-                                                186,
-                                                187,
-                                                188,
-                                                189,
-                                                190,
-                                                191,
-                                                192,
-                                                193,
-                                                194,
-                                                195,
-                                                196,
-                                                197,
-                                                198,
-                                                199,
-                                                200,
-                                                201,
-                                                202,
-                                                203,
-                                                204,
-                                                205,
-                                                206,
-                                                207,
-                                                208,
-                                                209,
-                                                210,
-                                                211,
-                                                212,
-                                                213,
-                                                214,
-                                                215,
-                                                216,
-                                                217,
-                                                218,
-                                                219,
-                                                220,
-                                                221,
-                                                222,
-                                                223,
-                                                224,
-                                                225,
-                                                226,
-                                                227,
-                                                228,
-                                                229,
-                                                230,
-                                                231,
-                                                232,
-                                                233,
-                                                234,
-                                                235,
-                                                236,
-                                                237,
-                                                238,
-                                                239,
-                                                240,
-                                                241,
-                                                242,
-                                                243,
-                                                244,
-                                                245,
-                                                246,
-                                                247,
-                                                248,
-                                                249,
-                                                250,
-                                                251,
-                                                252,
-                                                253,
-                                                254,
-                                                255,
-                                                256,
-                                                257,
-                                                258,
-                                                259,
-                                                260,
-                                                261,
-                                                262,
-                                                263,
-                                                264,
-                                                265,
-                                                266,
-                                                267,
-                                                268,
-                                                269,
-                                                270,
-                                                271,
-                                                272,
-                                                273,
-                                                274,
-                                                275,
-                                                276,
-                                                277,
-                                                278,
-                                                279,
-                                                280,
-                                                281,
-                                                282,
-                                                283,
-                                                284,
-                                                285,
-                                                286,
-                                                287,
-                                                288,
-                                                289,
-                                                290,
-                                                291,
-                                                292,
-                                                293,
-                                                294,
-                                                295,
-                                                296,
-                                                297,
-                                                298,
-                                                299,
-                                                300
+                                                61
                                             ]
                                         },
                                         "values": [
@@ -7995,1204 +3933,248 @@ const notebook = {
                                                 "__index__": 0
                                             },
                                             {
-                                                "__value__": 10107.784431137725,
+                                                "__value__": 10038.766845117225,
                                                 "__index__": 1
                                             },
                                             {
-                                                "__value__": 10285.471707881068,
+                                                "__value__": 10085.795302409666,
                                                 "__index__": 2
                                             },
                                             {
-                                                "__value__": 10282.519505898323,
+                                                "__value__": 10245.363258639823,
                                                 "__index__": 3
                                             },
                                             {
-                                                "__value__": 10415.118710212335,
+                                                "__value__": 10040.455993467027,
                                                 "__index__": 4
                                             },
                                             {
-                                                "__value__": 10498.273350613232,
+                                                "__value__": 10196.515515462863,
                                                 "__index__": 5
                                             },
                                             {
-                                                "__value__": 10288.307883600968,
+                                                "__value__": 9992.585205153606,
                                                 "__index__": 6
                                             },
                                             {
-                                                "__value__": 10383.735666869152,
+                                                "__value__": 10364.608535515228,
                                                 "__index__": 7
                                             },
                                             {
-                                                "__value__": 10581.202846022601,
+                                                "__value__": 10157.316364804923,
                                                 "__index__": 8
                                             },
                                             {
-                                                "__value__": 10369.57878910215,
+                                                "__value__": 9954.170037508824,
                                                 "__index__": 9
                                             },
                                             {
-                                                "__value__": 10162.187213320107,
+                                                "__value__": 10278.340551600862,
                                                 "__index__": 10
                                             },
                                             {
-                                                "__value__": 9958.943469053704,
+                                                "__value__": 10462.625431357732,
                                                 "__index__": 11
                                             },
                                             {
-                                                "__value__": 9759.76459967263,
+                                                "__value__": 10253.372922730578,
                                                 "__index__": 12
                                             },
                                             {
-                                                "__value__": 9564.569307679178,
+                                                "__value__": 10048.305464275967,
                                                 "__index__": 13
                                             },
                                             {
-                                                "__value__": 9795.842431051347,
+                                                "__value__": 10566.870976974224,
                                                 "__index__": 14
                                             },
                                             {
-                                                "__value__": 9871.050434360763,
+                                                "__value__": 10506.983169170213,
                                                 "__index__": 15
                                             },
                                             {
-                                                "__value__": 9949.892690226265,
+                                                "__value__": 10839.663911159038,
                                                 "__index__": 16
                                             },
                                             {
-                                                "__value__": 9750.89483642174,
+                                                "__value__": 10918.689407473683,
                                                 "__index__": 17
                                             },
                                             {
-                                                "__value__": 9555.876939693304,
+                                                "__value__": 10700.315619324208,
                                                 "__index__": 18
                                             },
                                             {
-                                                "__value__": 9807.26257250817,
+                                                "__value__": 11017.623166519983,
                                                 "__index__": 19
                                             },
                                             {
-                                                "__value__": 9954.175627023105,
+                                                "__value__": 11118.230520922052,
                                                 "__index__": 20
                                             },
                                             {
-                                                "__value__": 9989.85367586548,
+                                                "__value__": 10895.865910503611,
                                                 "__index__": 21
                                             },
                                             {
-                                                "__value__": 10058.749218457657,
+                                                "__value__": 10677.948592293538,
                                                 "__index__": 22
                                             },
                                             {
-                                                "__value__": 10284.341219399319,
+                                                "__value__": 11190.183235245911,
                                                 "__index__": 23
                                             },
                                             {
-                                                "__value__": 10078.654395011332,
+                                                "__value__": 10966.379570540994,
                                                 "__index__": 24
                                             },
                                             {
-                                                "__value__": 9877.081307111104,
+                                                "__value__": 10747.051979130174,
                                                 "__index__": 25
                                             },
                                             {
-                                                "__value__": 9679.539680968883,
+                                                "__value__": 10532.11093954757,
                                                 "__index__": 26
                                             },
                                             {
-                                                "__value__": 9485.948887349505,
+                                                "__value__": 11011.16505577615,
                                                 "__index__": 27
                                             },
                                             {
-                                                "__value__": 10001.489587748934,
+                                                "__value__": 11252.512206521244,
                                                 "__index__": 28
                                             },
                                             {
-                                                "__value__": 10047.655382087374,
+                                                "__value__": 11245.439602997347,
                                                 "__index__": 29
                                             },
                                             {
-                                                "__value__": 10164.101719296998,
+                                                "__value__": 11531.64379225709,
                                                 "__index__": 30
                                             },
                                             {
-                                                "__value__": 10229.867502016486,
+                                                "__value__": 11638.77707121263,
                                                 "__index__": 31
                                             },
                                             {
-                                                "__value__": 10203.49336730294,
+                                                "__value__": 11406.001529788378,
                                                 "__index__": 32
                                             },
                                             {
-                                                "__value__": 10311.622873122144,
+                                                "__value__": 11902.737390687498,
                                                 "__index__": 33
                                             },
                                             {
-                                                "__value__": 10404.175353258492,
+                                                "__value__": 11664.682642873748,
                                                 "__index__": 34
                                             },
                                             {
-                                                "__value__": 10196.091846193323,
+                                                "__value__": 11431.388990016272,
                                                 "__index__": 35
                                             },
                                             {
-                                                "__value__": 10339.566983827122,
+                                                "__value__": 11882.138881086019,
                                                 "__index__": 36
                                             },
                                             {
-                                                "__value__": 10418.111248365462,
+                                                "__value__": 11903.103250803679,
                                                 "__index__": 37
                                             },
                                             {
-                                                "__value__": 10516.09712479123,
+                                                "__value__": 11914.805082548472,
                                                 "__index__": 38
                                             },
                                             {
-                                                "__value__": 10567.161632832702,
+                                                "__value__": 11676.508980897503,
                                                 "__index__": 39
                                             },
                                             {
-                                                "__value__": 10616.097837210511,
+                                                "__value__": 11442.978801279552,
                                                 "__index__": 40
                                             },
                                             {
-                                                "__value__": 10732.65972224745,
+                                                "__value__": 11452.116736038011,
                                                 "__index__": 41
                                             },
                                             {
-                                                "__value__": 10759.808102657858,
+                                                "__value__": 11587.848935199569,
                                                 "__index__": 42
                                             },
                                             {
-                                                "__value__": 11015.0345120842,
+                                                "__value__": 11592.214295506668,
                                                 "__index__": 43
                                             },
                                             {
-                                                "__value__": 11148.269933237525,
+                                                "__value__": 11805.987068636732,
                                                 "__index__": 44
                                             },
                                             {
-                                                "__value__": 11347.490405360099,
+                                                "__value__": 11836.680442631332,
                                                 "__index__": 45
                                             },
                                             {
-                                                "__value__": 11120.540597252897,
+                                                "__value__": 11957.904675401516,
                                                 "__index__": 46
                                             },
                                             {
-                                                "__value__": 10898.12978530784,
+                                                "__value__": 11970.853137421442,
                                                 "__index__": 47
                                             },
                                             {
-                                                "__value__": 11096.765648389804,
+                                                "__value__": 11731.436074673013,
                                                 "__index__": 48
                                             },
                                             {
-                                                "__value__": 11348.663554386703,
+                                                "__value__": 12003.902467866394,
                                                 "__index__": 49
                                             },
                                             {
-                                                "__value__": 11121.69028329897,
+                                                "__value__": 12067.753012908235,
                                                 "__index__": 50
                                             },
                                             {
-                                                "__value__": 11569.202283724353,
+                                                "__value__": 12195.989761926834,
                                                 "__index__": 51
                                             },
                                             {
-                                                "__value__": 11681.52463599352,
+                                                "__value__": 12341.776714628237,
                                                 "__index__": 52
                                             },
                                             {
-                                                "__value__": 11698.92265140883,
+                                                "__value__": 12501.070129014572,
                                                 "__index__": 53
                                             },
                                             {
-                                                "__value__": 11464.944198380652,
+                                                "__value__": 12676.482712677078,
                                                 "__index__": 54
                                             },
                                             {
-                                                "__value__": 11714.6518835391,
+                                                "__value__": 12842.34323415136,
                                                 "__index__": 55
                                             },
                                             {
-                                                "__value__": 11480.358845868319,
+                                                "__value__": 12921.306775557543,
                                                 "__index__": 56
                                             },
                                             {
-                                                "__value__": 11250.751668950952,
+                                                "__value__": 13032.157225329203,
                                                 "__index__": 57
                                             },
                                             {
-                                                "__value__": 11025.736635571933,
+                                                "__value__": 13140.778650619037,
                                                 "__index__": 58
                                             },
                                             {
-                                                "__value__": 10805.221902860494,
+                                                "__value__": 12877.963077606657,
                                                 "__index__": 59
                                             },
                                             {
-                                                "__value__": 10980.880864906589,
+                                                "__value__": 13027.84738600005,
                                                 "__index__": 60
                                             },
                                             {
-                                                "__value__": 11089.51282729643,
+                                                "__value__": 13158.218982428927,
                                                 "__index__": 61
-                                            },
-                                            {
-                                                "__value__": 11310.256259319365,
-                                                "__index__": 62
-                                            },
-                                            {
-                                                "__value__": 11415.149764950149,
-                                                "__index__": 63
-                                            },
-                                            {
-                                                "__value__": 11554.414592082541,
-                                                "__index__": 64
-                                            },
-                                            {
-                                                "__value__": 11789.419634633372,
-                                                "__index__": 65
-                                            },
-                                            {
-                                                "__value__": 11774.346404050279,
-                                                "__index__": 66
-                                            },
-                                            {
-                                                "__value__": 11920.132193466778,
-                                                "__index__": 67
-                                            },
-                                            {
-                                                "__value__": 11681.729549597441,
-                                                "__index__": 68
-                                            },
-                                            {
-                                                "__value__": 11681.729549597441,
-                                                "__index__": 69
-                                            },
-                                            {
-                                                "__value__": 11816.906730914026,
-                                                "__index__": 70
-                                            },
-                                            {
-                                                "__value__": 11835.789611596216,
-                                                "__index__": 71
-                                            },
-                                            {
-                                                "__value__": 11599.073819364292,
-                                                "__index__": 72
-                                            },
-                                            {
-                                                "__value__": 11779.75635677851,
-                                                "__index__": 73
-                                            },
-                                            {
-                                                "__value__": 11544.16122964294,
-                                                "__index__": 74
-                                            },
-                                            {
-                                                "__value__": 11813.076799052258,
-                                                "__index__": 75
-                                            },
-                                            {
-                                                "__value__": 11576.815263071212,
-                                                "__index__": 76
-                                            },
-                                            {
-                                                "__value__": 11345.278957809789,
-                                                "__index__": 77
-                                            },
-                                            {
-                                                "__value__": 11118.373378653594,
-                                                "__index__": 78
-                                            },
-                                            {
-                                                "__value__": 10896.005911080521,
-                                                "__index__": 79
-                                            },
-                                            {
-                                                "__value__": 10678.08579285891,
-                                                "__index__": 80
-                                            },
-                                            {
-                                                "__value__": 11560.957938179972,
-                                                "__index__": 81
-                                            },
-                                            {
-                                                "__value__": 11564.571866888376,
-                                                "__index__": 82
-                                            },
-                                            {
-                                                "__value__": 11333.28042955061,
-                                                "__index__": 83
-                                            },
-                                            {
-                                                "__value__": 11762.137232626086,
-                                                "__index__": 84
-                                            },
-                                            {
-                                                "__value__": 11795.028093304549,
-                                                "__index__": 85
-                                            },
-                                            {
-                                                "__value__": 11559.127531438458,
-                                                "__index__": 86
-                                            },
-                                            {
-                                                "__value__": 11327.944980809689,
-                                                "__index__": 87
-                                            },
-                                            {
-                                                "__value__": 11101.386081193496,
-                                                "__index__": 88
-                                            },
-                                            {
-                                                "__value__": 10879.358359569625,
-                                                "__index__": 89
-                                            },
-                                            {
-                                                "__value__": 10661.771192378234,
-                                                "__index__": 90
-                                            },
-                                            {
-                                                "__value__": 10448.535768530668,
-                                                "__index__": 91
-                                            },
-                                            {
-                                                "__value__": 11159.197257218784,
-                                                "__index__": 92
-                                            },
-                                            {
-                                                "__value__": 10936.013312074409,
-                                                "__index__": 93
-                                            },
-                                            {
-                                                "__value__": 11510.665914138313,
-                                                "__index__": 94
-                                            },
-                                            {
-                                                "__value__": 11951.181257197568,
-                                                "__index__": 95
-                                            },
-                                            {
-                                                "__value__": 11712.157632053617,
-                                                "__index__": 96
-                                            },
-                                            {
-                                                "__value__": 11477.914479412544,
-                                                "__index__": 97
-                                            },
-                                            {
-                                                "__value__": 11248.356189824293,
-                                                "__index__": 98
-                                            },
-                                            {
-                                                "__value__": 11023.389066027808,
-                                                "__index__": 99
-                                            },
-                                            {
-                                                "__value__": 10802.921284707252,
-                                                "__index__": 100
-                                            },
-                                            {
-                                                "__value__": 10586.862859013108,
-                                                "__index__": 101
-                                            },
-                                            {
-                                                "__value__": 10375.125601832846,
-                                                "__index__": 102
-                                            },
-                                            {
-                                                "__value__": 10167.62308979619,
-                                                "__index__": 103
-                                            },
-                                            {
-                                                "__value__": 9964.270628000266,
-                                                "__index__": 104
-                                            },
-                                            {
-                                                "__value__": 10467.583808364321,
-                                                "__index__": 105
-                                            },
-                                            {
-                                                "__value__": 10465.332230861983,
-                                                "__index__": 106
-                                            },
-                                            {
-                                                "__value__": 10556.872420941687,
-                                                "__index__": 107
-                                            },
-                                            {
-                                                "__value__": 10204.976673576964,
-                                                "__index__": 108
-                                            },
-                                            {
-                                                "__value__": 10000.877140105425,
-                                                "__index__": 109
-                                            },
-                                            {
-                                                "__value__": 9800.859597303317,
-                                                "__index__": 110
-                                            },
-                                            {
-                                                "__value__": 9604.84240535725,
-                                                "__index__": 111
-                                            },
-                                            {
-                                                "__value__": 9412.745557250106,
-                                                "__index__": 112
-                                            },
-                                            {
-                                                "__value__": 9224.490646105105,
-                                                "__index__": 113
-                                            },
-                                            {
-                                                "__value__": 9040.000833183003,
-                                                "__index__": 114
-                                            },
-                                            {
-                                                "__value__": 8859.200816519344,
-                                                "__index__": 115
-                                            },
-                                            {
-                                                "__value__": 8682.016800188956,
-                                                "__index__": 116
-                                            },
-                                            {
-                                                "__value__": 8508.376464185176,
-                                                "__index__": 117
-                                            },
-                                            {
-                                                "__value__": 9078.032092478237,
-                                                "__index__": 118
-                                            },
-                                            {
-                                                "__value__": 8896.471450628673,
-                                                "__index__": 119
-                                            },
-                                            {
-                                                "__value__": 8718.542021616098,
-                                                "__index__": 120
-                                            },
-                                            {
-                                                "__value__": 8544.171181183776,
-                                                "__index__": 121
-                                            },
-                                            {
-                                                "__value__": 9262.937493458336,
-                                                "__index__": 122
-                                            },
-                                            {
-                                                "__value__": 9662.129336878997,
-                                                "__index__": 123
-                                            },
-                                            {
-                                                "__value__": 9541.960716165666,
-                                                "__index__": 124
-                                            },
-                                            {
-                                                "__value__": 9351.121501842354,
-                                                "__index__": 125
-                                            },
-                                            {
-                                                "__value__": 9164.099071805507,
-                                                "__index__": 126
-                                            },
-                                            {
-                                                "__value__": 9398.929110520523,
-                                                "__index__": 127
-                                            },
-                                            {
-                                                "__value__": 9210.950528310112,
-                                                "__index__": 128
-                                            },
-                                            {
-                                                "__value__": 9026.731517743909,
-                                                "__index__": 129
-                                            },
-                                            {
-                                                "__value__": 9672.5860846564,
-                                                "__index__": 130
-                                            },
-                                            {
-                                                "__value__": 9880.453550053704,
-                                                "__index__": 131
-                                            },
-                                            {
-                                                "__value__": 10063.015121807217,
-                                                "__index__": 132
-                                            },
-                                            {
-                                                "__value__": 10466.095560622303,
-                                                "__index__": 133
-                                            },
-                                            {
-                                                "__value__": 10256.773649409855,
-                                                "__index__": 134
-                                            },
-                                            {
-                                                "__value__": 10998.753019792695,
-                                                "__index__": 135
-                                            },
-                                            {
-                                                "__value__": 10778.777959396843,
-                                                "__index__": 136
-                                            },
-                                            {
-                                                "__value__": 11106.452809362507,
-                                                "__index__": 137
-                                            },
-                                            {
-                                                "__value__": 11223.598967809554,
-                                                "__index__": 138
-                                            },
-                                            {
-                                                "__value__": 11579.29442073375,
-                                                "__index__": 139
-                                            },
-                                            {
-                                                "__value__": 12039.819501695503,
-                                                "__index__": 140
-                                            },
-                                            {
-                                                "__value__": 11799.023111661594,
-                                                "__index__": 141
-                                            },
-                                            {
-                                                "__value__": 11563.042649428362,
-                                                "__index__": 142
-                                            },
-                                            {
-                                                "__value__": 12196.2568897542,
-                                                "__index__": 143
-                                            },
-                                            {
-                                                "__value__": 12368.07418745126,
-                                                "__index__": 144
-                                            },
-                                            {
-                                                "__value__": 12120.712703702236,
-                                                "__index__": 145
-                                            },
-                                            {
-                                                "__value__": 11878.29844962819,
-                                                "__index__": 146
-                                            },
-                                            {
-                                                "__value__": 11640.732480635625,
-                                                "__index__": 147
-                                            },
-                                            {
-                                                "__value__": 12158.664414493225,
-                                                "__index__": 148
-                                            },
-                                            {
-                                                "__value__": 11915.491126203362,
-                                                "__index__": 149
-                                            },
-                                            {
-                                                "__value__": 11677.181303679294,
-                                                "__index__": 150
-                                            },
-                                            {
-                                                "__value__": 11980.856774285281,
-                                                "__index__": 151
-                                            },
-                                            {
-                                                "__value__": 12356.634688303542,
-                                                "__index__": 152
-                                            },
-                                            {
-                                                "__value__": 12674.23975061202,
-                                                "__index__": 153
-                                            },
-                                            {
-                                                "__value__": 12750.645825790534,
-                                                "__index__": 154
-                                            },
-                                            {
-                                                "__value__": 12805.692922061842,
-                                                "__index__": 155
-                                            },
-                                            {
-                                                "__value__": 12828.80789123524,
-                                                "__index__": 156
-                                            },
-                                            {
-                                                "__value__": 13084.45442529971,
-                                                "__index__": 157
-                                            },
-                                            {
-                                                "__value__": 12822.765336793715,
-                                                "__index__": 158
-                                            },
-                                            {
-                                                "__value__": 13019.194271892155,
-                                                "__index__": 159
-                                            },
-                                            {
-                                                "__value__": 13135.463030739147,
-                                                "__index__": 160
-                                            },
-                                            {
-                                                "__value__": 13288.200972957044,
-                                                "__index__": 161
-                                            },
-                                            {
-                                                "__value__": 13519.013396804934,
-                                                "__index__": 162
-                                            },
-                                            {
-                                                "__value__": 13715.80538714219,
-                                                "__index__": 163
-                                            },
-                                            {
-                                                "__value__": 13848.587661517166,
-                                                "__index__": 164
-                                            },
-                                            {
-                                                "__value__": 13571.61590828682,
-                                                "__index__": 165
-                                            },
-                                            {
-                                                "__value__": 13300.183590121085,
-                                                "__index__": 166
-                                            },
-                                            {
-                                                "__value__": 14067.799491994492,
-                                                "__index__": 167
-                                            },
-                                            {
-                                                "__value__": 13786.443502154603,
-                                                "__index__": 168
-                                            },
-                                            {
-                                                "__value__": 13510.714632111512,
-                                                "__index__": 169
-                                            },
-                                            {
-                                                "__value__": 13240.500339469281,
-                                                "__index__": 170
-                                            },
-                                            {
-                                                "__value__": 12975.690332679895,
-                                                "__index__": 171
-                                            },
-                                            {
-                                                "__value__": 13239.935979994714,
-                                                "__index__": 172
-                                            },
-                                            {
-                                                "__value__": 13488.381334488678,
-                                                "__index__": 173
-                                            },
-                                            {
-                                                "__value__": 13218.613707798904,
-                                                "__index__": 174
-                                            },
-                                            {
-                                                "__value__": 12954.241433642925,
-                                                "__index__": 175
-                                            },
-                                            {
-                                                "__value__": 12695.156604970065,
-                                                "__index__": 176
-                                            },
-                                            {
-                                                "__value__": 12441.253472870663,
-                                                "__index__": 177
-                                            },
-                                            {
-                                                "__value__": 13004.861900971198,
-                                                "__index__": 178
-                                            },
-                                            {
-                                                "__value__": 13296.465763183698,
-                                                "__index__": 179
-                                            },
-                                            {
-                                                "__value__": 13427.059120382195,
-                                                "__index__": 180
-                                            },
-                                            {
-                                                "__value__": 13158.51793797455,
-                                                "__index__": 181
-                                            },
-                                            {
-                                                "__value__": 12895.347579215057,
-                                                "__index__": 182
-                                            },
-                                            {
-                                                "__value__": 13471.428398905076,
-                                                "__index__": 183
-                                            },
-                                            {
-                                                "__value__": 13201.999830926974,
-                                                "__index__": 184
-                                            },
-                                            {
-                                                "__value__": 13709.373493606068,
-                                                "__index__": 185
-                                            },
-                                            {
-                                                "__value__": 13435.186023733946,
-                                                "__index__": 186
-                                            },
-                                            {
-                                                "__value__": 13166.482303259269,
-                                                "__index__": 187
-                                            },
-                                            {
-                                                "__value__": 12903.152657194083,
-                                                "__index__": 188
-                                            },
-                                            {
-                                                "__value__": 12645.0896040502,
-                                                "__index__": 189
-                                            },
-                                            {
-                                                "__value__": 13122.26279665587,
-                                                "__index__": 190
-                                            },
-                                            {
-                                                "__value__": 13346.37485563521,
-                                                "__index__": 191
-                                            },
-                                            {
-                                                "__value__": 13795.449920877078,
-                                                "__index__": 192
-                                            },
-                                            {
-                                                "__value__": 13912.069835673154,
-                                                "__index__": 193
-                                            },
-                                            {
-                                                "__value__": 13633.828438959692,
-                                                "__index__": 194
-                                            },
-                                            {
-                                                "__value__": 13361.1518701805,
-                                                "__index__": 195
-                                            },
-                                            {
-                                                "__value__": 13496.043126441707,
-                                                "__index__": 196
-                                            },
-                                            {
-                                                "__value__": 13744.654447191951,
-                                                "__index__": 197
-                                            },
-                                            {
-                                                "__value__": 13877.124417117999,
-                                                "__index__": 198
-                                            },
-                                            {
-                                                "__value__": 13919.452577001279,
-                                                "__index__": 199
-                                            },
-                                            {
-                                                "__value__": 13641.063525461253,
-                                                "__index__": 200
-                                            },
-                                            {
-                                                "__value__": 13878.49739226113,
-                                                "__index__": 201
-                                            },
-                                            {
-                                                "__value__": 13976.337685776323,
-                                                "__index__": 202
-                                            },
-                                            {
-                                                "__value__": 14154.607299115307,
-                                                "__index__": 203
-                                            },
-                                            {
-                                                "__value__": 13871.515153133001,
-                                                "__index__": 204
-                                            },
-                                            {
-                                                "__value__": 13594.084850070341,
-                                                "__index__": 205
-                                            },
-                                            {
-                                                "__value__": 13322.203153068935,
-                                                "__index__": 206
-                                            },
-                                            {
-                                                "__value__": 13055.759090007556,
-                                                "__index__": 207
-                                            },
-                                            {
-                                                "__value__": 13618.096935953641,
-                                                "__index__": 208
-                                            },
-                                            {
-                                                "__value__": 13813.398469556745,
-                                                "__index__": 209
-                                            },
-                                            {
-                                                "__value__": 14024.68803692978,
-                                                "__index__": 210
-                                            },
-                                            {
-                                                "__value__": 13744.194276191183,
-                                                "__index__": 211
-                                            },
-                                            {
-                                                "__value__": 13469.310390667359,
-                                                "__index__": 212
-                                            },
-                                            {
-                                                "__value__": 13199.92418285401,
-                                                "__index__": 213
-                                            },
-                                            {
-                                                "__value__": 13344.17077701716,
-                                                "__index__": 214
-                                            },
-                                            {
-                                                "__value__": 13320.098310191512,
-                                                "__index__": 215
-                                            },
-                                            {
-                                                "__value__": 13053.696343987682,
-                                                "__index__": 216
-                                            },
-                                            {
-                                                "__value__": 13208.683936198793,
-                                                "__index__": 217
-                                            },
-                                            {
-                                                "__value__": 12944.510257474816,
-                                                "__index__": 218
-                                            },
-                                            {
-                                                "__value__": 13475.090225771906,
-                                                "__index__": 219
-                                            },
-                                            {
-                                                "__value__": 13496.615929007963,
-                                                "__index__": 220
-                                            },
-                                            {
-                                                "__value__": 13544.46684228788,
-                                                "__index__": 221
-                                            },
-                                            {
-                                                "__value__": 13659.45441863899,
-                                                "__index__": 222
-                                            },
-                                            {
-                                                "__value__": 13821.560784307663,
-                                                "__index__": 223
-                                            },
-                                            {
-                                                "__value__": 13939.327762330422,
-                                                "__index__": 224
-                                            },
-                                            {
-                                                "__value__": 13958.267066355327,
-                                                "__index__": 225
-                                            },
-                                            {
-                                                "__value__": 13679.10172502822,
-                                                "__index__": 226
-                                            },
-                                            {
-                                                "__value__": 13914.063590788825,
-                                                "__index__": 227
-                                            },
-                                            {
-                                                "__value__": 13943.927922398323,
-                                                "__index__": 228
-                                            },
-                                            {
-                                                "__value__": 13665.049363950357,
-                                                "__index__": 229
-                                            },
-                                            {
-                                                "__value__": 13391.748376671349,
-                                                "__index__": 230
-                                            },
-                                            {
-                                                "__value__": 13123.913409137922,
-                                                "__index__": 231
-                                            },
-                                            {
-                                                "__value__": 13519.0190203162,
-                                                "__index__": 232
-                                            },
-                                            {
-                                                "__value__": 13248.638639909876,
-                                                "__index__": 233
-                                            },
-                                            {
-                                                "__value__": 12983.665867111678,
-                                                "__index__": 234
-                                            },
-                                            {
-                                                "__value__": 13516.696267293346,
-                                                "__index__": 235
-                                            },
-                                            {
-                                                "__value__": 13700.486578466302,
-                                                "__index__": 236
-                                            },
-                                            {
-                                                "__value__": 13804.860774533205,
-                                                "__index__": 237
-                                            },
-                                            {
-                                                "__value__": 13528.76355904254,
-                                                "__index__": 238
-                                            },
-                                            {
-                                                "__value__": 13951.880859629979,
-                                                "__index__": 239
-                                            },
-                                            {
-                                                "__value__": 14005.967900067903,
-                                                "__index__": 240
-                                            },
-                                            {
-                                                "__value__": 14071.581443383535,
-                                                "__index__": 241
-                                            },
-                                            {
-                                                "__value__": 14294.208754817315,
-                                                "__index__": 242
-                                            },
-                                            {
-                                                "__value__": 14008.32457972097,
-                                                "__index__": 243
-                                            },
-                                            {
-                                                "__value__": 14226.05696551064,
-                                                "__index__": 244
-                                            },
-                                            {
-                                                "__value__": 13941.535826200427,
-                                                "__index__": 245
-                                            },
-                                            {
-                                                "__value__": 14460.57834442124,
-                                                "__index__": 246
-                                            },
-                                            {
-                                                "__value__": 14171.366777532814,
-                                                "__index__": 247
-                                            },
-                                            {
-                                                "__value__": 13887.939441982158,
-                                                "__index__": 248
-                                            },
-                                            {
-                                                "__value__": 14340.218281063871,
-                                                "__index__": 249
-                                            },
-                                            {
-                                                "__value__": 14597.33034972378,
-                                                "__index__": 250
-                                            },
-                                            {
-                                                "__value__": 14305.383742729306,
-                                                "__index__": 251
-                                            },
-                                            {
-                                                "__value__": 14019.27606787472,
-                                                "__index__": 252
-                                            },
-                                            {
-                                                "__value__": 14742.772492982622,
-                                                "__index__": 253
-                                            },
-                                            {
-                                                "__value__": 14659.217737040024,
-                                                "__index__": 254
-                                            },
-                                            {
-                                                "__value__": 15123.369944692162,
-                                                "__index__": 255
-                                            },
-                                            {
-                                                "__value__": 15233.625375637668,
-                                                "__index__": 256
-                                            },
-                                            {
-                                                "__value__": 14928.952868124914,
-                                                "__index__": 257
-                                            },
-                                            {
-                                                "__value__": 15371.6565775586,
-                                                "__index__": 258
-                                            },
-                                            {
-                                                "__value__": 15512.022759780624,
-                                                "__index__": 259
-                                            },
-                                            {
-                                                "__value__": 15201.782304585013,
-                                                "__index__": 260
-                                            },
-                                            {
-                                                "__value__": 14897.746658493312,
-                                                "__index__": 261
-                                            },
-                                            {
-                                                "__value__": 15612.410329557973,
-                                                "__index__": 262
-                                            },
-                                            {
-                                                "__value__": 15300.162122966814,
-                                                "__index__": 263
-                                            },
-                                            {
-                                                "__value__": 14994.158880507477,
-                                                "__index__": 264
-                                            },
-                                            {
-                                                "__value__": 14694.275702897326,
-                                                "__index__": 265
-                                            },
-                                            {
-                                                "__value__": 15362.646298390973,
-                                                "__index__": 266
-                                            },
-                                            {
-                                                "__value__": 15699.370967691646,
-                                                "__index__": 267
-                                            },
-                                            {
-                                                "__value__": 15689.503355518367,
-                                                "__index__": 268
-                                            },
-                                            {
-                                                "__value__": 16088.812030526258,
-                                                "__index__": 269
-                                            },
-                                            {
-                                                "__value__": 16238.283104935177,
-                                                "__index__": 270
-                                            },
-                                            {
-                                                "__value__": 15913.517442836475,
-                                                "__index__": 271
-                                            },
-                                            {
-                                                "__value__": 16606.5573978335,
-                                                "__index__": 272
-                                            },
-                                            {
-                                                "__value__": 16274.426249876831,
-                                                "__index__": 273
-                                            },
-                                            {
-                                                "__value__": 15948.937724879293,
-                                                "__index__": 274
-                                            },
-                                            {
-                                                "__value__": 16577.818602648924,
-                                                "__index__": 275
-                                            },
-                                            {
-                                                "__value__": 16607.067841508724,
-                                                "__index__": 276
-                                            },
-                                            {
-                                                "__value__": 16623.394097743003,
-                                                "__index__": 277
-                                            },
-                                            {
-                                                "__value__": 16290.926215788144,
-                                                "__index__": 278
-                                            },
-                                            {
-                                                "__value__": 15965.107691472382,
-                                                "__index__": 279
-                                            },
-                                            {
-                                                "__value__": 15977.85682917769,
-                                                "__index__": 280
-                                            },
-                                            {
-                                                "__value__": 16167.228776329452,
-                                                "__index__": 281
-                                            },
-                                            {
-                                                "__value__": 16173.319275020853,
-                                                "__index__": 282
-                                            },
-                                            {
-                                                "__value__": 16471.57250119519,
-                                                "__index__": 283
-                                            },
-                                            {
-                                                "__value__": 16514.395530910464,
-                                                "__index__": 284
-                                            },
-                                            {
-                                                "__value__": 16683.526136201428,
-                                                "__index__": 285
-                                            },
-                                            {
-                                                "__value__": 16701.591676143173,
-                                                "__index__": 286
-                                            },
-                                            {
-                                                "__value__": 16367.559842620309,
-                                                "__index__": 287
-                                            },
-                                            {
-                                                "__value__": 16747.701708229026,
-                                                "__index__": 288
-                                            },
-                                            {
-                                                "__value__": 16836.785227953646,
-                                                "__index__": 289
-                                            },
-                                            {
-                                                "__value__": 17015.69961236702,
-                                                "__index__": 290
-                                            },
-                                            {
-                                                "__value__": 17219.09983186487,
-                                                "__index__": 291
-                                            },
-                                            {
-                                                "__value__": 17441.344105789052,
-                                                "__index__": 292
-                                            },
-                                            {
-                                                "__value__": 17686.07765264297,
-                                                "__index__": 293
-                                            },
-                                            {
-                                                "__value__": 17917.484276135496,
-                                                "__index__": 294
-                                            },
-                                            {
-                                                "__value__": 18027.65326833085,
-                                                "__index__": 295
-                                            },
-                                            {
-                                                "__value__": 18182.310495175912,
-                                                "__index__": 296
-                                            },
-                                            {
-                                                "__value__": 18333.85781362061,
-                                                "__index__": 297
-                                            },
-                                            {
-                                                "__value__": 17967.1806573482,
-                                                "__index__": 298
-                                            },
-                                            {
-                                                "__value__": 18176.297458691464,
-                                                "__index__": 299
-                                            },
-                                            {
-                                                "__value__": 18358.19035677701,
-                                                "__index__": 300
                                             }
                                         ]
                                     },
@@ -9250,7 +4232,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const drawdown = computeDrawdown(10000, trades);\r\ndisplay(drawdown.plot({ chartType: \"area\", y: { label: \"Equity $\" }, x: { label: \"Trade #\" } }));",
-                "lastEvaluationDate": "2019-02-12T19:54:26.664+10:00",
+                "lastEvaluationDate": "2019-03-12T19:30:21.367+10:00",
                 "output": [
                     {
                         "values": [
@@ -9329,246 +4311,7 @@ const notebook = {
                                                 58,
                                                 59,
                                                 60,
-                                                61,
-                                                62,
-                                                63,
-                                                64,
-                                                65,
-                                                66,
-                                                67,
-                                                68,
-                                                69,
-                                                70,
-                                                71,
-                                                72,
-                                                73,
-                                                74,
-                                                75,
-                                                76,
-                                                77,
-                                                78,
-                                                79,
-                                                80,
-                                                81,
-                                                82,
-                                                83,
-                                                84,
-                                                85,
-                                                86,
-                                                87,
-                                                88,
-                                                89,
-                                                90,
-                                                91,
-                                                92,
-                                                93,
-                                                94,
-                                                95,
-                                                96,
-                                                97,
-                                                98,
-                                                99,
-                                                100,
-                                                101,
-                                                102,
-                                                103,
-                                                104,
-                                                105,
-                                                106,
-                                                107,
-                                                108,
-                                                109,
-                                                110,
-                                                111,
-                                                112,
-                                                113,
-                                                114,
-                                                115,
-                                                116,
-                                                117,
-                                                118,
-                                                119,
-                                                120,
-                                                121,
-                                                122,
-                                                123,
-                                                124,
-                                                125,
-                                                126,
-                                                127,
-                                                128,
-                                                129,
-                                                130,
-                                                131,
-                                                132,
-                                                133,
-                                                134,
-                                                135,
-                                                136,
-                                                137,
-                                                138,
-                                                139,
-                                                140,
-                                                141,
-                                                142,
-                                                143,
-                                                144,
-                                                145,
-                                                146,
-                                                147,
-                                                148,
-                                                149,
-                                                150,
-                                                151,
-                                                152,
-                                                153,
-                                                154,
-                                                155,
-                                                156,
-                                                157,
-                                                158,
-                                                159,
-                                                160,
-                                                161,
-                                                162,
-                                                163,
-                                                164,
-                                                165,
-                                                166,
-                                                167,
-                                                168,
-                                                169,
-                                                170,
-                                                171,
-                                                172,
-                                                173,
-                                                174,
-                                                175,
-                                                176,
-                                                177,
-                                                178,
-                                                179,
-                                                180,
-                                                181,
-                                                182,
-                                                183,
-                                                184,
-                                                185,
-                                                186,
-                                                187,
-                                                188,
-                                                189,
-                                                190,
-                                                191,
-                                                192,
-                                                193,
-                                                194,
-                                                195,
-                                                196,
-                                                197,
-                                                198,
-                                                199,
-                                                200,
-                                                201,
-                                                202,
-                                                203,
-                                                204,
-                                                205,
-                                                206,
-                                                207,
-                                                208,
-                                                209,
-                                                210,
-                                                211,
-                                                212,
-                                                213,
-                                                214,
-                                                215,
-                                                216,
-                                                217,
-                                                218,
-                                                219,
-                                                220,
-                                                221,
-                                                222,
-                                                223,
-                                                224,
-                                                225,
-                                                226,
-                                                227,
-                                                228,
-                                                229,
-                                                230,
-                                                231,
-                                                232,
-                                                233,
-                                                234,
-                                                235,
-                                                236,
-                                                237,
-                                                238,
-                                                239,
-                                                240,
-                                                241,
-                                                242,
-                                                243,
-                                                244,
-                                                245,
-                                                246,
-                                                247,
-                                                248,
-                                                249,
-                                                250,
-                                                251,
-                                                252,
-                                                253,
-                                                254,
-                                                255,
-                                                256,
-                                                257,
-                                                258,
-                                                259,
-                                                260,
-                                                261,
-                                                262,
-                                                263,
-                                                264,
-                                                265,
-                                                266,
-                                                267,
-                                                268,
-                                                269,
-                                                270,
-                                                271,
-                                                272,
-                                                273,
-                                                274,
-                                                275,
-                                                276,
-                                                277,
-                                                278,
-                                                279,
-                                                280,
-                                                281,
-                                                282,
-                                                283,
-                                                284,
-                                                285,
-                                                286,
-                                                287,
-                                                288,
-                                                289,
-                                                290,
-                                                291,
-                                                292,
-                                                293,
-                                                294,
-                                                295,
-                                                296,
-                                                297,
-                                                298,
-                                                299,
-                                                300
+                                                61
                                             ]
                                         },
                                         "values": [
@@ -9585,187 +4328,187 @@ const notebook = {
                                                 "__index__": 2
                                             },
                                             {
-                                                "__value__": -2.952201982745464,
+                                                "__value__": 0,
                                                 "__index__": 3
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -204.90726517279654,
                                                 "__index__": 4
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -48.84774317696065,
                                                 "__index__": 5
                                             },
                                             {
-                                                "__value__": -209.96546701226362,
+                                                "__value__": -252.7780534862177,
                                                 "__index__": 6
                                             },
                                             {
-                                                "__value__": -114.53768374407991,
+                                                "__value__": 0,
                                                 "__index__": 7
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -207.29217071030507,
                                                 "__index__": 8
                                             },
                                             {
-                                                "__value__": -211.62405692045104,
+                                                "__value__": -410.4384980064042,
                                                 "__index__": 9
                                             },
                                             {
-                                                "__value__": -419.01563270249426,
+                                                "__value__": -86.26798391436569,
                                                 "__index__": 10
                                             },
                                             {
-                                                "__value__": -622.2593769688974,
+                                                "__value__": 0,
                                                 "__index__": 11
                                             },
                                             {
-                                                "__value__": -821.4382463499715,
+                                                "__value__": -209.25250862715438,
                                                 "__index__": 12
                                             },
                                             {
-                                                "__value__": -1016.6335383434234,
+                                                "__value__": -414.31996708176484,
                                                 "__index__": 13
                                             },
                                             {
-                                                "__value__": -785.3604149712537,
+                                                "__value__": 0,
                                                 "__index__": 14
                                             },
                                             {
-                                                "__value__": -710.1524116618384,
+                                                "__value__": -59.88780780401066,
                                                 "__index__": 15
                                             },
                                             {
-                                                "__value__": -631.3101557963364,
+                                                "__value__": 0,
                                                 "__index__": 16
                                             },
                                             {
-                                                "__value__": -830.3080096008616,
+                                                "__value__": 0,
                                                 "__index__": 17
                                             },
                                             {
-                                                "__value__": -1025.3259063292971,
+                                                "__value__": -218.37378814947442,
                                                 "__index__": 18
                                             },
                                             {
-                                                "__value__": -773.9402735144304,
+                                                "__value__": 0,
                                                 "__index__": 19
                                             },
                                             {
-                                                "__value__": -627.0272189994957,
+                                                "__value__": 0,
                                                 "__index__": 20
                                             },
                                             {
-                                                "__value__": -591.3491701571202,
+                                                "__value__": -222.36461041844086,
                                                 "__index__": 21
                                             },
                                             {
-                                                "__value__": -522.4536275649443,
+                                                "__value__": -440.2819286285139,
                                                 "__index__": 22
                                             },
                                             {
-                                                "__value__": -296.86162662328206,
+                                                "__value__": 0,
                                                 "__index__": 23
                                             },
                                             {
-                                                "__value__": -502.5484510112692,
+                                                "__value__": -223.80366470491754,
                                                 "__index__": 24
                                             },
                                             {
-                                                "__value__": -704.1215389114968,
+                                                "__value__": -443.1312561157374,
                                                 "__index__": 25
                                             },
                                             {
-                                                "__value__": -901.6631650537183,
+                                                "__value__": -658.0722956983409,
                                                 "__index__": 26
                                             },
                                             {
-                                                "__value__": -1095.2539586730963,
+                                                "__value__": -179.0181794697619,
                                                 "__index__": 27
                                             },
                                             {
-                                                "__value__": -579.7132582736667,
+                                                "__value__": 0,
                                                 "__index__": 28
                                             },
                                             {
-                                                "__value__": -533.5474639352269,
+                                                "__value__": -7.07260352389676,
                                                 "__index__": 29
                                             },
                                             {
-                                                "__value__": -417.10112672560354,
+                                                "__value__": 0,
                                                 "__index__": 30
                                             },
                                             {
-                                                "__value__": -351.3353440061146,
+                                                "__value__": 0,
                                                 "__index__": 31
                                             },
                                             {
-                                                "__value__": -377.7094787196602,
+                                                "__value__": -232.77554142425106,
                                                 "__index__": 32
                                             },
                                             {
-                                                "__value__": -269.5799729004575,
+                                                "__value__": 0,
                                                 "__index__": 33
                                             },
                                             {
-                                                "__value__": -177.0274927641094,
+                                                "__value__": -238.0547478137505,
                                                 "__index__": 34
                                             },
                                             {
-                                                "__value__": -385.1109998292777,
+                                                "__value__": -471.34840067122605,
                                                 "__index__": 35
                                             },
                                             {
-                                                "__value__": -241.6358621954787,
+                                                "__value__": -20.598509601479236,
                                                 "__index__": 36
                                             },
                                             {
-                                                "__value__": -163.09159765713957,
+                                                "__value__": 0,
                                                 "__index__": 37
                                             },
                                             {
-                                                "__value__": -65.10572123137172,
+                                                "__value__": 0,
                                                 "__index__": 38
                                             },
                                             {
-                                                "__value__": -14.041213189899281,
+                                                "__value__": -238.29610165096892,
                                                 "__index__": 39
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -471.82628126891905,
                                                 "__index__": 40
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -462.6883465104602,
                                                 "__index__": 41
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -326.95614734890296,
                                                 "__index__": 42
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -322.5907870418032,
                                                 "__index__": 43
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -108.8180139117394,
                                                 "__index__": 44
                                             },
                                             {
-                                                "__value__": 0,
+                                                "__value__": -78.12463991713958,
                                                 "__index__": 45
                                             },
                                             {
-                                                "__value__": -226.94980810720153,
+                                                "__value__": 0,
                                                 "__index__": 46
                                             },
                                             {
-                                                "__value__": -449.36062005225904,
+                                                "__value__": 0,
                                                 "__index__": 47
                                             },
                                             {
-                                                "__value__": -250.72475697029404,
+                                                "__value__": -239.4170627484291,
                                                 "__index__": 48
                                             },
                                             {
@@ -9773,7 +4516,7 @@ const notebook = {
                                                 "__index__": 49
                                             },
                                             {
-                                                "__value__": -226.97327108773243,
+                                                "__value__": 0,
                                                 "__index__": 50
                                             },
                                             {
@@ -9789,7 +4532,7 @@ const notebook = {
                                                 "__index__": 53
                                             },
                                             {
-                                                "__value__": -233.97845302817768,
+                                                "__value__": 0,
                                                 "__index__": 54
                                             },
                                             {
@@ -9797,1000 +4540,44 @@ const notebook = {
                                                 "__index__": 55
                                             },
                                             {
-                                                "__value__": -234.2930376707809,
+                                                "__value__": 0,
                                                 "__index__": 56
                                             },
                                             {
-                                                "__value__": -463.9002145881477,
+                                                "__value__": 0,
                                                 "__index__": 57
                                             },
                                             {
-                                                "__value__": -688.9152479671666,
+                                                "__value__": 0,
                                                 "__index__": 58
                                             },
                                             {
-                                                "__value__": -909.4299806786057,
+                                                "__value__": -262.8155730123799,
                                                 "__index__": 59
                                             },
                                             {
-                                                "__value__": -733.7710186325112,
+                                                "__value__": -112.93126461898646,
                                                 "__index__": 60
                                             },
                                             {
-                                                "__value__": -625.1390562426695,
+                                                "__value__": 0,
                                                 "__index__": 61
-                                            },
-                                            {
-                                                "__value__": -404.3956242197346,
-                                                "__index__": 62
-                                            },
-                                            {
-                                                "__value__": -299.5021185889509,
-                                                "__index__": 63
-                                            },
-                                            {
-                                                "__value__": -160.23729145655852,
-                                                "__index__": 64
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 65
-                                            },
-                                            {
-                                                "__value__": -15.073230583093391,
-                                                "__index__": 66
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 67
-                                            },
-                                            {
-                                                "__value__": -238.40264386933632,
-                                                "__index__": 68
-                                            },
-                                            {
-                                                "__value__": -238.40264386933632,
-                                                "__index__": 69
-                                            },
-                                            {
-                                                "__value__": -103.2254625527512,
-                                                "__index__": 70
-                                            },
-                                            {
-                                                "__value__": -84.34258187056184,
-                                                "__index__": 71
-                                            },
-                                            {
-                                                "__value__": -321.0583741024857,
-                                                "__index__": 72
-                                            },
-                                            {
-                                                "__value__": -140.37583668826846,
-                                                "__index__": 73
-                                            },
-                                            {
-                                                "__value__": -375.97096382383825,
-                                                "__index__": 74
-                                            },
-                                            {
-                                                "__value__": -107.05539441451947,
-                                                "__index__": 75
-                                            },
-                                            {
-                                                "__value__": -343.3169303955656,
-                                                "__index__": 76
-                                            },
-                                            {
-                                                "__value__": -574.8532356569885,
-                                                "__index__": 77
-                                            },
-                                            {
-                                                "__value__": -801.7588148131836,
-                                                "__index__": 78
-                                            },
-                                            {
-                                                "__value__": -1024.1262823862562,
-                                                "__index__": 79
-                                            },
-                                            {
-                                                "__value__": -1242.0464006078673,
-                                                "__index__": 80
-                                            },
-                                            {
-                                                "__value__": -359.1742552868054,
-                                                "__index__": 81
-                                            },
-                                            {
-                                                "__value__": -355.56032657840115,
-                                                "__index__": 82
-                                            },
-                                            {
-                                                "__value__": -586.8517639161673,
-                                                "__index__": 83
-                                            },
-                                            {
-                                                "__value__": -157.99496084069142,
-                                                "__index__": 84
-                                            },
-                                            {
-                                                "__value__": -125.10410016222886,
-                                                "__index__": 85
-                                            },
-                                            {
-                                                "__value__": -361.0046620283192,
-                                                "__index__": 86
-                                            },
-                                            {
-                                                "__value__": -592.1872126570888,
-                                                "__index__": 87
-                                            },
-                                            {
-                                                "__value__": -818.746112273282,
-                                                "__index__": 88
-                                            },
-                                            {
-                                                "__value__": -1040.7738338971521,
-                                                "__index__": 89
-                                            },
-                                            {
-                                                "__value__": -1258.361001088544,
-                                                "__index__": 90
-                                            },
-                                            {
-                                                "__value__": -1471.5964249361095,
-                                                "__index__": 91
-                                            },
-                                            {
-                                                "__value__": -760.9349362479934,
-                                                "__index__": 92
-                                            },
-                                            {
-                                                "__value__": -984.1188813923691,
-                                                "__index__": 93
-                                            },
-                                            {
-                                                "__value__": -409.4662793284642,
-                                                "__index__": 94
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 95
-                                            },
-                                            {
-                                                "__value__": -239.023625143951,
-                                                "__index__": 96
-                                            },
-                                            {
-                                                "__value__": -473.2667777850238,
-                                                "__index__": 97
-                                            },
-                                            {
-                                                "__value__": -702.8250673732746,
-                                                "__index__": 98
-                                            },
-                                            {
-                                                "__value__": -927.7921911697595,
-                                                "__index__": 99
-                                            },
-                                            {
-                                                "__value__": -1148.2599724903157,
-                                                "__index__": 100
-                                            },
-                                            {
-                                                "__value__": -1364.3183981844595,
-                                                "__index__": 101
-                                            },
-                                            {
-                                                "__value__": -1576.055655364722,
-                                                "__index__": 102
-                                            },
-                                            {
-                                                "__value__": -1783.5581674013774,
-                                                "__index__": 103
-                                            },
-                                            {
-                                                "__value__": -1986.9106291973021,
-                                                "__index__": 104
-                                            },
-                                            {
-                                                "__value__": -1483.5974488332467,
-                                                "__index__": 105
-                                            },
-                                            {
-                                                "__value__": -1485.8490263355852,
-                                                "__index__": 106
-                                            },
-                                            {
-                                                "__value__": -1394.308836255881,
-                                                "__index__": 107
-                                            },
-                                            {
-                                                "__value__": -1746.2045836206034,
-                                                "__index__": 108
-                                            },
-                                            {
-                                                "__value__": -1950.3041170921424,
-                                                "__index__": 109
-                                            },
-                                            {
-                                                "__value__": -2150.321659894251,
-                                                "__index__": 110
-                                            },
-                                            {
-                                                "__value__": -2346.338851840317,
-                                                "__index__": 111
-                                            },
-                                            {
-                                                "__value__": -2538.435699947462,
-                                                "__index__": 112
-                                            },
-                                            {
-                                                "__value__": -2726.690611092463,
-                                                "__index__": 113
-                                            },
-                                            {
-                                                "__value__": -2911.180424014565,
-                                                "__index__": 114
-                                            },
-                                            {
-                                                "__value__": -3091.980440678224,
-                                                "__index__": 115
-                                            },
-                                            {
-                                                "__value__": -3269.164457008612,
-                                                "__index__": 116
-                                            },
-                                            {
-                                                "__value__": -3442.804793012392,
-                                                "__index__": 117
-                                            },
-                                            {
-                                                "__value__": -2873.1491647193307,
-                                                "__index__": 118
-                                            },
-                                            {
-                                                "__value__": -3054.709806568895,
-                                                "__index__": 119
-                                            },
-                                            {
-                                                "__value__": -3232.6392355814696,
-                                                "__index__": 120
-                                            },
-                                            {
-                                                "__value__": -3407.010076013792,
-                                                "__index__": 121
-                                            },
-                                            {
-                                                "__value__": -2688.2437637392322,
-                                                "__index__": 122
-                                            },
-                                            {
-                                                "__value__": -2289.0519203185704,
-                                                "__index__": 123
-                                            },
-                                            {
-                                                "__value__": -2409.220541031902,
-                                                "__index__": 124
-                                            },
-                                            {
-                                                "__value__": -2600.0597553552143,
-                                                "__index__": 125
-                                            },
-                                            {
-                                                "__value__": -2787.0821853920606,
-                                                "__index__": 126
-                                            },
-                                            {
-                                                "__value__": -2552.252146677045,
-                                                "__index__": 127
-                                            },
-                                            {
-                                                "__value__": -2740.2307288874563,
-                                                "__index__": 128
-                                            },
-                                            {
-                                                "__value__": -2924.4497394536593,
-                                                "__index__": 129
-                                            },
-                                            {
-                                                "__value__": -2278.5951725411687,
-                                                "__index__": 130
-                                            },
-                                            {
-                                                "__value__": -2070.727707143864,
-                                                "__index__": 131
-                                            },
-                                            {
-                                                "__value__": -1888.166135390351,
-                                                "__index__": 132
-                                            },
-                                            {
-                                                "__value__": -1485.0856965752646,
-                                                "__index__": 133
-                                            },
-                                            {
-                                                "__value__": -1694.4076077877125,
-                                                "__index__": 134
-                                            },
-                                            {
-                                                "__value__": -952.4282374048726,
-                                                "__index__": 135
-                                            },
-                                            {
-                                                "__value__": -1172.4032978007253,
-                                                "__index__": 136
-                                            },
-                                            {
-                                                "__value__": -844.7284478350612,
-                                                "__index__": 137
-                                            },
-                                            {
-                                                "__value__": -727.582289388014,
-                                                "__index__": 138
-                                            },
-                                            {
-                                                "__value__": -371.8868364638183,
-                                                "__index__": 139
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 140
-                                            },
-                                            {
-                                                "__value__": -240.79639003390912,
-                                                "__index__": 141
-                                            },
-                                            {
-                                                "__value__": -476.7768522671413,
-                                                "__index__": 142
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 143
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 144
-                                            },
-                                            {
-                                                "__value__": -247.36148374902405,
-                                                "__index__": 145
-                                            },
-                                            {
-                                                "__value__": -489.7757378230708,
-                                                "__index__": 146
-                                            },
-                                            {
-                                                "__value__": -727.3417068156359,
-                                                "__index__": 147
-                                            },
-                                            {
-                                                "__value__": -209.40977295803532,
-                                                "__index__": 148
-                                            },
-                                            {
-                                                "__value__": -452.5830612478985,
-                                                "__index__": 149
-                                            },
-                                            {
-                                                "__value__": -690.8928837719668,
-                                                "__index__": 150
-                                            },
-                                            {
-                                                "__value__": -387.21741316597945,
-                                                "__index__": 151
-                                            },
-                                            {
-                                                "__value__": -11.43949914771838,
-                                                "__index__": 152
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 153
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 154
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 155
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 156
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 157
-                                            },
-                                            {
-                                                "__value__": -261.68908850599473,
-                                                "__index__": 158
-                                            },
-                                            {
-                                                "__value__": -65.26015340755475,
-                                                "__index__": 159
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 160
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 161
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 162
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 163
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 164
-                                            },
-                                            {
-                                                "__value__": -276.9717532303457,
-                                                "__index__": 165
-                                            },
-                                            {
-                                                "__value__": -548.4040713960803,
-                                                "__index__": 166
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 167
-                                            },
-                                            {
-                                                "__value__": -281.35598983988893,
-                                                "__index__": 168
-                                            },
-                                            {
-                                                "__value__": -557.0848598829798,
-                                                "__index__": 169
-                                            },
-                                            {
-                                                "__value__": -827.299152525211,
-                                                "__index__": 170
-                                            },
-                                            {
-                                                "__value__": -1092.1091593145975,
-                                                "__index__": 171
-                                            },
-                                            {
-                                                "__value__": -827.863511999778,
-                                                "__index__": 172
-                                            },
-                                            {
-                                                "__value__": -579.4181575058137,
-                                                "__index__": 173
-                                            },
-                                            {
-                                                "__value__": -849.185784195588,
-                                                "__index__": 174
-                                            },
-                                            {
-                                                "__value__": -1113.5580583515675,
-                                                "__index__": 175
-                                            },
-                                            {
-                                                "__value__": -1372.6428870244272,
-                                                "__index__": 176
-                                            },
-                                            {
-                                                "__value__": -1626.546019123829,
-                                                "__index__": 177
-                                            },
-                                            {
-                                                "__value__": -1062.9375910232939,
-                                                "__index__": 178
-                                            },
-                                            {
-                                                "__value__": -771.3337288107941,
-                                                "__index__": 179
-                                            },
-                                            {
-                                                "__value__": -640.7403716122972,
-                                                "__index__": 180
-                                            },
-                                            {
-                                                "__value__": -909.2815540199426,
-                                                "__index__": 181
-                                            },
-                                            {
-                                                "__value__": -1172.4519127794356,
-                                                "__index__": 182
-                                            },
-                                            {
-                                                "__value__": -596.3710930894158,
-                                                "__index__": 183
-                                            },
-                                            {
-                                                "__value__": -865.7996610675182,
-                                                "__index__": 184
-                                            },
-                                            {
-                                                "__value__": -358.425998388424,
-                                                "__index__": 185
-                                            },
-                                            {
-                                                "__value__": -632.6134682605461,
-                                                "__index__": 186
-                                            },
-                                            {
-                                                "__value__": -901.3171887352237,
-                                                "__index__": 187
-                                            },
-                                            {
-                                                "__value__": -1164.6468348004091,
-                                                "__index__": 188
-                                            },
-                                            {
-                                                "__value__": -1422.7098879442929,
-                                                "__index__": 189
-                                            },
-                                            {
-                                                "__value__": -945.5366953386219,
-                                                "__index__": 190
-                                            },
-                                            {
-                                                "__value__": -721.4246363592829,
-                                                "__index__": 191
-                                            },
-                                            {
-                                                "__value__": -272.3495711174146,
-                                                "__index__": 192
-                                            },
-                                            {
-                                                "__value__": -155.72965632133855,
-                                                "__index__": 193
-                                            },
-                                            {
-                                                "__value__": -433.9710530348002,
-                                                "__index__": 194
-                                            },
-                                            {
-                                                "__value__": -706.6476218139924,
-                                                "__index__": 195
-                                            },
-                                            {
-                                                "__value__": -571.7563655527847,
-                                                "__index__": 196
-                                            },
-                                            {
-                                                "__value__": -323.1450448025407,
-                                                "__index__": 197
-                                            },
-                                            {
-                                                "__value__": -190.67507487649345,
-                                                "__index__": 198
-                                            },
-                                            {
-                                                "__value__": -148.34691499321343,
-                                                "__index__": 199
-                                            },
-                                            {
-                                                "__value__": -426.73596653323875,
-                                                "__index__": 200
-                                            },
-                                            {
-                                                "__value__": -189.3020997333624,
-                                                "__index__": 201
-                                            },
-                                            {
-                                                "__value__": -91.46180621816893,
-                                                "__index__": 202
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 203
-                                            },
-                                            {
-                                                "__value__": -283.09214598230574,
-                                                "__index__": 204
-                                            },
-                                            {
-                                                "__value__": -560.5224490449655,
-                                                "__index__": 205
-                                            },
-                                            {
-                                                "__value__": -832.4041460463723,
-                                                "__index__": 206
-                                            },
-                                            {
-                                                "__value__": -1098.8482091077512,
-                                                "__index__": 207
-                                            },
-                                            {
-                                                "__value__": -536.5103631616657,
-                                                "__index__": 208
-                                            },
-                                            {
-                                                "__value__": -341.2088295585618,
-                                                "__index__": 209
-                                            },
-                                            {
-                                                "__value__": -129.91926218552726,
-                                                "__index__": 210
-                                            },
-                                            {
-                                                "__value__": -410.41302292412365,
-                                                "__index__": 211
-                                            },
-                                            {
-                                                "__value__": -685.2969084479482,
-                                                "__index__": 212
-                                            },
-                                            {
-                                                "__value__": -954.6831162612962,
-                                                "__index__": 213
-                                            },
-                                            {
-                                                "__value__": -810.4365220981472,
-                                                "__index__": 214
-                                            },
-                                            {
-                                                "__value__": -834.5089889237952,
-                                                "__index__": 215
-                                            },
-                                            {
-                                                "__value__": -1100.9109551276251,
-                                                "__index__": 216
-                                            },
-                                            {
-                                                "__value__": -945.9233629165137,
-                                                "__index__": 217
-                                            },
-                                            {
-                                                "__value__": -1210.0970416404907,
-                                                "__index__": 218
-                                            },
-                                            {
-                                                "__value__": -679.5170733434006,
-                                                "__index__": 219
-                                            },
-                                            {
-                                                "__value__": -657.9913701073438,
-                                                "__index__": 220
-                                            },
-                                            {
-                                                "__value__": -610.1404568274265,
-                                                "__index__": 221
-                                            },
-                                            {
-                                                "__value__": -495.15288047631657,
-                                                "__index__": 222
-                                            },
-                                            {
-                                                "__value__": -333.0465148076437,
-                                                "__index__": 223
-                                            },
-                                            {
-                                                "__value__": -215.27953678488484,
-                                                "__index__": 224
-                                            },
-                                            {
-                                                "__value__": -196.3402327599797,
-                                                "__index__": 225
-                                            },
-                                            {
-                                                "__value__": -475.50557408708664,
-                                                "__index__": 226
-                                            },
-                                            {
-                                                "__value__": -240.54370832648237,
-                                                "__index__": 227
-                                            },
-                                            {
-                                                "__value__": -210.67937671698382,
-                                                "__index__": 228
-                                            },
-                                            {
-                                                "__value__": -489.5579351649503,
-                                                "__index__": 229
-                                            },
-                                            {
-                                                "__value__": -762.8589224439584,
-                                                "__index__": 230
-                                            },
-                                            {
-                                                "__value__": -1030.693889977385,
-                                                "__index__": 231
-                                            },
-                                            {
-                                                "__value__": -635.5882787991068,
-                                                "__index__": 232
-                                            },
-                                            {
-                                                "__value__": -905.9686592054313,
-                                                "__index__": 233
-                                            },
-                                            {
-                                                "__value__": -1170.9414320036285,
-                                                "__index__": 234
-                                            },
-                                            {
-                                                "__value__": -637.9110318219609,
-                                                "__index__": 235
-                                            },
-                                            {
-                                                "__value__": -454.1207206490053,
-                                                "__index__": 236
-                                            },
-                                            {
-                                                "__value__": -349.7465245821022,
-                                                "__index__": 237
-                                            },
-                                            {
-                                                "__value__": -625.8437400727671,
-                                                "__index__": 238
-                                            },
-                                            {
-                                                "__value__": -202.72643948532823,
-                                                "__index__": 239
-                                            },
-                                            {
-                                                "__value__": -148.63939904740437,
-                                                "__index__": 240
-                                            },
-                                            {
-                                                "__value__": -83.02585573177203,
-                                                "__index__": 241
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 242
-                                            },
-                                            {
-                                                "__value__": -285.88417509634564,
-                                                "__index__": 243
-                                            },
-                                            {
-                                                "__value__": -68.15178930667571,
-                                                "__index__": 244
-                                            },
-                                            {
-                                                "__value__": -352.6729286168884,
-                                                "__index__": 245
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 246
-                                            },
-                                            {
-                                                "__value__": -289.2115668884253,
-                                                "__index__": 247
-                                            },
-                                            {
-                                                "__value__": -572.638902439081,
-                                                "__index__": 248
-                                            },
-                                            {
-                                                "__value__": -120.36006335736784,
-                                                "__index__": 249
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 250
-                                            },
-                                            {
-                                                "__value__": -291.94660699447377,
-                                                "__index__": 251
-                                            },
-                                            {
-                                                "__value__": -578.0542818490594,
-                                                "__index__": 252
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 253
-                                            },
-                                            {
-                                                "__value__": -83.5547559425977,
-                                                "__index__": 254
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 255
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 256
-                                            },
-                                            {
-                                                "__value__": -304.67250751275424,
-                                                "__index__": 257
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 258
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 259
-                                            },
-                                            {
-                                                "__value__": -310.2404551956115,
-                                                "__index__": 260
-                                            },
-                                            {
-                                                "__value__": -614.2761012873125,
-                                                "__index__": 261
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 262
-                                            },
-                                            {
-                                                "__value__": -312.24820659115903,
-                                                "__index__": 263
-                                            },
-                                            {
-                                                "__value__": -618.2514490504964,
-                                                "__index__": 264
-                                            },
-                                            {
-                                                "__value__": -918.134626660647,
-                                                "__index__": 265
-                                            },
-                                            {
-                                                "__value__": -249.7640311670002,
-                                                "__index__": 266
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 267
-                                            },
-                                            {
-                                                "__value__": -9.867612173278758,
-                                                "__index__": 268
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 269
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 270
-                                            },
-                                            {
-                                                "__value__": -324.7656620987018,
-                                                "__index__": 271
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 272
-                                            },
-                                            {
-                                                "__value__": -332.13114795667025,
-                                                "__index__": 273
-                                            },
-                                            {
-                                                "__value__": -657.619672954208,
-                                                "__index__": 274
-                                            },
-                                            {
-                                                "__value__": -28.73879518457761,
-                                                "__index__": 275
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 276
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 277
-                                            },
-                                            {
-                                                "__value__": -332.46788195485897,
-                                                "__index__": 278
-                                            },
-                                            {
-                                                "__value__": -658.2864062706212,
-                                                "__index__": 279
-                                            },
-                                            {
-                                                "__value__": -645.5372685653128,
-                                                "__index__": 280
-                                            },
-                                            {
-                                                "__value__": -456.1653214135513,
-                                                "__index__": 281
-                                            },
-                                            {
-                                                "__value__": -450.0748227221502,
-                                                "__index__": 282
-                                            },
-                                            {
-                                                "__value__": -151.82159654781208,
-                                                "__index__": 283
-                                            },
-                                            {
-                                                "__value__": -108.99856683253893,
-                                                "__index__": 284
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 285
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 286
-                                            },
-                                            {
-                                                "__value__": -334.03183352286396,
-                                                "__index__": 287
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 288
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 289
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 290
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 291
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 292
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 293
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 294
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 295
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 296
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 297
-                                            },
-                                            {
-                                                "__value__": -366.6771562724098,
-                                                "__index__": 298
-                                            },
-                                            {
-                                                "__value__": -157.56035492914452,
-                                                "__index__": 299
-                                            },
-                                            {
-                                                "__value__": 0,
-                                                "__index__": 300
                                             }
                                         ]
                                     },
                                     "plotConfig": {
                                         "chartType": "area",
+                                        "y": {
+                                            "label": "Equity $",
+                                            "axisType": "default"
+                                        },
+                                        "x": {
+                                            "label": "Trade #",
+                                            "axisType": "default"
+                                        },
                                         "width": 800,
                                         "height": 600,
                                         "template": "c3",
-                                        "x": {
-                                            "axisType": "default",
-                                            "label": {}
-                                        },
-                                        "y": {
-                                            "axisType": "default",
-                                            "label": {}
-                                        },
                                         "y2": {
                                             "axisType": "default",
                                             "label": {}
