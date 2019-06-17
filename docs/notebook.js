@@ -1,4 +1,3 @@
-const baseName = "grademark-first-example";
 const notebook = {
     "version": 1,
     "sheet": {
