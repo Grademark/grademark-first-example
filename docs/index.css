@@ -19,7 +19,7 @@ pre {
     border: 1px dashed #999;
     border-top: none;
     padding: 4px;
-    overflow: "hidden";
+    overflow-x: auto;
 }
 
 .cell-border {
