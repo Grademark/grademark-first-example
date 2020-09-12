@@ -2,7 +2,8 @@
 const dataForge = require('data-forge');
 require('data-forge-fs'); // For loading files.
 require('data-forge-indicators'); // For the moving average indicator.
-require('data-forge-plot'); // For rendering charts.
+const { plot } = require('plot');
+require('@plotex/render-image')
 const { backtest, analyze, computeEquityCurve, computeDrawdown } = require('grademark');
 var Table = require('easy-table');
 const fs = require('fs');
@@ -14,7 +15,7 @@ async function main() {
 
     let inputSeries = dataForge.readFileSync("data/STW.csv")
         .parseCSV()
-        .parseDates("date", "DD/MM/YYYY")
+        .parseDates("date", "D/MM/YYYY")
         .parseFloats(["open", "high", "low", "close", "volume"])
         .setIndex("date") // Index so we can later merge on date.
         .renameSeries({ date: "time" });
@@ -55,9 +56,9 @@ async function main() {
 
     // Backtest your strategy, then compute and print metrics:
     const trades = backtest(strategy, inputSeries);
-    console.log("Made " + trades.count() + " trades!");
+    console.log("The backtest conducted " + trades.length + " trades!");
 
-    trades
+    new dataForge.DataFrame(trades)
         .transformSeries({
             entryTime: d => moment(d).format("YYYY/MM/DD"),
             exitTime: d => moment(d).format("YYYY/MM/DD"),
@@ -89,29 +90,25 @@ async function main() {
     // Visualize the equity curve and drawdown chart for your backtest:
     const equityCurve = computeEquityCurve(startingCapital, trades);
     const equityCurveOutputFilePath = "output/my-equity-curve.png";
-    await equityCurve
-        .plot({ chartType: "area", y: { label: "Equity $" }})
+    await plot(equityCurve, { chartType: "area", y: { label: "Equity $" }})
         .renderImage(equityCurveOutputFilePath);
     console.log(">> " + equityCurveOutputFilePath);
 
     const equityCurvePctOutputFilePath = "output/my-equity-curve-pct.png";
-    await equityCurve
-        .select(v => ((v - startingCapital) / startingCapital) * 100)
-        .plot({ chartType: "area", y: { label: "Equity %" }})
+    const equityPct = equityCurve.map(v => ((v - startingCapital) / startingCapital) * 100);
+    await plot(equityPct, { chartType: "area", y: { label: "Equity %" }})
         .renderImage(equityCurvePctOutputFilePath);
     console.log(">> " + equityCurvePctOutputFilePath);
         
     const drawdown = computeDrawdown(startingCapital, trades);
     const drawdownOutputFilePath = "output/my-drawdown.png";
-    await drawdown
-        .plot({ chartType: "area", y: { label: "Drawdown $" }})
+    await plot(drawdown, { chartType: "area", y: { label: "Drawdown $" }})
         .renderImage(drawdownOutputFilePath);
     console.log(">> " + drawdownOutputFilePath);
         
     const drawdownPctOutputFilePath = "output/my-drawdown-pct.png";
-    await drawdown
-        .select(v => (v / startingCapital) * 100)
-        .plot({ chartType: "area", y: { label: "Drawdown %" }})
+    const drawdownPct = drawdown.map(v => (v / startingCapital) * 100);
+    await plot(drawdownPct, { chartType: "area", y: { label: "Drawdown %" }})
         .renderImage(drawdownPctOutputFilePath);
     console.log(">> " + drawdownPctOutputFilePath);
 };
