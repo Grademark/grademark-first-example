@@ -1,7 +1,7 @@
 {
   "name": "grademark-first-example",
   "version": "1.0.0",
-  "description": "A first example of trading strategy tested using the grademark backtesting API.",
+  "description": "A first example of a trading strategy backtested using Grademark.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -17,11 +17,12 @@
   },
   "homepage": "https://github.com/ashleydavis/grademark-first-example#readme",
   "dependencies": {
-    "data-forge": "^1.3.3",
-    "data-forge-fs": "0.0.3",
-    "data-forge-indicators": "^0.1.8",
-    "data-forge-plot": "^0.1.11",
+    "@plotex/render-image": "^1.0.4",
+    "data-forge": "^1.8.11",
+    "data-forge-fs": "^0.0.8",
+    "data-forge-indicators": "^0.2.5",
     "easy-table": "^1.1.1",
-    "grademark": "0.1.0"
+    "grademark": "^0.2.1",
+    "plot": "^1.0.6"
   }
 }

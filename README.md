@@ -1,10 +1,10 @@
-# grademark-first-example
+# Grademark first example
 
-This is an example trading strategy that demonstrates the [grademark API](https://github.com/grademark/grademark) for backtesting financial trading strategies.
+A first example of a trading strategy backtested using [Grademark](https://github.com/grademark/grademark).
 
-[Please click here to see this code as a notebook.](https://grademark.github.io/grademark-first-example/)
+[Click here to see this code as a notebook](https://grademark.github.io/grademark-first-example/)
 
-To keep up with my work on quantitative trading in JavaScript please see my [blog](http://www.the-data-wrangler.com/) or [YouTube channel](https://www.youtube.com/channel/UCOxw0jy384_wFRwspgq7qMQ).
+[Follow the developer on Twitter](https://twitter.com/ashleydavis75)
 
 ## Try it out
 
@@ -13,7 +13,7 @@ You need Node.js installed to run this.
 Clone or download the repo.
 
 Change to repo's directory and install dependencies:
-
+****
     cd grademark-first-example
     npm install
 
