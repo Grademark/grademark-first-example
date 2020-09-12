@@ -9,8 +9,8 @@
 
         <link href="./assets/normalize.css/normalize.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Roboto|Noto+Sans|Source+Code+Pro&display=swap" rel="stylesheet">
-        <link href="./assets/c3/c3.min.css" rel="stylesheet">
         <link rel="stylesheet" data-name="vs/editor/editor.main" href="./assets/monaco-editor/min/vs/editor/editor.main.css">
+        <link rel="stylesheet" href="./assets/leaflet/dist/leaflet.css" />
         <link rel="stylesheet" type="text/css" href="index.css">
     </head>
     <body>
@@ -26,14 +26,5 @@
         <script src="./assets/monaco-editor/min/vs/loader.js"></script>
         <script src="./assets/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
         <script src="./assets/monaco-editor/min/vs/editor/editor.main.js"></script>
-        
-        <script>
-            document.addEventListener("DOMContentLoaded", function(event) { 
-                const els = document.getElementsByClassName("export-code");
-                for (var i = 0; i < els.length; ++i) {
-                    monaco.editor.colorizeElement(els[i]);
-                }
-            });
-        </script>
     </body>
 </html>

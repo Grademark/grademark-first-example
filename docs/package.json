@@ -9,8 +9,9 @@
   "keywords": [],
   "author": "",
   "dependencies": {
-    "c3": "^0.6.7",
-    "monaco-editor": "^0.14.3",
-    "normalize.css": "^8.0.0"
+    "leaflet": "^1.6.0",
+    "monaco-editor": "^0.18.1",
+    "normalize.css": "^8.0.0",
+    "react-leaflet": "^2.6.1"
   }
 }
