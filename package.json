@@ -22,7 +22,7 @@
     "data-forge-fs": "^0.0.8",
     "data-forge-indicators": "^0.2.5",
     "easy-table": "^1.1.1",
-    "grademark": "^0.2.1",
+    "grademark": "^0.2.8",
     "plot": "^1.0.6"
   }
 }
