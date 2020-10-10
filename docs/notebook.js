@@ -7,11 +7,11 @@ const notebook = {
             {
                 "id": "31e983b0-daf5-11e8-831f-d150615bd7aa",
                 "cellType": "markdown",
-                "code": "# Grademark mean reversion example\r\n\r\nThis notebook demonstrates [backtesting](https://en.wikipedia.org/wiki/Backtesting) a very simple [mean reversion trading strategy](https://en.wikipedia.org/wiki/Mean_reversion_(finance)). \r\n\r\nIt uses the [Grademark](https://github.com/grademark/grademark) for backtesting in JavaScript.\r\n\r\nFor a version of this code runnable on Node.js - please see the [Grademark first example repo](https://github.com/grademark/grademark-first-example).\r\n\r\n[Follow the developer on Twitter](https://twitter.com/ashleydavis75)",
+                "code": "# Grademark first example\r\n\r\nThis notebook demonstrates [backtesting](https://en.wikipedia.org/wiki/Backtesting) a very simple [mean reversion trading strategy](https://en.wikipedia.org/wiki/Mean_reversion_(finance)). \r\n\r\nIt uses the [Grademark](https://github.com/grademark/grademark) for backtesting in JavaScript.\r\n\r\nFor a version of this code runnable on Node.js - please see the [Grademark first example repo](https://github.com/grademark/grademark-first-example).\r\n\r\n[Follow the developer on Twitter](https://twitter.com/ashleydavis75)",
                 "lastEvaluationDate": "2018-11-16T15:53:20.087+10:00",
                 "output": [],
                 "errors": [],
-                "height": 319
+                "height": 243
             },
             {
                 "id": "1b3bb2a0-daf5-11e8-831f-d150615bd7aa",
@@ -27,7 +27,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const dataForge = require('data-forge');\r\nrequire('data-forge-fs');\r\nrequire('data-forge-indicators');\r\n\r\nlet inputSeries = (await dataForge.readFile(\"STW.csv\").parseCSV())\r\n    .parseDates(\"date\", \"D/MM/YYYY\")\r\n    .parseFloats([\"open\", \"high\", \"low\", \"close\", \"volume\"])\r\n    .setIndex(\"date\") // Index so we can later merge on date.\r\n    .renameSeries({ date: \"time\" })\r\n    .bake();\r\n\r\ndisplay(inputSeries.head(5));",
-                "lastEvaluationDate": "2020-09-13T08:42:44.539+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:10.952+10:00",
                 "output": [
                     {
                         "value": {
@@ -104,7 +104,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display.plot(inputSeries.tail(100).toArray(), {}, { y: \"close\" });",
-                "lastEvaluationDate": "2020-09-13T08:42:44.600+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:10.980+10:00",
                 "output": [
                     {
                         "value": {
@@ -786,7 +786,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const movingAverage = inputSeries\r\n    .deflate(bar => bar.close)  // Extract closing price series.\r\n    .sma(30)                    // 30 day moving average.\r\n    .bake();\r\n\r\ninputSeries = inputSeries\r\n    .skip(30)                           // Skip blank sma entries.\r\n    .withSeries(\"sma\", movingAverage)   // Integrate moving average into data, indexed on date.\r\n    .bake();\r\n\r\ndisplay(inputSeries.head(5));",
-                "lastEvaluationDate": "2020-09-13T08:42:44.708+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:11.051+10:00",
                 "output": [
                     {
                         "value": {
@@ -869,7 +869,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display.plot(inputSeries.tail(100).toArray(), {}, { y: [\"close\", \"sma\"] });",
-                "lastEvaluationDate": "2020-09-13T08:42:44.750+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:11.074+10:00",
                 "output": [
                     {
                         "value": {
@@ -1659,7 +1659,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const { backtest, analyze, computeEquityCurve, computeDrawdown } = require('grademark');\r\n\r\nconst strategy = {\r\n    entryRule: (enterPosition, args) => {\r\n        if (args.bar.close < args.bar.sma) { // Buy when price is below average.\r\n            enterPosition();\r\n        }\r\n    },\r\n\r\n    exitRule: (exitPosition, args) => {\r\n        if (args.bar.close > args.bar.sma) {\r\n            exitPosition(); // Sell when price is above average.\r\n        }\r\n    },\r\n\r\n    stopLoss: args => { // Intrabar stop loss.\r\n        return args.entryPrice * (2 / 100); // Stop out on 2% loss from entry price.\r\n    },\r\n};",
-                "lastEvaluationDate": "2020-09-13T08:42:45.043+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:11.196+10:00",
                 "output": [],
                 "errors": [],
                 "height": 403
@@ -1677,21 +1677,9 @@ const notebook = {
                 "id": "55500e40-daf6-11e8-831f-d150615bd7aa",
                 "cellType": "code",
                 "cellScope": "global",
-                "code": "const trades = backtest(strategy, inputSeries);\r\ndisplay(\"# trades: \" + trades.length);\r\ndisplay(trades.slice(0, 5));",
-                "lastEvaluationDate": "2020-09-13T08:42:45.046+10:00",
+                "code": "const trades = backtest(strategy, inputSeries);\r\ndisplay(\"# trades: \" + trades.length);\r\ndisplay.table(trades.slice(0, 5));",
+                "lastEvaluationDate": "2020-10-10T11:54:11.197+10:00",
                 "output": [
-                    {
-                        "value": {
-                            "displayType": "string",
-                            "data": "shigar\n"
-                        }
-                    },
-                    {
-                        "value": {
-                            "displayType": "string",
-                            "data": "WTTTF!\n"
-                        }
-                    },
                     {
                         "value": {
                             "displayType": "string",
@@ -1700,84 +1688,109 @@ const notebook = {
                     },
                     {
                         "value": {
-                            "displayType": "array",
-                            "data": [
-                                {
-                                    "entryTime": "2015-03-11T14:00:00.000Z",
-                                    "entryPrice": 54.17,
-                                    "exitTime": "2015-03-15T14:00:00.000Z",
-                                    "exitPrice": 54.38,
-                                    "profit": 0.21000000000000085,
-                                    "profitPct": 0.38766845117223714,
-                                    "growth": 1.0038766845117224,
-                                    "riskPct": 1.9999999999999951,
-                                    "rmultiple": 0.193834225586119,
-                                    "holdingPeriod": 1,
-                                    "exitReason": "exit-rule",
-                                    "stopPrice": 53.086600000000004
-                                },
-                                {
-                                    "entryTime": "2015-03-30T14:00:00.000Z",
-                                    "entryPrice": 55.5,
-                                    "exitTime": "2015-04-06T14:00:00.000Z",
-                                    "exitPrice": 55.76,
-                                    "profit": 0.259999999999998,
-                                    "profitPct": 0.4684684684684649,
-                                    "growth": 1.0046846846846846,
-                                    "riskPct": 1.9999999999999991,
-                                    "rmultiple": 0.23423423423423256,
-                                    "holdingPeriod": 2,
-                                    "exitReason": "exit-rule",
-                                    "stopPrice": 54.39
-                                },
-                                {
-                                    "entryTime": "2015-04-19T14:00:00.000Z",
-                                    "entryPrice": 54.99,
-                                    "exitTime": "2015-04-26T14:00:00.000Z",
-                                    "exitPrice": 55.86,
-                                    "profit": 0.8699999999999974,
-                                    "profitPct": 1.5821058374249817,
-                                    "growth": 1.0158210583742497,
-                                    "riskPct": 2.0000000000000036,
-                                    "rmultiple": 0.7910529187124895,
-                                    "holdingPeriod": 4,
-                                    "exitReason": "exit-rule",
-                                    "stopPrice": 53.8902
-                                },
-                                {
-                                    "entryTime": "2015-04-29T14:00:00.000Z",
-                                    "entryPrice": 54.37,
-                                    "exitTime": "2015-05-06T14:00:00.000Z",
-                                    "exitPrice": 53.282599999999995,
-                                    "profit": -1.0874000000000024,
-                                    "profitPct": -2.0000000000000044,
-                                    "growth": 0.98,
-                                    "riskPct": 2.0000000000000044,
-                                    "rmultiple": -1,
-                                    "holdingPeriod": 4,
-                                    "exitReason": "stop-loss",
-                                    "stopPrice": 53.282599999999995
-                                },
-                                {
-                                    "entryTime": "2015-05-10T14:00:00.000Z",
-                                    "entryPrice": 53.4,
-                                    "exitTime": "2015-05-26T14:00:00.000Z",
-                                    "exitPrice": 54.23,
-                                    "profit": 0.8299999999999983,
-                                    "profitPct": 1.5543071161048658,
-                                    "growth": 1.0155430711610487,
-                                    "riskPct": 1.9999999999999958,
-                                    "rmultiple": 0.7771535580524345,
-                                    "holdingPeriod": 11,
-                                    "exitReason": "exit-rule",
-                                    "stopPrice": 52.332
-                                }
-                            ]
+                            "displayType": "table",
+                            "data": {
+                                "rows": [
+                                    {
+                                        "direction": "long",
+                                        "entryTime": "2015-03-11T14:00:00.000Z",
+                                        "entryPrice": 54.17,
+                                        "exitTime": "2015-03-15T14:00:00.000Z",
+                                        "exitPrice": 54.38,
+                                        "profit": 0.21000000000000085,
+                                        "profitPct": 0.38766845117223714,
+                                        "growth": 1.0038766845117224,
+                                        "riskPct": 1.9999999999999951,
+                                        "rmultiple": 0.193834225586119,
+                                        "holdingPeriod": 1,
+                                        "exitReason": "exit-rule",
+                                        "stopPrice": 53.086600000000004
+                                    },
+                                    {
+                                        "direction": "long",
+                                        "entryTime": "2015-03-30T14:00:00.000Z",
+                                        "entryPrice": 55.5,
+                                        "exitTime": "2015-04-06T14:00:00.000Z",
+                                        "exitPrice": 55.76,
+                                        "profit": 0.259999999999998,
+                                        "profitPct": 0.4684684684684649,
+                                        "growth": 1.0046846846846846,
+                                        "riskPct": 1.9999999999999991,
+                                        "rmultiple": 0.23423423423423256,
+                                        "holdingPeriod": 2,
+                                        "exitReason": "exit-rule",
+                                        "stopPrice": 54.39
+                                    },
+                                    {
+                                        "direction": "long",
+                                        "entryTime": "2015-04-19T14:00:00.000Z",
+                                        "entryPrice": 54.99,
+                                        "exitTime": "2015-04-26T14:00:00.000Z",
+                                        "exitPrice": 55.86,
+                                        "profit": 0.8699999999999974,
+                                        "profitPct": 1.5821058374249817,
+                                        "growth": 1.0158210583742497,
+                                        "riskPct": 2.0000000000000036,
+                                        "rmultiple": 0.7910529187124895,
+                                        "holdingPeriod": 4,
+                                        "exitReason": "exit-rule",
+                                        "stopPrice": 53.8902
+                                    },
+                                    {
+                                        "direction": "long",
+                                        "entryTime": "2015-04-29T14:00:00.000Z",
+                                        "entryPrice": 54.37,
+                                        "exitTime": "2015-05-06T14:00:00.000Z",
+                                        "exitPrice": 53.282599999999995,
+                                        "profit": -1.0874000000000024,
+                                        "profitPct": -2.0000000000000044,
+                                        "growth": 0.98,
+                                        "riskPct": 2.0000000000000044,
+                                        "rmultiple": -1,
+                                        "holdingPeriod": 4,
+                                        "exitReason": "stop-loss",
+                                        "stopPrice": 53.282599999999995
+                                    },
+                                    {
+                                        "direction": "long",
+                                        "entryTime": "2015-05-10T14:00:00.000Z",
+                                        "entryPrice": 53.4,
+                                        "exitTime": "2015-05-26T14:00:00.000Z",
+                                        "exitPrice": 54.23,
+                                        "profit": 0.8299999999999983,
+                                        "profitPct": 1.5543071161048658,
+                                        "growth": 1.0155430711610487,
+                                        "riskPct": 1.9999999999999958,
+                                        "rmultiple": 0.7771535580524345,
+                                        "holdingPeriod": 11,
+                                        "exitReason": "exit-rule",
+                                        "stopPrice": 52.332
+                                    }
+                                ],
+                                "columnNames": [
+                                    "direction",
+                                    "entryTime",
+                                    "entryPrice",
+                                    "exitTime",
+                                    "exitPrice",
+                                    "profit",
+                                    "profitPct",
+                                    "growth",
+                                    "riskPct",
+                                    "riskSeries",
+                                    "rmultiple",
+                                    "holdingPeriod",
+                                    "exitReason",
+                                    "stopPrice",
+                                    "stopPriceSeries",
+                                    "profitTarget"
+                                ]
+                            }
                         }
                     }
                 ],
                 "errors": [],
-                "height": 337
+                "height": 422
             },
             {
                 "id": "95aa5c20-daf6-11e8-831f-d150615bd7aa",
@@ -1793,7 +1806,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "display.plot(trades, { chartType: \"bar\" }, { y: \"profitPct\" });",
-                "lastEvaluationDate": "2020-09-13T08:42:45.615+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:11.246+10:00",
                 "output": [
                     {
                         "value": {
@@ -1801,6 +1814,72 @@ const notebook = {
                             "data": {
                                 "data": {
                                     "series": {
+                                        "direction": {
+                                            "type": "string",
+                                            "values": [
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long",
+                                                "long"
+                                            ]
+                                        },
                                         "entryTime": {
                                             "type": "date",
                                             "values": [
@@ -2835,7 +2914,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const startingCapital = 10000;\r\nconst analysis = analyze(startingCapital, trades); // Analyse the performance of this set of trades.\r\ndisplay.table(analysis);",
-                "lastEvaluationDate": "2020-09-13T08:42:45.946+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:11.401+10:00",
                 "output": [
                     {
                         "value": {
@@ -2903,12 +2982,40 @@ const notebook = {
                                         "Value": 1.7236082094137901
                                     },
                                     {
+                                        "Property": "proportionProfitable",
+                                        "Value": 0.6557377049180327
+                                    },
+                                    {
                                         "Property": "percentProfitable",
                                         "Value": 65.57377049180327
                                     },
                                     {
                                         "Property": "returnOnAccount",
                                         "Value": 5.3703900531032005
+                                    },
+                                    {
+                                        "Property": "averageProfitPerTrade",
+                                        "Value": 51.77408167916274
+                                    },
+                                    {
+                                        "Property": "numWinningTrades",
+                                        "Value": 40
+                                    },
+                                    {
+                                        "Property": "numLosingTrades",
+                                        "Value": 21
+                                    },
+                                    {
+                                        "Property": "averageWinningTrade",
+                                        "Value": 0.8414999999999999
+                                    },
+                                    {
+                                        "Property": "averageLosingTrade",
+                                        "Value": -0.9299428571428563
+                                    },
+                                    {
+                                        "Property": "expectedValue",
+                                        "Value": 0.23165901639344283
                                     }
                                 ]
                             }
@@ -2932,7 +3039,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const equityCurve = computeEquityCurve(10000, trades);\r\ndisplay.plot(equityCurve, { chartType: \"area\", y: { min: 9500, label: \"Equity $\" }, x: { label: \"Trade #\" } });",
-                "lastEvaluationDate": "2020-09-13T08:42:46.012+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:11.422+10:00",
                 "output": [
                     {
                         "value": {
@@ -3059,7 +3166,7 @@ const notebook = {
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const drawdown = computeDrawdown(10000, trades);\r\ndisplay.plot(drawdown, { chartType: \"area\", y: { label: \"Equity $\" }, x: { label: \"Trade #\" } });",
-                "lastEvaluationDate": "2020-09-13T08:42:46.159+10:00",
+                "lastEvaluationDate": "2020-10-10T11:54:11.486+10:00",
                 "output": [
                     {
                         "value": {
