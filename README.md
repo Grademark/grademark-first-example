@@ -13,17 +13,23 @@ You need Node.js installed to run this.
 Clone or download the repo.
 
 Change to repo's directory and install dependencies:
-****
-    cd grademark-first-example
-    npm install
+
+```bash
+cd grademark-first-example
+npm install
+```
 
 Now run it:
 
-    node index.js
+```bash
+node index.js
+```
 
 Or
 
-    npm start
+```bash
+npm start
+```
 
 You will see some stats printed to the console.
 

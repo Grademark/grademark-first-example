@@ -17,12 +17,12 @@
   },
   "homepage": "https://github.com/ashleydavis/grademark-first-example#readme",
   "dependencies": {
-    "@plotex/render-image": "^1.0.4",
+    "@plotex/render-image": "^1.0.15",
     "data-forge": "^1.8.11",
     "data-forge-fs": "^0.0.8",
     "data-forge-indicators": "^0.2.5",
     "easy-table": "^1.1.1",
-    "grademark": "^0.2.8",
-    "plot": "^1.0.6"
+    "grademark": "^0.2.9",
+    "plot": "^1.0.17"
   }
 }
