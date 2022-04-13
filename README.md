@@ -4,7 +4,7 @@ A first example of a trading strategy backtested using [Grademark](https://githu
 
 [Click here to see this code as a notebook](https://grademark.github.io/grademark-first-example/)
 
-[Follow the developer on Twitter](https://twitter.com/ashleydavis75)
+[Click here to support my work](https://www.codecapers.com.au/about#support-my-work)
 
 ## Try it out
 
